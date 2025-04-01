@@ -1,0 +1,22 @@
+header {
+  padding-bottom: 10px;
+  border-bottom: 2px solid black;
+}
+
+a {
+  margin: 10px;
+  padding: 5px;
+  text-decoration: none;
+}
+
+a:hover {
+  background-color: rgb(117, 117, 176);
+  border-radius: 5px;
+  color: white;
+}
+
+.active {
+  background-color: rgb(117, 148, 176);
+  border-radius: 5px;
+  color: white;
+}

@@ -1,0 +1,4 @@
+Scaffold-dbcontext "Data Source = DESKTOP-BKQ2UMM\SHWETASQL; Initial Catalog=AmazingBookDB;Integrated Security=True; TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities
+
+
+Scaffold-DbContext Name=ConnectionDb Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Entities" -Force -NoOnConfiguring

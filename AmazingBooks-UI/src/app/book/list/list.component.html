@@ -1,0 +1,8 @@
+<div class="flex-container">
+  <div *ngFor="let book of books" class="card">
+    <h4>{{ book.name }}</h4>
+    <img [src]="book.imgUrl" [alt]="book.name" />
+    <p>{{ book.author }}</p>
+    <p>{{ book.price | currency : "USD" }}</p>
+  </div>
+</div>
