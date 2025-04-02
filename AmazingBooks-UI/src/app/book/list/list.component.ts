@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../../model/Book';
 import { BookApiService } from '../../services/book-api.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './list.component.html',
   styleUrl: './list.component.css',
 })

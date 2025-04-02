@@ -7,7 +7,7 @@ namespace AmazingBooks_API.Configuration.DTOs
 
         public string? LoginId { get; set; }
 
-        public byte[]? Password { get; set; }
+        public string? Password { get; set; }
 
         public string? Name { get; set; }
 

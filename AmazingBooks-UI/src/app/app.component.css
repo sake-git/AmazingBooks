@@ -1,11 +1,9 @@
 header {
-  padding-bottom: 10px;
   border-bottom: 2px solid black;
+  margin: 0px;
 }
 
 a {
-  margin: 10px;
-  padding: 5px;
   text-decoration: none;
 }
 

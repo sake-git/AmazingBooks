@@ -38,6 +38,7 @@ namespace AmazingBooks_API.Controllers
                     Name = record.Name,
                     ImgUrl = record.ImgUrl,
                     Price = record.Price,
+                    Author = record.Author,
                     Quantity = record.Quantity
                 }
 
@@ -51,13 +52,13 @@ namespace AmazingBooks_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<BookDto>> GetBook(int id)
         {
-            Book book =  _repository.GetRecord( book => book.Id == id ).Result;
+            Book book = _repository.GetRecord( book => book.Id == id ).Result;
 
             if (book == null)
             {
                 return NotFound();
             }
-            var bookDto = _mapper.Map<List<BookDto>>(book);
+            var bookDto = _mapper.Map<BookDto>(book);
             return Ok(bookDto);
         }
 

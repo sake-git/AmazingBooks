@@ -1,5 +1,9 @@
 <div class="flex-container">
-  <div *ngFor="let book of books" class="card">
+  <div
+    *ngFor="let book of books"
+    class="card"
+    [routerLink]="'display-book/' + book.id"
+  >
     <h4>{{ book.name }}</h4>
     <img [src]="book.imgUrl" [alt]="book.name" />
     <p>{{ book.author }}</p>

@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AmazingBooks_API.Entities;
+using AmazingBooks_API.Configuration.Repository;
+using AutoMapper;
+using AmazingBooks_API.Configuration.DTOs;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -13,34 +18,45 @@ namespace AmazingBooks_API.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly AmazingBookDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly ICommonRepository<User> _repository;
 
-        public UsersController(AmazingBookDbContext context)
+        public UsersController(ICommonRepository<User> repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            List<User> users = _repository.GetRecords().Result.ToList();
+            List<UserDto> usersDto = _mapper.Map<List<UserDto>>(users);
+            return Ok(usersDto);
         }
 
         // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        [HttpGet]
+        public async Task<ActionResult<UserDto>> GetUser([FromBody]UserDto userDto)
         {
-            var user = await _context.Users.FindAsync(id);
+            if (userDto == null || userDto.LoginId == null || userDto.Password ==null) { 
+                return BadRequest("Login Id or Password missing");
+            }
+
+            byte[] encryptedPwd = EncryptPassword(userDto.Password);
+            User user = _repository.GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd).Result.FirstOrDefault();
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User Id or Login Invalid");
             }
 
-            return user;
+            UserDto userDto1 = _mapper.Map<UserDto>(user);
+            userDto1.Password = "";
+            return userDto1;
         }
-
+        /*
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -102,6 +118,17 @@ namespace AmazingBooks_API.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }*/
+
+
+        private byte[] EncryptPassword(string password)
+        {
+            SHA256 sha256 = SHA256.Create();
+            byte[] hashvalue;
+            UTF8Encoding utfEncoding = new UTF8Encoding();
+            hashvalue = sha256.ComputeHash(utfEncoding.GetBytes(password));
+            return hashvalue;
         }
+
     }
 }

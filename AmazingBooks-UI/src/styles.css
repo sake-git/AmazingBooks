@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+
 h1,
 h2,
 h3,
@@ -7,3 +8,101 @@ h5,
 h6 {
   text-align: center;
 }
+
+/* You can add global styles to this file, and also import other style files */
+* {
+  font-family: "Times New Roman", Times, serif;
+  margin: 5px;
+  padding: 5px;
+}
+
+body,
+header {
+  margin-top: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+label,
+input,
+button,
+textarea {
+  resize: none;
+}
+
+form {
+  width: 400px;
+  display: inline-block;
+  padding: 10px;
+  background-color: rgb(120, 157, 200);
+  margin: auto;
+}
+
+form div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.errors {
+  font-size: small;
+  color: red;
+  padding: 2px;
+}
+
+.success {
+  font-size: small;
+  color: rgb(6, 64, 15);
+  padding: 2px;
+}
+
+.form-container-center {
+  height: 70vh;
+  width: 100vw;
+  text-align: center;
+  display: flex;
+}
+
+.required {
+  color: red;
+  font-size: small;
+}
+
+/*
+.card {
+  width: 300px;
+  height: 400px;
+  margin: 10px;
+  padding: 5px;
+  justify-items: center;
+  background-color: rgb(146, 213, 222);
+  border: 2px solid rgb(75, 73, 73);
+  box-shadow: 0px 5px 5px rgb(51, 142, 163);
+}
+.card img {
+  width: 300px;
+  height: 250px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px;
+  border-top: 2px solid black;
+}
+
+.card:hover {
+  background-color: rgb(119, 160, 170);
+  border: 2px solid rgb(22, 21, 21);
+}
+  
+
+
+
+body {
+  background-image: url("https://www.lehighcenter.com/wp-content/uploads/2018/05/social-media-axiety.jpg");
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+}*/

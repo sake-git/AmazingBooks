@@ -6,7 +6,7 @@
 .card {
   width: 220px;
   height: 350px;
-  margin: 5px;
+
   text-align: center;
   background-color: rgb(120, 157, 200);
 }
@@ -14,4 +14,8 @@
 .card img {
   width: 180px;
   height: 210px;
+}
+
+.card:hover {
+  background-color: rgb(97, 138, 185);
 }
