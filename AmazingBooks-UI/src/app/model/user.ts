@@ -6,4 +6,5 @@ export interface User {
   phone?: string;
   email: string;
   token?: string;
+  refreshToken?: string;
 }

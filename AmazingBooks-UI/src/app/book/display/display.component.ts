@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Book } from '../../model/Book';
+import { Book } from '../../model/book';
 import { BookApiService } from '../../services/book-api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 

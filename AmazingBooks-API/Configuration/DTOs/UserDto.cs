@@ -17,6 +17,9 @@ namespace AmazingBooks_API.Configuration.DTOs
 
         public string? Role { get; set; }
 
-        public bool? IsActive { get; set; }                
+        public bool? IsActive { get; set; }   
+        
+        public string? Token { get; set; }
+        public string? RefreshToken { get; set; }
     }
 }

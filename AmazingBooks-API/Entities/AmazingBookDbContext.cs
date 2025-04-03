@@ -166,7 +166,7 @@ public partial class AmazingBookDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC073C54CC20");
-
+            entity.ToTable("Users");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);

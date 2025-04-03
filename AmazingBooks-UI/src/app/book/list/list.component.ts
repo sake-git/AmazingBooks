@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../../model/Book';
+import { Book } from '../../model/book';
 import { BookApiService } from '../../services/book-api.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';

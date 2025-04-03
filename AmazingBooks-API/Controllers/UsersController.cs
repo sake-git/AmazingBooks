@@ -11,6 +11,9 @@ using AutoMapper;
 using AmazingBooks_API.Configuration.DTOs;
 using System.Text;
 using System.Security.Cryptography;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -20,11 +23,13 @@ namespace AmazingBooks_API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly ICommonRepository<User> _repository;
+        private readonly IConfiguration _config;
 
-        public UsersController(ICommonRepository<User> repository, IMapper mapper)
+        public UsersController(ICommonRepository<User> repository, IMapper mapper, IConfiguration config)
         {
             _repository = repository;
             _mapper = mapper;
+            _config = config;
         }
 
         // GET: api/Users
@@ -36,8 +41,17 @@ namespace AmazingBooks_API.Controllers
             return Ok(usersDto);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUser(int id)
+        {
+            User user = _repository.GetRecordsByFilter(record => record.Id == id ).Result.FirstOrDefault();
+            UserDto userDto = _mapper.Map<UserDto>(user);
+            return Ok(userDto);
+        }
+
         // GET: api/Users/5
-        [HttpGet]
+        [HttpPost]
+        [Route("Authenticate")]
         public async Task<ActionResult<UserDto>> GetUser([FromBody]UserDto userDto)
         {
             if (userDto == null || userDto.LoginId == null || userDto.Password ==null) { 
@@ -45,7 +59,7 @@ namespace AmazingBooks_API.Controllers
             }
 
             byte[] encryptedPwd = EncryptPassword(userDto.Password);
-            User user = _repository.GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd).Result.FirstOrDefault();
+            User user = _repository.GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd && record.IsActive == true).Result.FirstOrDefault();
 
             if (user == null)
             {
@@ -55,6 +69,29 @@ namespace AmazingBooks_API.Controllers
             UserDto userDto1 = _mapper.Map<UserDto>(user);
             userDto1.Password = "";
             return userDto1;
+        }
+
+
+        // POST: api/Users
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<UserDto>> PostUser(UserDto userDto)
+        {
+            if(userDto == null)
+            {
+                return BadRequest("Input missing");
+            }
+            User user = _repository.GetRecordsByFilter(data => data.LoginId == userDto.LoginId).Result.FirstOrDefault();
+            if(user != null)
+            {
+                return BadRequest("Login Id already exists");
+            }
+
+            user = _mapper.Map<User>(userDto);
+            user.Password = EncryptPassword(userDto.Password);
+            user = _repository.PostRecord(user).Result;
+
+            return CreatedAtAction("GetUser", new { id = user.Id }, userDto);
         }
         /*
         // PUT: api/Users/5
@@ -88,16 +125,7 @@ namespace AmazingBooks_API.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
-        }
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
@@ -128,6 +156,26 @@ namespace AmazingBooks_API.Controllers
             UTF8Encoding utfEncoding = new UTF8Encoding();
             hashvalue = sha256.ComputeHash(utfEncoding.GetBytes(password));
             return hashvalue;
+        }
+
+        private string GenerateToken(UserDto userDto)
+        {
+            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[]
+            {
+                new Claim("Name",userDto.Name),
+                new Claim("LoginId",userDto.LoginId),
+                new Claim("Email",userDto.Email)
+            };
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Audience"],
+                claims,
+                expires: DateTime.Now.AddMinutes(15),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+
         }
 
     }
