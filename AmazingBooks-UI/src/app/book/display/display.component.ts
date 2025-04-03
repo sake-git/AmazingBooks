@@ -54,6 +54,7 @@ export class DisplayComponent {
       price: this.book.price,
       author: this.book.author,
       hardcover: this.book.hardcover,
+      imgUrl: this.book.imgUrl,
     };
 
     if (books) {

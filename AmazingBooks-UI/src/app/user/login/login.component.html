@@ -1,6 +1,6 @@
-<div class="form-container-center">
+<div>
   <form #loginForm="ngForm" (ngSubmit)="userLogin(loginForm)">
-    <Fieldset>
+    <fieldset>
       <legend>Login Form</legend>
       <div>
         <label><span class="required">*</span>Login Id</label>
@@ -47,6 +47,6 @@
       <button type="submit" [disabled]="!loginForm.valid">Login</button>
       <button type="button" (click)="Cancel(loginForm)">Cancel</button>
       <p>Not a registered user? <a routerLink="/signup">Sign up now</a></p>
-    </Fieldset>
+    </fieldset>
   </form>
 </div>

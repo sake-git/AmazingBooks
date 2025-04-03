@@ -1,2 +1,20 @@
 <p>cart works!</p>
-<div>{{ books | json }}</div>
+<div *ngFor="let book of books" class="flex-container">
+  <div>
+    <img [src]="book.imgUrl" [alt]="book.name" />
+  </div>
+  <div>
+    <h4>{{ book.name }}</h4>
+    <p>
+      {{ book.quantity }} x {{ book.price | currency : "USD" }} =
+      {{ book.price * book.quantity | currency : "USD" }}
+    </p>
+    <button>-</button>
+    <span>{{ book.quantity }}</span>
+    <button>+</button>
+    <button>Remove</button>
+  </div>
+</div>
+<div>
+  <button (click)="Checkout()">Checkout</button>
+</div>

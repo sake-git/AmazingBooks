@@ -20,6 +20,15 @@ export class AppComponent {
       this.isLoggedIn = true;
     }
 
+    if (localStorage.getItem('user')) {
+      this.isLoggedIn = true;
+    }
+    let dataStringToParse = localStorage.getItem('myCart');
+    if (dataStringToParse) {
+      let books: Book[] = JSON.parse(dataStringToParse);
+      this.quantity = books.length;
+    }
+
     this.cartApi.getCartBooks().subscribe({
       next: (data: number) => {
         this.quantity = this.quantity + data;
