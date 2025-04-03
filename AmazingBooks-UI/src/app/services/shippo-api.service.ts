@@ -14,8 +14,7 @@ export class ShippoApiService {
       'Access-Control-Allow-Headers':
         'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
       'Content-Type': 'application/json',
-      Authorization:
-        'ShippoToken shippo_test_56f0e027b06a2365334a11e35356731fdd51f825',
+      Authorization: 'ShippoToken ',
     }),
   };
   validateAddress(address: Address) {
