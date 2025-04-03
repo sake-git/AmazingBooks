@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Net;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -45,6 +46,10 @@ namespace AmazingBooks_API.Controllers
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUser(int id)
         {
             User user = _repository.GetRecordsByFilter(record => record.Id == id ).Result.FirstOrDefault();
+            if (user == null)
+            {
+                return NotFound("User Not Found");
+            }
             UserDto userDto = _mapper.Map<UserDto>(user);
             return Ok(userDto);
         }

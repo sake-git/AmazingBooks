@@ -56,7 +56,7 @@ namespace AmazingBooks_API.Controllers
 
             if (book == null)
             {
-                return NotFound();
+                return NotFound("Book not found");
             }
             var bookDto = _mapper.Map<BookDto>(book);
             return Ok(bookDto);

@@ -9,8 +9,8 @@ namespace AmazingBooks_API.Configuration.AutoMapper
         public AutoMapperConfig() 
         {
             CreateMap<BookDto, Book>().ReverseMap();
-            CreateMap<UserDto, User>().ForMember(record => record.Password, data => data.Ignore()).ReverseMap(); 
-           
+            CreateMap<UserDto, User>().ForMember(record => record.Password, data => data.Ignore()).ReverseMap();
+            CreateMap<AddressDto, Address>().ReverseMap();
           /*  CreateMap<OrderDto, Order>().ReverseMap();
             CreateMap<CartDto, Cart>().ReverseMap();
             CreateMap<OrderLineDto, OrderLine>().ReverseMap();*/

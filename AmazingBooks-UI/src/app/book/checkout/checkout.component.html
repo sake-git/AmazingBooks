@@ -56,7 +56,8 @@
       >
         Country is required
       </p>
-
+      <p *ngIf="errorMessage" class="errors">{{ errorMessage }}</p>
+      <p *ngIf="message">{{ message }}</p>
       <button
         type="submit"
         [disabled]="!addressForm.valid"
@@ -67,4 +68,13 @@
       <button type="button" (click)="Cancel()">Cancel</button>
     </fieldset>
   </form>
+  <div *ngIf="newAddress">
+    <h5>Recommended Address</h5>
+    <p>Address Line 1: {{ newAddress.addressLine1 }}</p>
+    <p>Address Line 2: {{ newAddress.addressLine2 }}</p>
+    <p>City: {{ newAddress.city }}</p>
+    <p>State: {{ newAddress.state }}</p>
+    <p>zip: {{ newAddress.zip }}</p>
+    <p>Country: {{ newAddress.country }}</p>
+  </div>
 </div>
