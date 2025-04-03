@@ -12,6 +12,7 @@ export class UserApiService {
   constructor(private http: HttpClient) {}
 
   public getUser(user: User): Observable<User> {
+    console.log('User login Serive', user);
     return this.http.post<User>(`${this.baseUrl}/Authenticate`, user);
   }
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserApiService } from '../../services/user-api.service';
@@ -11,6 +11,7 @@ import { User } from '../../model/user';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  @Output() loginEvent = new EventEmitter<boolean>();
   user: User = {
     id: 0,
     name: '',
@@ -43,7 +44,8 @@ export class LoginComponent {
         localStorage.setItem('user', JSON.stringify(this.user));
         localStorage.setItem('myToken', this.user.token!);
         console.log('Data:', this.user);
-        this.router.navigateByUrl('/home');
+        this.loginEvent.emit(true);
+        this.router.navigateByUrl('/list-books');
       },
       error: (error) => {
         console.log(error);

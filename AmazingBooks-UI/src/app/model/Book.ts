@@ -5,12 +5,12 @@ export interface Book {
   price: number;
   publicationDate?: Date;
   imgUrl?: string;
-  description: string;
-  language: string;
+  description?: string;
+  language?: string;
   isbn?: string;
   pages?: number;
   hardcover: boolean;
-  weight: number;
+  weight?: number;
   quantity: number;
   genre?: string;
 }

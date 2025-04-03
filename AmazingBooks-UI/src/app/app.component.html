@@ -1,8 +1,15 @@
 <header>
   <h1>Welcome to Amazing Books</h1>
-  <a routerLink="list-book" routerLinkActive="active">Home</a
-  ><a routerLink="cart" routerLinkActive="active">Cart {{ quantity }}</a
-  ><a routerLink="login" routerLinkActive="active">Login</a
-  ><a routerLink="signup" routerLinkActive="active">Sign up</a>
+  <a routerLink="list-books" routerLinkActive="active">Home</a
+  ><a routerLink="cart" routerLinkActive="active"
+    >Cart<sup>{{ quantity }}</sup></a
+  >
+  <span *ngIf="!isLoggedIn"
+    ><a routerLink="login" routerLinkActive="active">Login</a
+    ><a routerLink="signup" routerLinkActive="active">Sign up</a></span
+  >
+  <span *ngIf="isLoggedIn"
+    ><a href="#" routerLinkActive="active" (click)="Logout()">Logout</a>
+  </span>
 </header>
-<router-outlet></router-outlet>
+<router-outlet (activate)="OnActivate($event)"></router-outlet>

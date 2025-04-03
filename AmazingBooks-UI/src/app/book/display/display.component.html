@@ -18,8 +18,14 @@
   </div>
   <div class="action">
     <p>
-      <input type="number" min="1" max="5" [(value)]="quantity" />
-      <button>Add to Cart</button>
+      <input
+        type="number"
+        min="1"
+        max="5"
+        [(ngModel)]="quantity"
+        name="quantity"
+      />
+      <button (click)="addToCart()">Add to Cart</button>
     </p>
     <p></p>
   </div>

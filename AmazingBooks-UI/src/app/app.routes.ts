@@ -8,8 +8,8 @@ import { CartComponent } from './book/cart/cart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'list-book', pathMatch: 'full' },
-  { path: 'list-book', component: ListComponent },
-  { path: 'list-book/display-book/:id', component: DisplayComponent },
+  { path: 'list-books', component: ListComponent },
+  { path: 'list-books/display-book/:id', component: DisplayComponent },
   { path: 'cart', component: CartComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
