@@ -33,7 +33,7 @@ namespace AmazingBooks_API.Configuration.Repository
         }
 
 
-        public async Task<T> PutRecord(T record)
+        public async Task<T> UpdateRecord(T record)
         {
             _table.Update(record);
             await _dbContext.SaveChangesAsync();           
@@ -42,7 +42,7 @@ namespace AmazingBooks_API.Configuration.Repository
         }
 
 
-        public async Task<T> PostRecord(T record)
+        public async Task<T> CreateRecord(T record)
         {
             _table.Add(record);
             await _dbContext.SaveChangesAsync();

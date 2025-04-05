@@ -6,7 +6,7 @@ namespace AmazingBooks_API.Entities;
 public partial class Address
 {
     public int Id { get; set; }
-
+    public string? Name { get; set; }
     public string AddressLine1 { get; set; } = null!;
 
     public string? AddressLine2 { get; set; }

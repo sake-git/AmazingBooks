@@ -45,6 +45,10 @@ public partial class AmazingBookDbContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.FkuserId).HasColumnName("FKUserId");
             entity.Property(e => e.IsActive).HasDefaultValueSql("('Y')");
+            entity.Property(e => e.Name)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("name");
             entity.Property(e => e.State)
                 .HasMaxLength(2)
                 .IsUnicode(false);
@@ -166,7 +170,7 @@ public partial class AmazingBookDbContext : DbContext
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC073C54CC20");
-            entity.ToTable("Users");
+
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .IsUnicode(false);

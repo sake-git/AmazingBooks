@@ -80,7 +80,7 @@ namespace AmazingBooks_API.Controllers
             }
 
            book = _mapper.Map<Book>(bookDto);
-            _repository.PutRecord(book);           
+            _repository.UpdateRecord(book);           
 
             return NoContent();
         }
@@ -91,7 +91,7 @@ namespace AmazingBooks_API.Controllers
         public async Task<ActionResult<BookDto>> PostBook(BookDto bookDto)
         {
             Book book = _mapper.Map<Book>(bookDto);
-            book = _repository.PostRecord(book).Result;
+            book = _repository.CreateRecord(book).Result;
 
             return CreatedAtAction("GetBook", new { id = book.Id }, bookDto);
         }

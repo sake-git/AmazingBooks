@@ -10,6 +10,7 @@ using AmazingBooks_API.Configuration.Repository;
 using AutoMapper;
 using AmazingBooks_API.Configuration.DTOs;
 using AmazingBooks_API.WebApi;
+using AmazingBooks_API.WebApi.ShippoResponseDto;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -43,7 +44,7 @@ namespace AmazingBooks_API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<AddressDto>> GetAddress(int id)
         {
-            Address address = _repository.GetRecordsByFilter(record => record.Id == id).Result.FirstOrDefault();
+            Address address = _repository.GetRecordsByFilter(record => record.Id == id && record.IsActive==true).Result.FirstOrDefault();
             if (address == null) {
                 return NotFound("Address Not Found");
             }
@@ -51,99 +52,109 @@ namespace AmazingBooks_API.Controllers
             return Ok(addressDto);
         }
 
+        [HttpGet("ByUser/{userId}")]        
+        public async Task<ActionResult<List<AddressDto>>>GetAddressByUser(int userId)
+        {
+            List<Address> address = _repository.GetRecordsByFilter(record => record.FkuserId == userId).Result.ToList();
+            if (address == null)
+            {
+                return NotFound("Address Not Found");
+            }
+            List<AddressDto> addressDto = _mapper.Map<List<AddressDto>>(address);
+            return Ok(addressDto);
+        }
+
 
         // POST: api/Addresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<AddressDto>> PostAddress(AddressDto addressDto)
+        [Route("Validate")]
+        public async Task<ActionResult> ValidateAddress(AddressDto addressDto)
         {
-            if (addressDto == null) {
+            if (addressDto == null)
+            {
                 return BadRequest("Invalid Request, Input missing");
             }
 
             AddressValidation shippo = new AddressValidation(this._httpClient, this._config);
 
-             var data = shippo.ValidateAddressAsync(addressDto).Result;
-            if(data.analysis.validation_result.value == "valid")
+            AddressValidationResponseDto response = shippo.ValidateAddressAsync(addressDto).Result;
+            if (response.analysis.validation_result.value == "valid")
             {
                 return Ok(true);
             }
-            else if(data.recommended_address != null)
+            else if (response.recommended_address != null)
             {
                 AddressDto recommendedAddress = new AddressDto()
                 {
-                    AddressLine1 = data.recommended_address.AddressLine1,
-                    AddressLine2 = data.recommended_address.AddressLine2,
-                    City = data.recommended_address.CityLocality,
-                    State = data.recommended_address.StateProvince,
-                    Zip = data.recommended_address.PostalCode,
-                    Country = data.recommended_address.CountryCode,
+                    AddressLine1 = response.recommended_address.AddressLine1,
+                    AddressLine2 = response.recommended_address.AddressLine2,
+                    City = response.recommended_address.CityLocality,
+                    State = response.recommended_address.StateProvince,
+                    Zip = response.recommended_address.PostalCode,
+                    Country = response.recommended_address.CountryCode,
                 };
                 return Ok(recommendedAddress);
             }
             else
             {
-                return NotFound(data.analysis.validation_result.reason);
+                return NotFound(response.analysis.validation_result.reason[0].description);
             }
+
+        }
+        // POST: api/Addresses
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult> PostAddress(AddressDto addressDto)
+        {
+            Address address = _mapper.Map<Address>(addressDto);
+            address.IsActive = true;
+            address = _repository.CreateRecord(address).Result;
+
+            return CreatedAtAction("GetAddress", new { id = address.Id }, addressDto);
+        }
+
+        // DELETE: api/Addresses/5
+        [HttpDelete("{addrId}")]
+        public async Task<IActionResult> DeleteAddress(int addrId)
+        {
+            Address address = _repository.GetRecord(data=> data.Id == addrId).Result;
+
+
+            if (address == null)
+            {
+                return NotFound("Address not present");
+            }           
+            _repository.DeleteRecord(address);
             
-
-           /* Address address = _mapper.Map<Address>(addressDto);
-            address = _repository.PostRecord(address).Result;
-
-            return CreatedAtAction("GetBook", new { id = address.Id }, addressDto);*/           
+            return NoContent();
         }
 
         
-
-        /*
         // PUT: api/Addresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAddress(int id, Address address)
+        [HttpPut]
+        public async Task<IActionResult> PutAddress( AddressDto addressDto)
         {
-            if (id != address.Id)
+            if (addressDto == null)
             {
-                return BadRequest();
+                return BadRequest("Input missing");
             }
 
-            _context.Entry(address).State = EntityState.Modified;
+            Address address = _repository.GetRecord(data => data.Id == addressDto.Id && data.IsActive == true).Result;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AddressExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-      
-
-        // DELETE: api/Addresses/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAddress(int id)
-        {
-            var address = await _context.Addresses.FindAsync(id);
             if (address == null)
             {
-                return NotFound();
+                return NotFound("Address not present");
             }
 
-            _context.Addresses.Remove(address);
-            await _context.SaveChangesAsync();
+            address.IsActive = false;
+            _repository.UpdateRecord(address);
 
             return NoContent();
-        }
+        }   
 
+        /*
         private bool AddressExists(int id)
         {
             return _context.Addresses.Any(e => e.Id == id);

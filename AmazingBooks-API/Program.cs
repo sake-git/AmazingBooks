@@ -15,7 +15,7 @@ builder.Services.AddDbContext<AmazingBookDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionDb"));
 });
-
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 

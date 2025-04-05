@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Book } from '../../model/book';
 import { Router } from '@angular/router';
 
@@ -9,10 +9,12 @@ import { Router } from '@angular/router';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
-export class CartComponent {
+export class CartComponent implements OnInit, OnDestroy {
   books: Book[] = [];
 
-  constructor(private router: Router) {
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
     this.books = JSON.parse(localStorage.getItem('myCart')!);
   }
 
@@ -22,5 +24,9 @@ export class CartComponent {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  ngOnDestroy(): void {
+    localStorage.setItem('myCart', JSON.stringify(this.books));
   }
 }
