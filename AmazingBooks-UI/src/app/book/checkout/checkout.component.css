@@ -1,38 +1,7 @@
-form {
-  background-color: white;
-  width: 600px;
-  position: relative;
-}
-
-input {
-  width: 300px;
-}
-
-.card {
-  width: 300px;
-  height: 150px;
+table,
+tr,
+td,
+th {
   border: 2px solid black;
-  border-radius: 10px;
-}
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.hidden-div {
-  position: absolute;
-  top: 100px;
-  z-index: 51;
-}
-
-.overlay-div {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  opacity: 0.7;
-  background-color: black;
-  z-index: 50;
-  display: block;
+  border-collapse: collapse;
 }

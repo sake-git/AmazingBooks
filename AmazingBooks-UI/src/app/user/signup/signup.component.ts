@@ -25,7 +25,7 @@ export class SignupComponent {
 
   CreateUser() {
     console.log('Create user called', this.user);
-    var message = this.userApi.createUser(this.user).subscribe({
+    var message = this.userApi.CreateUser(this.user).subscribe({
       next: (data) => {
         console.log('User created successfully', data);
 

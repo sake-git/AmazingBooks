@@ -1,20 +1,145 @@
-<p>cart works!</p>
-<div *ngFor="let book of books" class="flex-container">
-  <div>
-    <img [src]="book.imgUrl" [alt]="book.name" />
+<div class="main-div">
+  <p>
+    <span class="success" *ngIf="message">{{ message }}</span
+    ><span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
+  </p>
+  <div class="flex-container">
+    <div>
+      <div *ngFor="let item of cartItems" class="flex-container">
+        <div>
+          <img [src]="item.book?.imgUrl" [alt]="item.book?.name" />
+        </div>
+        <div>
+          <h4>{{ item.book?.name }}</h4>
+          <p>
+            {{ item.quantity }} x {{ item.book?.price | currency : "USD" }} =
+            {{ item.book?.price! * item.quantity | currency : "USD" }}
+          </p>
+          <button (click)="UpdateCart(item, 0)">-</button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="UpdateCart(item, 1)">+</button>
+          <button (click)="RemoveFromCart(item)">Remove</button>
+        </div>
+      </div>
+      <div>
+        <button (click)="Checkout()">Checkout</button>
+      </div>
+    </div>
+    <div class="flex-container">
+      <div *ngFor="let addr of addressList" class="card">
+        <h5>{{ addr.name }}</h5>
+        <p>
+          {{ addr.addressLine1 }}
+          <span *ngIf="addr.addressLine2">{{ addr.addressLine2 }}</span>
+        </p>
+
+        <p>{{ addr.city }}, {{ addr.zip }}</p>
+        <p>
+          {{ addr.state }}, {{ addr.country
+          }}<button (click)="SelectAddress(addr)">Select</button>
+          <button (click)="DeleteAddress(addr)">Delete</button>
+        </p>
+      </div>
+      <p><button (click)="AddAddress()">Add Address</button></p>
+
+      <div class="form-container-center hidden-div" *ngIf="isAddAddress">
+        <form [formGroup]="addressForm">
+          <fieldset>
+            <legend>Shipping Address</legend>
+            <div>
+              <label><span class="required">*</span>Name</label>
+              <input type="text" formControlName="name" required />
+            </div>
+            <div>
+              <label><span class="required">*</span>Address Line 1</label>
+              <input type="text" formControlName="addressLine1" required />
+            </div>
+            <div>
+              <label>Address Line 2</label>
+              <input type="text" formControlName="addressLine2" />
+            </div>
+            <div>
+              <label><span class="required">*</span>City</label>
+              <input type="text" formControlName="city" required />
+            </div>
+            <div>
+              <label><span class="required">*</span>State</label>
+              <input type="text" formControlName="state" required />
+            </div>
+            <div>
+              <label><span class="required">*</span>Zip Code</label>
+              <input type="text" formControlName="zip" required />
+            </div>
+            <div>
+              <label><span class="required">*</span>Country</label>
+              <input type="text" formControlName="country" required />
+            </div>
+            <p
+              *ngIf="addressForm.get('addressLine1')?.touched && addressForm.get('addressLine1')?.errors?.['required']"
+              class="errors"
+            >
+              Address Line 1 is required
+            </p>
+            <p
+              *ngIf="addressForm.get('city')?.touched && addressForm.get('city')?.errors?.['required']"
+              class="errors"
+            >
+              City is required
+            </p>
+            <p
+              *ngIf="addressForm.get('state')?.touched && addressForm.get('state')?.errors?.['required']"
+              class="errors"
+            >
+              State is required
+            </p>
+            <p
+              *ngIf="addressForm.get('zip')?.touched && addressForm.get('zip')?.errors?.['required']"
+              class="errors"
+            >
+              Zip Code is required
+            </p>
+            <p
+              *ngIf="addressForm.get('country')?.touched && addressForm.get('country')?.errors?.['required']"
+              class="errors"
+            >
+              Country is required
+            </p>
+            <p *ngIf="errorMessage" class="errors">{{ errorMessage }}</p>
+            <p *ngIf="message" class="success">{{ message }}</p>
+            <div *ngIf="newAddress" style="display: block">
+              <h4>Confim the corrected address to save</h4>
+              <p>
+                {{ newAddress.addressLine1 }}
+                <span *ngIf="newAddress.addressLine2">{{
+                  newAddress.addressLine2
+                }}</span>
+              </p>
+              <p>
+                {{ newAddress.city }}, {{ newAddress.state }} ,
+                {{ newAddress.country }}: {{ newAddress.zip }}
+              </p>
+            </div>
+            <button
+              *ngIf="newAddress"
+              type="button"
+              [disabled]="!addressForm.valid"
+              (click)="SaveAddress()"
+            >
+              Confirm
+            </button>
+            <button
+              *ngIf="!newAddress"
+              type="submit"
+              [disabled]="!addressForm.valid"
+              (click)="ValidateAddress()"
+            >
+              Save
+            </button>
+            <button type="button" (click)="Cancel()">Cancel</button>
+          </fieldset>
+        </form>
+      </div>
+    </div>
   </div>
-  <div>
-    <h4>{{ book.name }}</h4>
-    <p>
-      {{ book.quantity }} x {{ book.price | currency : "USD" }} =
-      {{ book.price * book.quantity | currency : "USD" }}
-    </p>
-    <button>-</button>
-    <span>{{ book.quantity }}</span>
-    <button>+</button>
-    <button>Remove</button>
-  </div>
-</div>
-<div>
-  <button (click)="Checkout()">Checkout</button>
+  <div class="overlay-div" *ngIf="isAddAddress"></div>
 </div>

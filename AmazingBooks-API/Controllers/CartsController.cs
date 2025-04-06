@@ -74,7 +74,7 @@ namespace AmazingBooks_API.Controllers
             if (cart == null)
             {
                 cart = _mapper.Map<Cart>(cartDto);  
-                _repository.CreateRecord(cart);                
+                await _repository.CreateRecord(cart);                
             }
             else
             {
@@ -96,7 +96,7 @@ namespace AmazingBooks_API.Controllers
                 return NotFound($"Cart item with id - {id} not found");
             }
 
-            _repository.DeleteRecord(cart);
+            await _repository.DeleteRecord(cart);
 
             return NoContent();
         }
@@ -104,7 +104,7 @@ namespace AmazingBooks_API.Controllers
 
         // PUT: api/Carts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> PutCart(CartDto cartDto)
         {
             if (cartDto == null)
@@ -118,8 +118,8 @@ namespace AmazingBooks_API.Controllers
             {
                 return NotFound($"Cart item with id - {cartDto.Id} not found");
             }
-
-            _repository.UpdateRecord(cart);
+            cart = _mapper.Map<Cart>(cartDto);
+            await _repository.UpdateRecord(cart);
             return NoContent();
         }
 

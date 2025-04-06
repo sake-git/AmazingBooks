@@ -11,13 +11,23 @@ export class UserApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getUser(user: User): Observable<User> {
+  public GetUser(user: User): Observable<User> {
     console.log('User login Serive', user);
     return this.http.post<User>(`${this.baseUrl}/Authenticate`, user);
   }
 
-  createUser(user: User) {
+  public CreateUser(user: User) {
     console.log('called Create user from api service', user);
     return this.http.post(`${this.baseUrl}`, user);
+  }
+
+  public GetUserIdFromLocal() {
+    let stringToParse = localStorage.getItem('user');
+    if (!stringToParse) {
+      return null;
+    } else {
+      let user = JSON.parse(stringToParse!);
+      return user;
+    }
   }
 }

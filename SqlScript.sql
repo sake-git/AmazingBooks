@@ -77,3 +77,10 @@ FKBookId INT FOREIGN KEY REFERENCES Book(Id) NOT NULL
 
 ALTER TABLE address
 ADD name VARCHAR(200);
+
+Alter Table Address
+Drop Column Type
+
+ALTER TABLE address
+ADD IsDefault BIT DEFAULT 0 NOT NULL; 
+

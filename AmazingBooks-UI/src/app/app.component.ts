@@ -23,15 +23,15 @@ export class AppComponent {
     if (localStorage.getItem('user')) {
       this.isLoggedIn = true;
     }
-    let dataStringToParse = localStorage.getItem('myCart');
+    /*  let dataStringToParse = localStorage.getItem('myCart');
     if (dataStringToParse) {
       let books: Book[] = JSON.parse(dataStringToParse);
       this.quantity = books.length;
     }
-
-    this.cartApi.getCartBooks().subscribe({
+  */
+    this.cartApi.GetCartBookCount().subscribe({
       next: (data: number) => {
-        this.quantity = this.quantity + data;
+        this.quantity += data;
         console.log('cart Subscription called');
       },
     });

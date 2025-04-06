@@ -11,6 +11,6 @@ namespace AmazingBooks_API.Configuration.DTOs
         public int FkbookId { get; set; }
 
         public int? Quantity { get; set; }
-        public virtual Book Fkbook { get; set; } = null!;
+        public BookDto? Book { get; set; } = null!;
     }
 }

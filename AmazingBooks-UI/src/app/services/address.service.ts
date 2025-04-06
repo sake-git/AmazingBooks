@@ -13,6 +13,7 @@ export class AddressApiService {
   constructor(private http: HttpClient) {}
 
   GetAddressForUser(userId: number): Observable<Address[]> {
+    console.log('Get address for ', userId);
     return this.http.get<Address[]>(`${this.baseUrl}/ByUser/${userId}`);
   }
 
@@ -22,7 +23,7 @@ export class AddressApiService {
   }
 
   SaveAddress(address: Address) {
-    console.log('In Service to call save API');
+    console.log('In Service to call save API', address);
     return this.http.post(`${this.baseUrl}`, address);
   }
 

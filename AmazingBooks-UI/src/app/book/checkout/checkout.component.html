@@ -1,101 +1,41 @@
 <div>
-  <div class="card-container">
-    <div *ngFor="let addr of addressList" class="card">
-      <h5>{{ addr.name }}</h5>
-      <p>{{ addr.addressLine1 }}</p>
-      <p *ngIf="addr.addressLine2">{{ addr.addressLine2 }}</p>
-      <p>{{ addr.city }}, {{ addr.zip }}</p>
-      <p>
-        {{ addr.state }}, {{ addr.country
-        }}<button (click)="SelectAddress(addr)">Select</button>
-        <button (click)="DeleteAddress(addr)">Delete</button>
-      </p>
-    </div>
-    <p><button (click)="AddAddress()">Add Address</button></p>
-    <div class="form-container-center hidden-div" *ngIf="isAddAddress">
-      <form [formGroup]="addressForm">
-        <fieldset>
-          <legend>Shipping Address</legend>
-          <div>
-            <label><span class="required">*</span>Name</label>
-            <input type="text" formControlName="name" required />
-          </div>
-          <div>
-            <label><span class="required">*</span>Address Line 1</label>
-            <input type="text" formControlName="addressLine1" required />
-          </div>
-          <div>
-            <label>Address Line 2</label>
-            <input type="text" formControlName="addressLine2" />
-          </div>
-          <div>
-            <label><span class="required">*</span>City</label>
-            <input type="text" formControlName="city" required />
-          </div>
-          <div>
-            <label><span class="required">*</span>State</label>
-            <input type="text" formControlName="state" required />
-          </div>
-          <div>
-            <label><span class="required">*</span>Zip Code</label>
-            <input type="text" formControlName="zip" required />
-          </div>
-          <div>
-            <label><span class="required">*</span>Country</label>
-            <input type="text" formControlName="country" required />
-          </div>
-          <p
-            *ngIf="addressForm.get('addressLine1')?.touched && addressForm.get('addressLine1')?.errors?.['required']"
-            class="errors"
-          >
-            Address Line 1 is required
-          </p>
-          <p
-            *ngIf="addressForm.get('city')?.touched && addressForm.get('city')?.errors?.['required']"
-            class="errors"
-          >
-            City is required
-          </p>
-          <p
-            *ngIf="addressForm.get('state')?.touched && addressForm.get('state')?.errors?.['required']"
-            class="errors"
-          >
-            State is required
-          </p>
-          <p
-            *ngIf="addressForm.get('zip')?.touched && addressForm.get('zip')?.errors?.['required']"
-            class="errors"
-          >
-            Zip Code is required
-          </p>
-          <p
-            *ngIf="addressForm.get('country')?.touched && addressForm.get('country')?.errors?.['required']"
-            class="errors"
-          >
-            Country is required
-          </p>
-          <p *ngIf="errorMessage" class="errors">{{ errorMessage }}</p>
-          <p *ngIf="message" class="success">{{ message }}</p>
-          <button
-            type="submit"
-            [disabled]="!addressForm.valid"
-            (click)="ValidateAddress()"
-          >
-            Save
-          </button>
-          <button type="button" (click)="Cancel()">Cancel</button>
-        </fieldset>
-      </form>
-      <div *ngIf="newAddress">
-        <h5>Recommended Address</h5>
-        <p>Address Line 1: {{ newAddress.addressLine1 }}</p>
-        <p>Address Line 2: {{ newAddress.addressLine2 }}</p>
-        <p>City: {{ newAddress.city }}</p>
-        <p>State: {{ newAddress.state }}</p>
-        <p>zip: {{ newAddress.zip }}</p>
-        <p>Country: {{ newAddress.country }}</p>
-      </div>
-    </div>
-  </div>
-  <div class="overlay-div" *ngIf="isAddAddress"></div>
+  <h3>Order Total</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Sr. No.</th>
+        <th>Book Name</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Sub Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cartItems; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ item.book?.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.book?.price }}</td>
+        <td>{{ item.quantity * item.book?.price! | currency : "USD" }}</td>
+      </tr>
+      <tr>
+        <td colspan="4">Sub Total</td>
+        <td>{{ sum | currency : "USD" }}</td>
+      </tr>
+      <tr>
+        <td colspan="4">Shipping & Handling</td>
+        <td>{{ 7.99 | currency : "USD" }}</td>
+      </tr>
+      <tr>
+        <td colspan="4">Taxes</td>
+        <td>{{ (sum + 7.99) * 0.05 | currency : "USD" }}</td>
+      </tr>
+      <tr>
+        <td colspan="4">Total</td>
+        <td>{{ sum + 7.99 + (sum + 7.99) * 0.05 | currency : "USD" }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><button>Place Order</button></p>
 </div>

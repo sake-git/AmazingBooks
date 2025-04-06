@@ -4,6 +4,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserApiService } from '../../services/user-api.service';
 import { User } from '../../model/user';
+import { CartApiService } from '../../services/cart-api.service';
+import { Cart } from '../../model/cart';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, RouterLink, FormsModule],
@@ -25,6 +27,7 @@ export class LoginComponent {
 
   constructor(
     private userApi: UserApiService,
+    private cartApi: CartApiService,
     private router: Router,
     private activeRoute: ActivatedRoute
   ) {
@@ -38,13 +41,23 @@ export class LoginComponent {
 
   userLogin(loginForm: NgForm) {
     console.log('User login called');
-    this.userApi.getUser(this.user).subscribe({
+    this.userApi.GetUser(this.user).subscribe({
       next: (data: any) => {
         this.user = data;
         localStorage.setItem('user', JSON.stringify(this.user));
         localStorage.setItem('myToken', this.user.token!);
         console.log('Data:', this.user);
         this.loginEvent.emit(true);
+        this.cartApi.GetCartItems(this.user.id).subscribe({
+          next: (data: Cart[]) => {
+            this.cartApi.AddCountToCart(
+              data.reduce((sum, data) => sum + data.quantity, 0)
+            );
+          },
+          error: (error) => {
+            console.log(error.message);
+          },
+        });
         this.router.navigateByUrl('/list-books');
       },
       error: (error) => {

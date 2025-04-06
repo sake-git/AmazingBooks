@@ -6,7 +6,7 @@ namespace AmazingBooks_API.Entities;
 public partial class Address
 {
     public int Id { get; set; }
-    public string? Name { get; set; }
+
     public string AddressLine1 { get; set; } = null!;
 
     public string? AddressLine2 { get; set; }
@@ -19,11 +19,13 @@ public partial class Address
 
     public string Zip { get; set; } = null!;
 
-    public string Type { get; set; } = null!;
-
     public int FkuserId { get; set; }
 
     public bool? IsActive { get; set; }
+
+    public string? Name { get; set; }
+
+    public bool? IsDefault { get; set; } = false;
 
     public virtual User Fkuser { get; set; } = null!;
 

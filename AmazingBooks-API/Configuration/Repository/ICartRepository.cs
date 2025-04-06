@@ -5,6 +5,7 @@ namespace AmazingBooks_API.Configuration.Repository
 {
     public interface ICartRepository: ICommonRepository<Cart>
     { 
-        public Task<IEnumerable<Cart>> GetBooksFromCart(int userId);    
+        public Task<IEnumerable<Cart>> GetBooksFromCart(int userId);
+       
     }
 }

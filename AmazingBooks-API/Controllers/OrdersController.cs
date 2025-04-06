@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AmazingBooks_API.Entities;
+using AmazingBooks_API.Configuration.Repository;
+using AutoMapper;
+using AmazingBooks_API.Configuration.DTOs;
+using Order = AmazingBooks_API.Entities.Order;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -13,76 +17,83 @@ namespace AmazingBooks_API.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly AmazingBookDbContext _context;
+        private readonly IMapper _mapper;
+        private readonly IOrderRepository _repository;
 
-        public OrdersController(AmazingBookDbContext context)
+        public OrdersController(IOrderRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
+            _mapper = mapper;
         }
 
         // GET: api/Orders
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
+        public async Task<ActionResult<IEnumerable<OrderListDto>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            List<OrderListDto> orderListDto = _repository.GetRecords().Result.Select(
+                data => new OrderListDto()
+                {
+                    Id = data.Id,
+                    Total = data.Total,
+                    Status = data.Status,
+                    OrderDate = data.OrderDate,
+                    FkuserId = data.FkuserId
+                }).ToList();
+
+            return Ok(orderListDto);            
         }
 
         // GET: api/Orders/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public async Task<ActionResult<OrderDto>> GetOrder(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            Order order = _repository.GetOrderDetails(id).Result;
 
             if (order == null)
             {
-                return NotFound();
+                return NotFound($"Order with Id {id} not found");
             }
-
-            return order;
+            OrderDto orderDto = _mapper.Map<OrderDto>(order);   
+            return orderDto;
         }
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        [HttpPut()]
+        public async Task<IActionResult> PutOrder(OrderDto orderDto)
         {
-            if (id != order.Id)
+            if (orderDto == null)
             {
-                return BadRequest();
+                return BadRequest("Input Order missing details");
             }
 
-            _context.Entry(order).State = EntityState.Modified;
-
-            try
+            Order order = _repository.GetOrderDetails(orderDto.Id).Result;
+            if(order == null)
             {
-                await _context.SaveChangesAsync();
+                return NotFound("Order not found");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!OrderExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
+            await _repository.UpdateRecord(order);
+           
             return NoContent();
         }
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
+        public async Task<ActionResult<Order>> PostOrder(OrderDto orderDto)
         {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+            if (orderDto == null)
+            { 
+                return BadRequest("Input Order missing details");
+            }
+
+            Order order = _mapper.Map<Order>(orderDto);
+            await _repository.CreateRecord(order);
 
             return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }
 
+        /*
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
@@ -102,6 +113,6 @@ namespace AmazingBooks_API.Controllers
         private bool OrderExists(int id)
         {
             return _context.Orders.Any(e => e.Id == id);
-        }
+        }*/
     }
 }

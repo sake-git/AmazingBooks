@@ -95,7 +95,7 @@ namespace AmazingBooks_API.Controllers
             user = _mapper.Map<User>(userDto);
             user.Password = EncryptPassword(userDto.Password);
             user.IsActive = true;
-            user = _repository.CreateRecord(user).Result;
+            user =  _repository.CreateRecord(user).Result;
 
             return CreatedAtAction("GetUser", new { id = user.Id }, userDto);
         }

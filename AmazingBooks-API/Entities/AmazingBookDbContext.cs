@@ -52,9 +52,6 @@ public partial class AmazingBookDbContext : DbContext
             entity.Property(e => e.State)
                 .HasMaxLength(2)
                 .IsUnicode(false);
-            entity.Property(e => e.Type)
-                .HasMaxLength(20)
-                .IsUnicode(false);
             entity.Property(e => e.Zip)
                 .HasMaxLength(15)
                 .IsUnicode(false);

@@ -11,11 +11,11 @@ namespace AmazingBooks_API.Configuration.Repository
             _dbContext = dbContext;
         }
             
-
         public async Task<IEnumerable<Cart>>GetBooksFromCart(int userId)
         {
-            List<Cart> cart =  _dbContext.Carts.Include(x => x.Fkbook).Where(x => x.FkuserId == userId).ToList();
-            return cart;
+            List<Cart> cartList =  _dbContext.Carts.Include(x => x.Fkbook).Where(x => x.FkuserId == userId).ToList();
+            return cartList;
         }
+               
     }
 }

@@ -23,9 +23,12 @@ namespace AmazingBooks_API.Configuration.DTOs
         public decimal? Weight { get; set; }
 
         public int FkshippingAddress { get; set; }
+        public virtual Address FkshippingAddressNavigation { get; set; } = null!;
 
         public int FkuserId { get; set; }     
 
         public virtual ICollection<OrderLine> OrderLines { get; set; } = new List<OrderLine>();
     }
 }
+
+

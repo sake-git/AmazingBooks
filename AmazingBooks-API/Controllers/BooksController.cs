@@ -80,7 +80,7 @@ namespace AmazingBooks_API.Controllers
             }
 
            book = _mapper.Map<Book>(bookDto);
-            _repository.UpdateRecord(book);           
+            await _repository.UpdateRecord(book);           
 
             return NoContent();
         }

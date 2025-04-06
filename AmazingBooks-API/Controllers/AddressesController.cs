@@ -125,7 +125,7 @@ namespace AmazingBooks_API.Controllers
             {
                 return NotFound("Address not present");
             }           
-            _repository.DeleteRecord(address);
+            await _repository.DeleteRecord(address);
             
             return NoContent();
         }
@@ -149,7 +149,7 @@ namespace AmazingBooks_API.Controllers
             }
 
             address.IsActive = false;
-            _repository.UpdateRecord(address);
+            await _repository.UpdateRecord(address);
 
             return NoContent();
         }   

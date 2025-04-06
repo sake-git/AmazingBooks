@@ -7,6 +7,6 @@ export interface Address {
   state: string;
   country: string;
   zip: string;
-  type: string;
-  FkuserId?: number;
+  isDefault?: boolean;
+  fkuserId?: number;
 }
