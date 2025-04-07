@@ -9,7 +9,8 @@
     ><a routerLink="signup" routerLinkActive="active">Sign up</a></span
   >
   <span *ngIf="isLoggedIn"
-    ><a href="#" routerLinkActive="active" (click)="Logout()">Logout</a>
+    ><a routerLink="order" routerLinkActive="active">Order History</a>
+    <a href="#" routerLinkActive="active" (click)="Logout()">Logout</a>
   </span>
 </header>
 <router-outlet (activate)="OnActivate($event)"></router-outlet>

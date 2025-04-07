@@ -27,25 +27,40 @@ namespace AmazingBooks_API.Controllers
         }
 
         // GET: api/Orders
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderListDto>>> GetOrders()
+        [HttpGet("ByUser/{userId}")]
+        public async Task<ActionResult<IEnumerable<OrderListDto>>> GetOrdersByUserId(int userId)
         {
-            List<OrderListDto> orderListDto = _repository.GetRecords().Result.Select(
+            List<OrderListDto> orderListDto = _repository.GetOrders(userId).Result.Select(
                 data => new OrderListDto()
                 {
                     Id = data.Id,
                     Total = data.Total,
                     Status = data.Status,
                     OrderDate = data.OrderDate,
-                    FkuserId = data.FkuserId
+                    FkuserId = data.FkuserId,
+                    FkshippingAddressNavigation = _mapper.Map<AddressDto>(data.FkshippingAddressNavigation),
                 }).ToList();
 
             return Ok(orderListDto);            
         }
-
         // GET: api/Orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDto>> GetOrder(int id)
+        {
+            Order order = _repository.GetRecord(data => data.Id == id).Result;
+
+            if (order == null)
+            {
+                return NotFound($"Order with Id {id} not found");
+            }
+            OrderDto orderDto = _mapper.Map<OrderDto>(order);
+            return orderDto;
+        }
+
+
+        // GET: api/Orders/Details/5
+        [HttpGet("Details/{id}")]
+        public async Task<ActionResult<OrderDto>> GetOrderDetails(int id)
         {
             Order order = _repository.GetOrderDetails(id).Result;
 
@@ -80,7 +95,7 @@ namespace AmazingBooks_API.Controllers
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Order>> PostOrder(OrderDto orderDto)
+        public async Task<ActionResult<OrderDto>> PostOrder(OrderDto orderDto)
         {
             if (orderDto == null)
             { 
@@ -88,9 +103,10 @@ namespace AmazingBooks_API.Controllers
             }
 
             Order order = _mapper.Map<Order>(orderDto);
-            await _repository.CreateRecord(order);
+            await _repository.SaveOrderDetails(order);
 
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+
+            return CreatedAtAction("GetOrder", new { id = order.Id }, orderDto);
         }
 
         /*

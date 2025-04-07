@@ -12,6 +12,15 @@ namespace AmazingBooks_API.Configuration.Repository
         {
             _dbContext = dbContext;
         }
+
+        public async Task<List<Order>> GetOrders(int userId)
+        {
+            List<Order> orders = _dbContext.Orders
+                .Include(x=> x.FkshippingAddressNavigation)
+                .Where(data => data.FkuserId == userId)
+                .ToList();
+            return orders;
+        }
         public async Task<Order> GetOrderDetails(int id)
         {
             Order order = _dbContext.Orders
@@ -19,6 +28,19 @@ namespace AmazingBooks_API.Configuration.Repository
                 .Include(x => x.OrderLines)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
+            return order;
+        }
+
+        public async Task<Order> SaveOrderDetails(Order order)
+        {
+            _dbContext.Orders.Add(order);      
+            await _dbContext.Carts.Where(data => data.FkuserId == order.FkuserId).ForEachAsync(
+                cart => _dbContext.Carts.Remove(cart)
+            );
+
+
+            await _dbContext.SaveChangesAsync();
+            
             return order;
         }
        /* public Task<Order> CreateOrderAndOrderLine(Order order)

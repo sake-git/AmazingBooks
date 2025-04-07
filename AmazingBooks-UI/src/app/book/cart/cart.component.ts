@@ -11,6 +11,8 @@ import { Address } from '../../model/address';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
+  NgModel,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -18,7 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
@@ -31,7 +33,7 @@ export class CartComponent implements OnInit, OnDestroy {
   address: Address | undefined;
   addressForm: FormGroup;
   newAddress: Address | undefined;
-
+  selectedAddress: number = 0;
   isAddAddress = false;
 
   constructor(
@@ -135,9 +137,9 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  SelectAddress(addr: Address) {
+  /*SelectAddress(addr: Address) {
     this.address = addr;
-  }
+  }*/
 
   DeleteAddress(addr: Address) {
     this.addressApi.UpdateAddress(addr).subscribe({
@@ -221,7 +223,7 @@ export class CartComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
     }*/
 
-    this.router.navigate(['/checkout']);
+    this.router.navigateByUrl(`/checkout/${this.selectedAddress}`);
   }
 
   ngOnDestroy(): void {

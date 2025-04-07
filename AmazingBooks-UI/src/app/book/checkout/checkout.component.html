@@ -1,41 +1,54 @@
-<div>
-  <h3>Order Total</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>Sr. No.</th>
-        <th>Book Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Sub Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of cartItems; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ item.book?.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.book?.price }}</td>
-        <td>{{ item.quantity * item.book?.price! | currency : "USD" }}</td>
-      </tr>
-      <tr>
-        <td colspan="4">Sub Total</td>
-        <td>{{ sum | currency : "USD" }}</td>
-      </tr>
-      <tr>
-        <td colspan="4">Shipping & Handling</td>
-        <td>{{ 7.99 | currency : "USD" }}</td>
-      </tr>
-      <tr>
-        <td colspan="4">Taxes</td>
-        <td>{{ (sum + 7.99) * 0.05 | currency : "USD" }}</td>
-      </tr>
-      <tr>
-        <td colspan="4">Total</td>
-        <td>{{ sum + 7.99 + (sum + 7.99) * 0.05 | currency : "USD" }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p><button>Place Order</button></p>
+<div class="flex-container">
+  <div>
+    <h3>Order Total</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Sr. No.</th>
+          <th>Book Name</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Sub Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cartItems; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.book?.name }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.book?.price }}</td>
+          <td>{{ item.quantity * item.book?.price! | currency : "USD" }}</td>
+        </tr>
+        <tr>
+          <td colspan="4">Sub Total</td>
+          <td>{{ sum | currency : "USD" }}</td>
+        </tr>
+        <tr>
+          <td colspan="4">Shipping & Handling</td>
+          <td>{{ 7.99 | currency : "USD" }}</td>
+        </tr>
+        <tr>
+          <td colspan="4">Taxes</td>
+          <td>{{ (sum + 7.99) * 0.05 | currency : "USD" }}</td>
+        </tr>
+        <tr>
+          <td colspan="4">Total</td>
+          <td>{{ sum + 7.99 + (sum + 7.99) * 0.05 | currency : "USD" }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>Shipping To</h3>
+    <h4>{{ address?.name }}</h4>
+    <p>
+      {{ address?.addressLine1 }}
+      <span *ngIf="address?.addressLine2">{{ address?.addressLine2 }}</span>
+    </p>
+    <p>
+      {{ address?.city }}, {{ address?.state }} , {{ address?.country }}:
+      {{ address?.zip }}
+    </p>
+    <p><button (click)="PlaceOrder()">Place Order</button></p>
+  </div>
 </div>

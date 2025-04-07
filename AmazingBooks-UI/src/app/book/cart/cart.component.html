@@ -4,7 +4,7 @@
     ><span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
   </p>
   <div class="flex-container">
-    <div>
+    <div class="cart-container">
       <div *ngFor="let item of cartItems" class="flex-container">
         <div>
           <img [src]="item.book?.imgUrl" [alt]="item.book?.name" />
@@ -22,10 +22,15 @@
         </div>
       </div>
       <div>
-        <button (click)="Checkout()">Checkout</button>
+        <button
+          (click)="Checkout()"
+          [disabled]="selectedAddress == 0 || cartItems.length == 0"
+        >
+          Checkout
+        </button>
       </div>
     </div>
-    <div class="flex-container">
+    <div class="flex-container addr-container">
       <div *ngFor="let addr of addressList" class="card">
         <h5>{{ addr.name }}</h5>
         <p>
@@ -33,11 +38,13 @@
           <span *ngIf="addr.addressLine2">{{ addr.addressLine2 }}</span>
         </p>
 
-        <p>{{ addr.city }}, {{ addr.zip }}</p>
         <p>
-          {{ addr.state }}, {{ addr.country
-          }}<button (click)="SelectAddress(addr)">Select</button>
-          <button (click)="DeleteAddress(addr)">Delete</button>
+          {{ addr.city }}, {{ addr.zip }}, {{ addr.state }}, {{ addr.country }}
+        </p>
+        <p>
+          <input type="radio" [value]="addr.id" [(ngModel)]="selectedAddress" />
+          <label for="selectedAddress">Select Address</label>
+          <span (click)="DeleteAddress(addr)"> Delete</span>
         </p>
       </div>
       <p><button (click)="AddAddress()">Add Address</button></p>

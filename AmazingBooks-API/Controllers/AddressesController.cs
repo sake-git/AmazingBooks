@@ -55,7 +55,7 @@ namespace AmazingBooks_API.Controllers
         [HttpGet("ByUser/{userId}")]        
         public async Task<ActionResult<List<AddressDto>>>GetAddressByUser(int userId)
         {
-            List<Address> address = _repository.GetRecordsByFilter(record => record.FkuserId == userId).Result.ToList();
+            List<Address> address = _repository.GetRecordsByFilter(record => record.FkuserId == userId && record.IsActive == true).Result.ToList();
             if (address == null)
             {
                 return NotFound("Address Not Found");

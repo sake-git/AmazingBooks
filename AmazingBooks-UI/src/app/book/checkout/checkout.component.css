@@ -5,3 +5,15 @@ th {
   border: 2px solid black;
   border-collapse: collapse;
 }
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  vertical-align: middle;
+  align-content: baseline;
+}
+
+.flex-container div {
+  align-content: center;
+  text-align: center;
+}
