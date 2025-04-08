@@ -13,7 +13,7 @@ import { User } from '../../model/user';
 import { UserApiService } from '../../services/user-api.service';
 import { CartApiService } from '../../services/cart-api.service';
 import { Cart } from '../../model/cart';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderLine } from '../../model/orderLine';
 import { Order } from '../../model/order';
 import { OrderApiService } from '../../services/order-api.service';
@@ -39,7 +39,8 @@ export class CheckoutComponent implements OnInit {
     private userApi: UserApiService,
     private cartApi: CartApiService,
     private orderApi: OrderApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -88,13 +89,14 @@ export class CheckoutComponent implements OnInit {
   }
 
   PlaceOrder() {
+    this.errorMessage = '';
     let lineItemtotal = 0;
     let orderLine: OrderLine[] = [];
     this.cartItems.forEach((item) => {
       console.log('Item', item);
       orderLine.push({
         id: 0,
-        FkbookId: item.fkbookId,
+        fkbookId: item.fkbookId,
         amount: item.book?.price!,
         quantity: item.quantity,
       });
@@ -117,13 +119,19 @@ export class CheckoutComponent implements OnInit {
       status: 'Placed',
       fkuserId: this.user?.id!,
       fkshippingAddress: this.address?.id!,
-      OrderLines: orderLine,
+      orderLines: orderLine,
     };
     console.log('Order', order);
 
     this.orderApi.SaveOrder(order).subscribe({
       next: (data: any) => {
         this.success = 'Order Placed';
+        this.message = 'Order Placed';
+        console.log('Data after order placement', data);
+        setTimeout(
+          () => this.router.navigateByUrl(`order/order-details/${data.id}`),
+          2000
+        );
       },
       error: (error: any) => {
         this.errorMessage =

@@ -110,9 +110,9 @@ namespace AmazingBooks_API.Controllers
 
             Order order = _mapper.Map<Order>(orderDto);
             await _repository.SaveOrderDetails(order);
+            orderDto.Id = order.Id;
 
-
-            return CreatedAtAction("GetOrder", new { id = order.Id }, orderDto);
+            return Ok(orderDto);
         }
 
         [HttpGet("SalesTax/{zip}")]

@@ -18,13 +18,9 @@
   </div>
   <div class="action">
     <p>
-      <input
-        type="number"
-        min="1"
-        max="5"
-        [(ngModel)]="quantity"
-        name="quantity"
-      />
+      <button (click)="UpdateQuantity(0)">-</button>
+      {{ quantity }}
+      <button (click)="UpdateQuantity(1)">+</button>
       <button (click)="addToCart()">Add to Cart</button>
     </p>
     <p *ngIf="message" class="success">{{ message }}</p>

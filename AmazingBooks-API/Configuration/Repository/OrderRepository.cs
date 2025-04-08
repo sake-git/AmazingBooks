@@ -25,7 +25,7 @@ namespace AmazingBooks_API.Configuration.Repository
         {
             Order order = _dbContext.Orders
                 .Include(x => x.FkshippingAddressNavigation)
-                .Include(x => x.OrderLines)
+                .Include(x => x.OrderLines).ThenInclude(x=> x.Fkbook)
                 .Where(x => x.Id == id)
                 .FirstOrDefault();
             return order;

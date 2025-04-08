@@ -69,7 +69,7 @@ namespace AmazingBooks_API.Controllers
                 return BadRequest("Cart Details missing");
             }
             
-            Cart cart = _repository.GetRecord(data => data.FkbookId == cartDto.FkbookId).Result;
+            Cart cart = _repository.GetRecord(data => data.FkbookId == cartDto.FkbookId && data.FkuserId == cartDto.FkuserId).Result;
 
             if (cart == null)
             {

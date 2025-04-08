@@ -7,7 +7,7 @@ export interface OrderLine {
   quantity: number;
   weight?: number;
   fkorderId?: number;
-  FkbookId: number;
-  Fkbook?: Book;
-  Fkorder?: Order;
+  fkbookId: number;
+  fkbook?: Book;
+  fkorder?: Order;
 }

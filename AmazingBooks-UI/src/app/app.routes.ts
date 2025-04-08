@@ -7,6 +7,7 @@ import { SignupComponent } from './user/signup/signup.component';
 import { CartComponent } from './book/cart/cart.component';
 import { CheckoutComponent } from './book/checkout/checkout.component';
 import { OrderComponent } from './book/order/order.component';
+import { OrderDetailsComponent } from './book/order-details/order-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'list-book', pathMatch: 'full' },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'checkout/:id', component: CheckoutComponent },
   { path: 'order', component: OrderComponent },
+  { path: 'order/order-details/:id', component: OrderDetailsComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
   /*  {

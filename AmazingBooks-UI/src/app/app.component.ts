@@ -31,8 +31,13 @@ export class AppComponent {
   */
     this.cartApi.GetCartBookCount().subscribe({
       next: (data: number) => {
-        this.quantity += data;
-        console.log('cart Subscription called');
+        if (data == -99) {
+          this.quantity = 0;
+        } else {
+          this.quantity += data;
+        }
+
+        console.log('cart Subscription called', data);
       },
     });
   }

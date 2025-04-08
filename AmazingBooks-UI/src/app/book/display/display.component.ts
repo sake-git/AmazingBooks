@@ -35,7 +35,8 @@ export class DisplayComponent {
             this.book = data;
           },
           error: (error) => {
-            console.error('Something went wrong: ', error.message);
+            console.error('Something went wrong: ', error);
+            this.errorMessage = 'Error fetching book infromation';
           },
         });
       } else {
@@ -65,6 +66,7 @@ export class DisplayComponent {
     this.cartApi.SaveToCart(this.cart).subscribe({
       next: (data) => {
         console.log('Item added to cart');
+        this.message = 'Item added to cart';
       },
       error: (error) => {
         console.log(error.message);
@@ -99,5 +101,17 @@ export class DisplayComponent {
 
     let serializedData = JSON.stringify(books);
     localStorage.setItem('myCart', serializedData);*/
+  }
+
+  UpdateQuantity(action: number) {
+    this.errorMessage = '';
+    this.message = '';
+    if (action == 0) {
+      if (this.quantity > 1) {
+        --this.quantity;
+      }
+    } else if (action == 1) {
+      ++this.quantity;
+    }
   }
 }

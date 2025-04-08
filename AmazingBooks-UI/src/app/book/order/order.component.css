@@ -1,7 +1,3 @@
-div {
-  text-align: center;
-}
-
 table,
 th,
 tr,
@@ -12,4 +8,18 @@ td {
 
 .table-container {
   align-items: center;
+}
+
+th {
+  background-color: rgb(117, 117, 187);
+}
+
+tr:hover {
+  background-color: rgb(130, 130, 154);
+}
+table {
+  margin: auto;
+}
+td {
+  width: 200px;
 }

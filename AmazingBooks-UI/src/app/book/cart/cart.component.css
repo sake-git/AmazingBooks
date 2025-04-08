@@ -18,6 +18,7 @@ img {
 }
 .addr-container {
   width: 50vw;
+  align-content: flex-start;
 }
 
 .card {

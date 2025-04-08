@@ -1,1 +1,15 @@
-<p>order-details works!</p>
+<div class="cart-container">
+  <div *ngFor="let item of order?.orderLines" class="flex-container">
+    {{ item | json }}
+    <div>
+      <img [src]="item.fkbook?.imgUrl" [alt]="item.fkbook?.name" />
+    </div>
+    <div>
+      <h4>{{ item.fkbook?.name }}</h4>
+      <p>
+        {{ item.quantity }} x {{ item.fkbook?.price | currency : "USD" }} =
+        {{ item.fkbook?.price! * item.quantity | currency : "USD" }}
+      </p>
+    </div>
+  </div>
+</div>

@@ -74,6 +74,13 @@ export class CartComponent implements OnInit, OnDestroy {
       next: (data: Cart[]) => {
         this.cartItems = data;
         console.log('Cart data Received:', data);
+
+        let count = this.cartItems.reduce(
+          (count, current) => (count += current.quantity),
+          0
+        );
+        this.cartApi.AddCountToCart(-99);
+        this.cartApi.AddCountToCart(count);
       },
       error: (error) => {
         this.errorMessage = 'Error while retrieving Cart information';
@@ -87,6 +94,7 @@ export class CartComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.message = 'Item removed from cart';
         this.GetCartDetails(this.user?.id!);
+        this.cartApi.AddCountToCart(item.quantity * -1);
       },
       error: (error) => {
         this.errorMessage = 'Failed to Remove item from cart';
@@ -99,6 +107,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.message = '';
     let previousQuantity = item.quantity;
+    let count = 0;
     if (action == 0) {
       if (item.quantity <= 1) {
         this.RemoveFromCart(item);
@@ -106,8 +115,10 @@ export class CartComponent implements OnInit, OnDestroy {
       } else {
         --item.quantity;
       }
+      --count;
     } else if (action == 1) {
       ++item.quantity;
+      ++count;
     } else {
       this.errorMessage = 'Unknown action requested';
       return;
@@ -115,6 +126,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartApi.UpdateCartItems(item).subscribe({
       next: (data: any) => {
         this.message = 'Cart Updated successfully';
+        this.cartApi.AddCountToCart(count);
       },
       error: (error) => {
         this.errorMessage = 'Cart Update failed';

@@ -3,7 +3,7 @@
     <span class="success" *ngIf="message">{{ message }}</span
     ><span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
   </p>
-  <div class="flex-container">
+  <div *ngIf="cartItems.length != 0" class="flex-container">
     <div class="cart-container">
       <div *ngFor="let item of cartItems" class="flex-container">
         <div>
@@ -147,6 +147,9 @@
         </form>
       </div>
     </div>
+  </div>
+  <div *ngIf="cartItems.length == 0">
+    <h2>Cart Empty. Would you like to add some items?</h2>
   </div>
   <div class="overlay-div" *ngIf="isAddAddress"></div>
 </div>
