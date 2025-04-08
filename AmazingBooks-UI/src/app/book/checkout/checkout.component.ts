@@ -32,6 +32,7 @@ export class CheckoutComponent implements OnInit {
   message = '';
   success = '';
   user: User | undefined;
+  taxRate: number = 0.0;
 
   constructor(
     private addressApi: AddressApiService,
@@ -47,6 +48,17 @@ export class CheckoutComponent implements OnInit {
       this.addressApi.GetAddress(id).subscribe({
         next: (data) => {
           this.address = data;
+          console.log('Address: ', this.address);
+          this.orderApi.GetSalesTax(this.address?.zip!).subscribe({
+            next: (data: any) => {
+              console.log('Rate fetched successfully: ', data);
+              this.taxRate = data;
+            },
+            error: (error) => {
+              console.log('Error while fetching data: ', error);
+              this.errorMessage = 'Sales tax rate fetch failed';
+            },
+          });
         },
         error: (error) => {
           this.errorMessage = 'Error retrieving selected Address';
@@ -93,7 +105,7 @@ export class CheckoutComponent implements OnInit {
     console.log('OrderLine', orderLine);
     let shipping = 7.99;
     let subTotal = lineItemtotal + shipping;
-    let tax = subTotal * 0.05;
+    let tax = subTotal * this.taxRate;
     let total = subTotal + tax;
     let order: Order = {
       id: 0,

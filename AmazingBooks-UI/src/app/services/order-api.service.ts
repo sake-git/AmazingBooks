@@ -27,4 +27,9 @@ export class OrderApiService {
     console.log('Get Orders Api called ', order);
     return this.http.put(`${this.baseUrl}`, order);
   }
+
+  public GetSalesTax(zip: string) {
+    console.log('Calling api for Sales Tax for Zip: ', zip);
+    return this.http.get(`${this.baseUrl}/SalesTax/${zip}`);
+  }
 }

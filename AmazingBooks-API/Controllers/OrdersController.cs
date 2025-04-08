@@ -10,6 +10,8 @@ using AmazingBooks_API.Configuration.Repository;
 using AutoMapper;
 using AmazingBooks_API.Configuration.DTOs;
 using Order = AmazingBooks_API.Entities.Order;
+using AmazingBooks_API.WebApi;
+using AmazingBooks_API.WebApi.SalesTaxDto;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -19,11 +21,15 @@ namespace AmazingBooks_API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IOrderRepository _repository;
+        private readonly IConfiguration _config;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public OrdersController(IOrderRepository repository, IMapper mapper)
+        public OrdersController(IOrderRepository repository, IMapper mapper, IConfiguration configuration, IHttpClientFactory httpClientFactory)
         {
             _repository = repository;
             _mapper = mapper;
+            _config = configuration;
+            _httpClientFactory = httpClientFactory;
         }
 
         // GET: api/Orders
@@ -108,6 +114,23 @@ namespace AmazingBooks_API.Controllers
 
             return CreatedAtAction("GetOrder", new { id = order.Id }, orderDto);
         }
+
+        [HttpGet("SalesTax/{zip}")]
+        public async Task<ActionResult<decimal>> GetSalesTax(string zip)
+        {
+            SalesTax salestax = new SalesTax(_config,_httpClientFactory);
+
+            SalesTaxResponse[] response = salestax.GetSalesTax(zip).Result;
+            if(response == null || response.Length == 0)
+            {
+                return NotFound($"Sales Tax not found for zip {zip}");
+            }
+            else
+            {
+                return Ok(response[0].taxAmount);
+            }            
+        }
+
 
         /*
         // DELETE: api/Orders/5

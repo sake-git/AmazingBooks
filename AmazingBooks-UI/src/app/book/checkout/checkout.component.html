@@ -29,11 +29,11 @@
         </tr>
         <tr>
           <td colspan="4">Taxes</td>
-          <td>{{ (sum + 7.99) * 0.05 | currency : "USD" }}</td>
+          <td>{{ (sum + 7.99) * taxRate | currency : "USD" }}</td>
         </tr>
         <tr>
           <td colspan="4">Total</td>
-          <td>{{ sum + 7.99 + (sum + 7.99) * 0.05 | currency : "USD" }}</td>
+          <td>{{ sum + 7.99 + (sum + 7.99) * taxRate | currency : "USD" }}</td>
         </tr>
       </tbody>
     </table>
