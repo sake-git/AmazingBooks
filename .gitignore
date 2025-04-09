@@ -291,7 +291,7 @@ node_modules/
 # Visual Studio 6 build log
 *.plg
 #app settings
-"D:\AmazingBooks\AmazingBooks-API\appsettings.json"
+/AmazingBooks-API/appsettings.json
 
 # Visual Studio 6 workspace options file
 *.opt
