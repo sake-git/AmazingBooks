@@ -9,7 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-appsettings.json
+
 environment.development.ts
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -290,7 +290,8 @@ node_modules/
 
 # Visual Studio 6 build log
 *.plg
-
+#app settings
+appsettings.json
 # Visual Studio 6 workspace options file
 *.opt
 
