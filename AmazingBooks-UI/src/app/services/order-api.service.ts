@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Order } from '../model/order';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderApiService {
-  baseUrl = 'https://localhost:7186/api/Orders';
+  baseUrl = environment.OrderApi;
   constructor(private http: HttpClient) {}
 
   public GetOrdersByUser(userId: number) {
@@ -29,7 +30,13 @@ export class OrderApiService {
   }
 
   public GetSalesTax(zip: string) {
+    zip = zip.substring(0, 5);
     console.log('Calling api for Sales Tax for Zip: ', zip);
     return this.http.get(`${this.baseUrl}/SalesTax/${zip}`);
+  }
+
+  public UpdateOrderStatus(order: Order) {
+    console.log('Calling api for order update: ', order);
+    return this.http.put(`${this.baseUrl}`, order);
   }
 }

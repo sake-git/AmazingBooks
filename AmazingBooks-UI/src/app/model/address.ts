@@ -8,5 +8,6 @@ export interface Address {
   country: string;
   zip: string;
   isDefault?: boolean;
+  isActive?: boolean;
   fkuserId?: number;
 }

@@ -80,7 +80,7 @@ namespace AmazingBooks_API.Controllers
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut()]
+        [HttpPut]
         public async Task<IActionResult> PutOrder(OrderDto orderDto)
         {
             if (orderDto == null)
@@ -88,11 +88,12 @@ namespace AmazingBooks_API.Controllers
                 return BadRequest("Input Order missing details");
             }
 
-            Order order = _repository.GetOrderDetails(orderDto.Id).Result;
+            Order order = _repository.GetRecord(data => data.Id != orderDto.Id).Result;
             if(order == null)
             {
                 return NotFound("Order not found");
             }
+            order = _mapper.Map<Order>(orderDto);
             await _repository.UpdateRecord(order);
            
             return NoContent();

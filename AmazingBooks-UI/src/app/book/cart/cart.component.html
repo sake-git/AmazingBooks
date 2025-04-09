@@ -48,6 +48,7 @@
         </p>
       </div>
       <p><button (click)="AddAddress()">Add Address</button></p>
+      <p>{{ message }}</p>
 
       <div class="form-container-center hidden-div" *ngIf="isAddAddress">
         <form [formGroup]="addressForm">

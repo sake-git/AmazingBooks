@@ -20,7 +20,7 @@ namespace AmazingBooks_API.Configuration.DTOs
         public string Zip { get; set; } = null!;
 
         public bool? IsDefault { get; set; } = false;
-
+        public bool? IsActive { get; set; } 
         public int FkuserId { get; set; }
         
     }

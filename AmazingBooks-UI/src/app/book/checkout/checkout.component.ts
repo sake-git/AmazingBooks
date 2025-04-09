@@ -17,6 +17,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderLine } from '../../model/orderLine';
 import { Order } from '../../model/order';
 import { OrderApiService } from '../../services/order-api.service';
+import { StripeService } from '../../services/stripe.service';
 
 @Component({
   selector: 'app-checkout',
@@ -33,12 +34,14 @@ export class CheckoutComponent implements OnInit {
   success = '';
   user: User | undefined;
   taxRate: number = 0.0;
+  order: Order | undefined;
 
   constructor(
     private addressApi: AddressApiService,
     private userApi: UserApiService,
     private cartApi: CartApiService,
     private orderApi: OrderApiService,
+    private stripeApi: StripeService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -108,7 +111,8 @@ export class CheckoutComponent implements OnInit {
     let shipping = 7.99;
     let subTotal = lineItemtotal + shipping;
     let tax = subTotal * this.taxRate;
-    let total = subTotal + tax;
+    let total = parseFloat((subTotal + tax).toFixed(2));
+
     let order: Order = {
       id: 0,
       orderDate: new Date(),
@@ -116,7 +120,7 @@ export class CheckoutComponent implements OnInit {
       shipping: shipping,
       tax: tax,
       total: total,
-      status: 'Placed',
+      status: 'Pending',
       fkuserId: this.user?.id!,
       fkshippingAddress: this.address?.id!,
       orderLines: orderLine,
@@ -125,19 +129,32 @@ export class CheckoutComponent implements OnInit {
 
     this.orderApi.SaveOrder(order).subscribe({
       next: (data: any) => {
-        this.success = 'Order Placed';
-        this.message = 'Order Placed';
+        this.success = 'Awaiting Payment';
+        this.message = 'Awaiting Payment';
         console.log('Data after order placement', data);
-        setTimeout(
+        this.order = data;
+        /* setTimeout(
           () => this.router.navigateByUrl(`order/order-details/${data.id}`),
           2000
-        );
+        );*/
+        if (this.order != null) {
+          this.MakePayment();
+        }
       },
       error: (error: any) => {
         this.errorMessage =
           'Order could not be proccessed at this time. Please try later.';
         console.log(error.message);
       },
+    });
+  }
+
+  MakePayment() {
+    this.stripeApi.MakePayment(this.order!).subscribe({
+      next: (data) => {
+        console.log('data', data);
+      },
+      error: (error) => console.log('Error: ', error),
     });
   }
 }

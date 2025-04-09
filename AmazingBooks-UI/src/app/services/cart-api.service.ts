@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Cart } from '../model/cart';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartApiService {
   private cartObservable = new BehaviorSubject<number>(0);
-  baseUrl = 'https://localhost:7186/api/Carts';
+  baseUrl = environment.CartApi;
   constructor(private http: HttpClient) {}
 
   GetCartBookCount() {

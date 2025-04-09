@@ -157,6 +157,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.addressApi.UpdateAddress(addr).subscribe({
       next: (data) => {
         this.message = 'Address deleted successfully';
+        this.GetAddress();
       },
       error: (error) => {
         this.errorMessage = 'Error while deleting address.';

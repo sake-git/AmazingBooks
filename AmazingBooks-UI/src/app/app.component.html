@@ -1,8 +1,15 @@
 <header>
   <h1>Welcome to Amazing Books</h1>
+  <div class="location" (click)="isUpdateCity = true">
+    <img src="https://static.thenounproject.com/png/333603-200.png" />
+    <div>
+      <p>Delivering to {{ city }}, {{ state }}</p>
+      <p>Update location</p>
+    </div>
+  </div>
   <a routerLink="list-books" routerLinkActive="active">Home</a
   ><a routerLink="cart" routerLinkActive="active"
-    >Cart<sup>{{ quantity }}</sup></a
+    >Cart<sup *ngIf="quantity != 0">{{ quantity }}</sup></a
   >
   <span *ngIf="!isLoggedIn"
     ><a routerLink="login" routerLinkActive="active">Login</a
@@ -13,4 +20,18 @@
     <a href="#" routerLinkActive="active" (click)="Logout()">Logout</a>
   </span>
 </header>
+<div class="overlay-div" *ngIf="isUpdateCity"></div>
+<div *ngIf="isUpdateCity" class="hidden-div">
+  <label>Enter City & State</label
+  ><input type="text" [(ngModel)]="city" /><input
+    type="text"
+    [(ngModel)]="state"
+  />
+  <p>
+    <button (click)="UpdateLocation()">Save</button
+    ><button (click)="CancelLocation()">Close</button>
+  </p>
+  <p class="errors">{{ errorMessage }}</p>
+</div>
+
 <router-outlet (activate)="OnActivate($event)"></router-outlet>
