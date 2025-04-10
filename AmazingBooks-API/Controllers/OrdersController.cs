@@ -44,6 +44,8 @@ namespace AmazingBooks_API.Controllers
                     Status = data.Status,
                     OrderDate = data.OrderDate,
                     FkuserId = data.FkuserId,
+                    PaymentStatus = data.PaymentStatus,
+                    PaymentMethod = data.PaymentMethod,
                     FkshippingAddressNavigation = _mapper.Map<AddressDto>(data.FkshippingAddressNavigation),
                 }).ToList();
 

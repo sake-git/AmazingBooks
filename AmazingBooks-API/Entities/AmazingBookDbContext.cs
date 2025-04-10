@@ -122,6 +122,12 @@ public partial class AmazingBookDbContext : DbContext
             entity.Property(e => e.FkshippingAddress).HasColumnName("FKShippingAddress");
             entity.Property(e => e.FkuserId).HasColumnName("FKUserId");
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PaymentStatus)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.Shipping).HasColumnType("decimal(6, 2)");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)

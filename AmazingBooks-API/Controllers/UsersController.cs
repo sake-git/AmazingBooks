@@ -64,7 +64,8 @@ namespace AmazingBooks_API.Controllers
             }
 
             byte[] encryptedPwd = EncryptPassword(userDto.Password);
-            User user = _repository.GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd && record.IsActive == true).Result.FirstOrDefault();
+            User user = _repository
+                .GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd && record.IsActive == true).Result.FirstOrDefault();
 
             if (user == null)
             {

@@ -25,7 +25,11 @@ namespace AmazingBooks_API.Configuration.DTOs
         public int FkshippingAddress { get; set; }
         public AddressDto? FkshippingAddressNavigation { get; set; } = null!;
 
-        public int FkuserId { get; set; }     
+        public int FkuserId { get; set; }
+
+        public string? PaymentMethod { get; set; }
+
+        public string? PaymentStatus { get; set; }
 
         public ICollection<OrderLineDto> OrderLines { get; set; } = new List<OrderLineDto>();
     }

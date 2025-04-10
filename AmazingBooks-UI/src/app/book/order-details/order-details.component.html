@@ -44,6 +44,22 @@
     </table>
   </div>
   <div>
+    <p></p>
+    <h4>
+      <img
+        src="https://psspeech.com/wp-content/uploads/2020/07/215-2154839_transparent-payment-icon-png.png"
+      />
+    </h4>
+    <p>Payment Method: {{ order?.paymentMethod }}</p>
+    <p>Payment Status: {{ order?.paymentStatus }}</p>
+    <p>Order Status: {{ order?.status }}</p>
+    <p>{{ order?.cancellationDate | date : "mediumDate" }}</p>
+    <button [disabled]="order?.status != 'Placed'" (click)="SaveOrderStatus()">
+      Cancel Order
+    </button>
+  </div>
+  <div>
+    <p></p>
     <h4>
       <img
         src="https://thumbs.dreamstime.com/b/beautiful-meticulously-designed-shipping-delivered-icon-shipping-delivered-icon-358761243.jpg"
@@ -64,21 +80,5 @@
     </p>
 
     <p *ngIf="message">{{ message }}</p>
-  </div>
-  <div>
-    <h4>
-      <img
-        src="https://psspeech.com/wp-content/uploads/2020/07/215-2154839_transparent-payment-icon-png.png"
-      />
-    </h4>
-    <p>Cash On Delivery</p>
-  </div>
-  <div>
-    <h5>Shipping status: {{ order?.status }}</h5>
-
-    <p>{{ order?.cancellationDate | date : "shortDate" }}</p>
-    <button [disabled]="order?.status != 'Placed'" (click)="SaveOrderStatus()">
-      Cancel Order
-    </button>
   </div>
 </div>

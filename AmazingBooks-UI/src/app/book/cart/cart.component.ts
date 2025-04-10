@@ -149,10 +149,6 @@ export class CartComponent implements OnInit, OnDestroy {
     });
   }
 
-  /*SelectAddress(addr: Address) {
-    this.address = addr;
-  }*/
-
   DeleteAddress(addr: Address) {
     this.addressApi.UpdateAddress(addr).subscribe({
       next: (data) => {

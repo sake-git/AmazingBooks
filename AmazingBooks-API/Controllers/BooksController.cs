@@ -28,10 +28,13 @@ namespace AmazingBooks_API.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookListDto>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookListDto>>> GetBooks(int id = 0, string name="", string author="" )
         {
-            List<BookListDto> bookDtos = _repository.GetRecords().Result.Select(record =>
-
+            name = name.ToLower();
+            author = author.ToLower();
+            List<BookListDto> bookDtos = _repository
+                .GetRecordsByFilter(data => (data.Name.ToLower().Contains(name) || name=="") && (data.Author.ToLower().Contains(author) || author == "") && data.Id >= id, data => data.Id)
+                .Result.Select(record =>
                 new BookListDto()
                 {
                     Id = record.Id,

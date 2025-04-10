@@ -10,7 +10,7 @@ import { OrderComponent } from './book/order/order.component';
 import { OrderDetailsComponent } from './book/order-details/order-details.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'list-book', pathMatch: 'full' },
+  { path: '', redirectTo: '/list-books', pathMatch: 'full' },
   { path: 'list-books', component: ListComponent },
   { path: 'list-books/display-book/:id', component: DisplayComponent },
   { path: 'cart', component: CartComponent },

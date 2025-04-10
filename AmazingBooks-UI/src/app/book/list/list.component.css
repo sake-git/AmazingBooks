@@ -3,6 +3,10 @@
   flex-wrap: wrap;
 }
 
+.spacearound {
+  justify-content: space-between;
+}
+
 .card {
   width: 220px;
   height: 350px;

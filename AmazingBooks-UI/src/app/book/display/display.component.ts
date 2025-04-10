@@ -30,7 +30,7 @@ export class DisplayComponent {
     this.router.params.subscribe((params) => {
       let id = params['id'];
       if (id != null) {
-        this.bookApi.getBook(id).subscribe({
+        this.bookApi.GetBook(id).subscribe({
           next: (data) => {
             this.book = data;
           },

@@ -50,10 +50,10 @@
       {{ address?.zip }}
     </p>
     <p>
-      <button (click)="PlaceOrder()">Pay Now</button>
+      <button (click)="PlaceOrder(0)" [disabled]="message">Pay Now</button>
     </p>
     <p>
-      <button (click)="PlaceOrder()" [disabled]="message">Place Order</button>
+      <button (click)="PlaceOrder(1)" [disabled]="message">Pay Later</button>
     </p>
     <p *ngIf="message">{{ message }}</p>
   </div>

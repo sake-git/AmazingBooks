@@ -23,13 +23,6 @@ export class OrderDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (navigator) {
-      console.log(
-        'Geolocation:',
-        navigator.geolocation.getCurrentPosition((data) => console.log(data))
-      );
-    }
-
     this.route.params.subscribe((param) => {
       let id = param['id'];
       if (id == null) {
@@ -46,6 +39,8 @@ export class OrderDetailsComponent implements OnInit {
               if (this.isSuccess) {
                 console.log('Success: ' + this.isSuccess);
                 this.order!.status = 'Placed';
+                this.order!.paymentMethod = 'Online';
+                this.order!.paymentStatus = 'Paid';
                 this.orderApi.UpdateOrderStatus(this.order!).subscribe({
                   next: (data) => {
                     console.log('Order Status updated');

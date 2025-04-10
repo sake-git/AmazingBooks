@@ -24,13 +24,14 @@
         />
       </div>
       <div>
-        <label> &nbsp; Phone</label>
+        <label><span class="required">*</span> Phone</label>
         <input
           type="text"
           [(ngModel)]="user.phone"
           name="phone"
           #phone="ngModel"
           pattern="[0-9]{10}"
+          required
         />
       </div>
       <div>
@@ -98,7 +99,14 @@
       >
         Invalid Phone number
       </p>
-
+      <p
+        class="errors"
+        *ngIf="
+            (phone.touched ) && phone.errors?.['required']
+          "
+      >
+        Phone# is required
+      </p>
       <p
         class="errors"
         *ngIf="

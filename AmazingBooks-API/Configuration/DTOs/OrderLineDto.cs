@@ -15,7 +15,6 @@ namespace AmazingBooks_API.Configuration.DTOs
         public int? FkorderId { get; set; }
 
         public int? FkbookId { get; set; }
-
         public BookDto? Fkbook{ get; set; } = null!;
        
     }

@@ -12,11 +12,17 @@ export class BookApiService {
 
   constructor(private http: HttpClient) {}
 
-  public getAllBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.baseurl);
+  public GetAllBooks(
+    id: number,
+    name: string,
+    author: string
+  ): Observable<Book[]> {
+    return this.http.get<Book[]>(
+      `${this.baseurl}?id=${id}&&name=${name}&&author=${author}`
+    );
   }
 
-  public getBook(id: number): Observable<Book> {
+  public GetBook(id: number): Observable<Book> {
     return this.http.get<Book>(`${this.baseurl}/${id}`);
   }
 }

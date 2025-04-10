@@ -26,6 +26,11 @@ namespace AmazingBooks_API.Configuration.Repository
             return await _table.Where(filter).ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetRecordsByFilter(Expression<Func<T, bool>> filter, Expression<Func<T, int>> sortKey)
+        {
+            return await _table.Where(filter).OrderBy(sortKey).Take(18).ToListAsync();
+        }
+
         public async Task<T> GetRecord(Expression<Func<T, bool>> filter)
         {
             var record = await _table.AsNoTracking().Where(filter).FirstOrDefaultAsync();

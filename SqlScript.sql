@@ -84,3 +84,8 @@ Drop Column Type
 ALTER TABLE address
 ADD IsDefault BIT DEFAULT 0 NOT NULL; 
 
+
+ALTER TABLE Orders
+ADD PaymentMethod VARCHAR(20),
+ PaymentStatus VARCHAR(20);
+

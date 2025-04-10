@@ -91,7 +91,7 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  PlaceOrder() {
+  PlaceOrder(action: number) {
     this.errorMessage = '';
     let lineItemtotal = 0;
     let orderLine: OrderLine[] = [];
@@ -124,21 +124,26 @@ export class CheckoutComponent implements OnInit {
       fkuserId: this.user?.id!,
       fkshippingAddress: this.address?.id!,
       orderLines: orderLine,
+      paymentMethod: 'Online',
+      paymentStatus: 'Failed',
     };
     console.log('Order', order);
+    if (action == 1) {
+      order.status = 'Placed';
+      order.paymentMethod = 'COD';
+      order.paymentStatus = 'Pending';
+    }
 
     this.orderApi.SaveOrder(order).subscribe({
       next: (data: any) => {
-        this.success = 'Awaiting Payment';
-        this.message = 'Awaiting Payment';
         console.log('Data after order placement', data);
         this.order = data;
-        /* setTimeout(
-          () => this.router.navigateByUrl(`order/order-details/${data.id}`),
-          2000
-        );*/
-        if (this.order != null) {
+
+        if (this.order != null && action == 0) {
+          this.message = 'Awaiting Payment';
           this.MakePayment();
+        } else {
+          this.message = 'Order Placed';
         }
       },
       error: (error: any) => {

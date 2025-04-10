@@ -1,3 +1,19 @@
+<div>
+  <div class="flex-container spacearound">
+    <div>
+      <label> Book Name:</label>
+      <input type="text" [(ngModel)]="name" />
+      <label> Author:</label>
+      <input type="text" [(ngModel)]="author" />
+      <button (click)="SearchList()">Search</button>
+      <button (click)="Clear()">Clear</button>
+    </div>
+    <div>
+      <button (click)="GetPrev()" [disabled]="pages.length == 0">Prev</button
+      ><button (click)="GetNext()" [disabled]="books.length < 18">Next</button>
+    </div>
+  </div>
+</div>
 <div class="flex-container">
   <div
     *ngFor="let book of books"
