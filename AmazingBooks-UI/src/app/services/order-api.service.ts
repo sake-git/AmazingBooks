@@ -10,9 +10,11 @@ export class OrderApiService {
   baseUrl = environment.OrderApi;
   constructor(private http: HttpClient) {}
 
-  public GetOrdersByUser(userId: number) {
+  public GetOrdersByUser(userId: number, orderId: number, id: number) {
     console.log('Get Orders Api called ', userId);
-    return this.http.get(`${this.baseUrl}/ByUser/${userId}`);
+    return this.http.get(
+      `${this.baseUrl}/ByUser/${userId}?id=${id}&&orderId=${orderId}`
+    );
   }
 
   public GetOrderDetails(id: number) {

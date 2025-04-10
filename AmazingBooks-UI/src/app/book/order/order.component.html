@@ -1,5 +1,30 @@
 <div>
   <h2>Order History</h2>
+  <div class="flex-container">
+    <div>
+      <label> Order Id:</label>
+      <input
+        type="text"
+        [(ngModel)]="orderId"
+        pattern="^[0-9\s]*$"
+        #filter="ngModel"
+        value=""
+      />
+      <p *ngIf="filter.errors" class="errors">Enter a valid Order number</p>
+      <button
+        (click)="SearchOrder()"
+        [disabled]="filter.touched && filter.errors?.['pattern']"
+      >
+        Search</button
+      ><button (click)="ClearFilter()">Clear</button>
+    </div>
+    <div>
+      <button (click)="GetPrev()" [disabled]="pages.length == 0">Prev</button
+      ><button (click)="GetNext()" [disabled]="orderList.length < 20">
+        Next
+      </button>
+    </div>
+  </div>
   <div class="table-container">
     <table>
       <thead>

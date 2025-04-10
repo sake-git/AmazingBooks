@@ -109,7 +109,8 @@ body {
 
 body {
   /*background-image: url("https://img.freepik.com/free-vector/watercolor-world-book-day-background_23-2149333386.jpg?semt=ais_country_boost&w=740");
-  /* background-image: url("https://png.pngtree.com/background/20210717/original/pngtree-green-clean-texture-book-cartoon-background-picture-image_1429522.jpg");*/
+  /* background-image: url("https://png.pngtree.com/background/20210717/original/pngtree-green-clean-texture-book-cartoon-background-picture-image_1429522.jpg");
   background-image: url("https://i.pinimg.com/736x/b7/a8/23/b7a82325d50a8f232c3aba3cc599eb9b.jpg");
-  background-size: cover;
+  background-size: cover;*/
+  background-color: lightblue;
 }

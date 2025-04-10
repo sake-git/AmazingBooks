@@ -12,6 +12,7 @@ using AmazingBooks_API.Configuration.DTOs;
 using Order = AmazingBooks_API.Entities.Order;
 using AmazingBooks_API.WebApi;
 using AmazingBooks_API.WebApi.SalesTaxDto;
+using Stripe.Climate;
 
 namespace AmazingBooks_API.Controllers
 {
@@ -34,9 +35,9 @@ namespace AmazingBooks_API.Controllers
 
         // GET: api/Orders
         [HttpGet("ByUser/{userId}")]
-        public async Task<ActionResult<IEnumerable<OrderListDto>>> GetOrdersByUserId(int userId)
+        public async Task<ActionResult<IEnumerable<OrderListDto>>> GetOrdersByUserId(int userId,int orderId =0, int id =0)
         {
-            List<OrderListDto> orderListDto = _repository.GetOrders(userId).Result.Select(
+            List<OrderListDto> orderListDto = _repository.GetOrders(userId,orderId, id).Result.Select(
                 data => new OrderListDto()
                 {
                     Id = data.Id,

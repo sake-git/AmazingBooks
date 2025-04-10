@@ -13,12 +13,26 @@ namespace AmazingBooks_API.Configuration.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<List<Order>> GetOrders(int userId)
+        public async Task<List<Order>> GetOrders(int userId,int orderId, int id)
         {
-            List<Order> orders = _dbContext.Orders
-                .Include(x=> x.FkshippingAddressNavigation)
-                .Where(data => data.FkuserId == userId)
+            List<Order> orders = null;
+            if (orderId == 0)
+            {
+                orders = _dbContext.Orders
+                .Include(x => x.FkshippingAddressNavigation)
+                .Where(data => data.FkuserId == userId && data.Id >= id)
+                .OrderBy(data => data.Id)
                 .ToList();
+            }
+            else
+            {
+                 orders = _dbContext.Orders
+                .Include(x => x.FkshippingAddressNavigation)
+                .Where(data => data.FkuserId == userId && data.Id >= id && data.Id == orderId)
+                .OrderBy(data => data.Id)
+                .ToList();
+            }
+            
             return orders;
         }
         public async Task<Order> GetOrderDetails(int id)
