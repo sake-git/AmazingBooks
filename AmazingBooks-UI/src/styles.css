@@ -69,6 +69,23 @@ form div {
   font-size: small;
 }
 
+#messageBox {
+  position: fixed;        /* Stick to the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;           /* Small height */
+  line-height: 30px;      /* Vertically center text */
+  background-color: #4c4374ec;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+  z-index: 1000;          /* Stay on top of other elements */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
 /*
 .card {
   width: 300px;
