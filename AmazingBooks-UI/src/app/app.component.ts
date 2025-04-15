@@ -5,6 +5,7 @@ import { CartApiService } from './services/cart-api.service';
 import { Book } from './model/book';
 import { UserApiService } from './services/user-api.service';
 import { FormsModule } from '@angular/forms';
+import { User } from './model/user';
 
 @Component({
   selector: 'app-root',
@@ -28,15 +29,18 @@ export class AppComponent {
   errorMessage = '';
   originalCity = '';
   originalState = '';
+  user: User | undefined;
+
   constructor(
     private cartApi: CartApiService,
     private userApi: UserApiService
   ) {
-    if (localStorage.getItem('user')) {
+    this.user = this.userApi.GetUserIdFromLocal();
+    if (this.user) {
       this.isLoggedIn = true;
     }
 
-    if (localStorage.getItem('user')) {
+    /*if (localStorage.getItem('user')) {
       this.isLoggedIn = true;
     }
     /*  let dataStringToParse = localStorage.getItem('myCart');
@@ -79,6 +83,7 @@ export class AppComponent {
     if (componentRef.loginEvent) {
       componentRef.loginEvent.subscribe((data: boolean) => {
         this.isLoggedIn = data;
+        this.user = this.userApi.GetUserIdFromLocal();
       });
     }
   }

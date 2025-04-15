@@ -25,4 +25,9 @@ export class BookApiService {
   public GetBook(id: number): Observable<Book> {
     return this.http.get<Book>(`${this.baseurl}/${id}`);
   }
+
+  public SaveBook(book: Book) {
+    console.log('Book api to add book called', book);
+    return this.http.post(`${this.baseurl}`, book);
+  }
 }

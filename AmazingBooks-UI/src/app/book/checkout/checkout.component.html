@@ -51,10 +51,14 @@
     </p>
     <p>
       <button (click)="PlaceOrder(0)" [disabled]="message">Pay Now</button>
-    </p>
-    <p>
+
       <button (click)="PlaceOrder(1)" [disabled]="message">Pay Later</button>
     </p>
-    <p *ngIf="message">{{ message }}</p>
+    <p *ngIf="message" class="success">{{ message }}</p>
   </div>
 </div>
+<div class="hidden-div-message" *ngIf="message || errorMessage">
+  <p>{{ errorMessage }} {{ message }}</p>
+  <button (click)="Clear()">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="message || errorMessage"></div>

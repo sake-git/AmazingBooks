@@ -2,11 +2,6 @@ img {
   width: 25vw;
 }
 
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .details {
   width: 45vw;
 }

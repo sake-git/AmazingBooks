@@ -1,31 +1,11 @@
-table,
-th,
-tr,
-td {
-  border: 2px solid black;
-  border-collapse: collapse;
-}
-
-.table-container {
-  align-items: center;
-}
-
-th {
-  background-color: rgb(117, 117, 187);
-}
-
 tr:hover {
   background-color: rgb(130, 130, 154);
 }
-table {
-  margin: auto;
-}
+
 td {
   width: 200px;
 }
 
 .flex-container {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: space-around;
 }

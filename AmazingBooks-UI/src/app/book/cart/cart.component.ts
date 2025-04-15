@@ -28,6 +28,8 @@ export class CartComponent implements OnInit, OnDestroy {
   user: User | undefined;
   cartItems: Cart[] = [];
   errorMessage = '';
+  addrErrorMessage = '';
+  addrMessage = '';
   message = '';
   addressList: Address[] = [];
   address: Address | undefined;
@@ -168,8 +170,8 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   ValidateAddress() {
-    this.errorMessage = '';
-    this.message = '';
+    this.addrErrorMessage = '';
+    this.addrMessage = '';
 
     this.address = this.addressForm.value;
     this.address!.fkuserId = this.user?.id;
@@ -179,23 +181,23 @@ export class CartComponent implements OnInit, OnDestroy {
         console.log('Data', data);
         if (data == true) {
           this.newAddress = undefined;
-          this.message = 'Address is valid';
+          this.addrMessage = 'Address is valid';
           this.SaveAddress();
         } else if (data) {
           this.newAddress = data;
           this.newAddress!.fkuserId = this.user?.id;
           this.newAddress!.name = this.address?.name!;
           console.log(data);
-          this.message = 'Corrected address';
+          this.addrMessage = 'Corrected address';
         }
       },
       error: (error) => {
         console.log('error', error);
         if (error instanceof HttpErrorResponse) {
           console.log('error part', error.error);
-          this.errorMessage = error.error;
+          this.addrErrorMessage = error.error;
         } else {
-          this.errorMessage = error.Message;
+          this.addrErrorMessage = error.Message;
         }
       },
     });
@@ -237,5 +239,9 @@ export class CartComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // localStorage.setItem('myCart', JSON.stringify(this.books));
+  }
+  Clear() {
+    this.errorMessage = '';
+    this.message = '';
   }
 }

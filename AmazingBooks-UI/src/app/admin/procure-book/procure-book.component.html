@@ -1,0 +1,48 @@
+<div>
+  <!--span class="success">{{ message }}</!--span
+  ><span-- class="errors">{{ errorMessage }}</span-->
+
+  <h3>
+    Procurement Requests
+    <select (change)="GetRequest()" [(ngModel)]="status">
+      <option *ngFor="let state of statusList" [value]="state">
+        {{ state }}
+      </option>
+    </select>
+  </h3>
+  <table *ngIf="requestList.length">
+    <thead>
+      <th>Sr #</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Status</th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let req of requestList; let i = index; of: requestList">
+        <td>{{ i + 1 }}</td>
+        <td>{{ req.title }}</td>
+        <td>{{ req.author }}</td>
+        <td>{{ req.status }}</td>
+        <td>
+          <button
+            [disabled]="req.status != 'Created'"
+            (click)="ProcureBook(req)"
+          >
+            Procure</button
+          ><button
+            [disabled]="req.status == 'Cancelled' || req.status == 'Procured'"
+            (click)="CancelRequest(req)"
+          >
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="hidden-div-message" *ngIf="message || errorMessage">
+  <p>{{ errorMessage }} {{ message }}</p>
+  <button (click)="Clear()">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="message || errorMessage"></div>

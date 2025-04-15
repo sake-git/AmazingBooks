@@ -80,4 +80,9 @@ export class OrderComponent implements OnInit {
     this.id = this.orderList[this.orderList.length - 1].id!;
     this.GetOrderHistory();
   }
+
+  Clear() {
+    this.errorMessage = '';
+    this.message = '';
+  }
 }

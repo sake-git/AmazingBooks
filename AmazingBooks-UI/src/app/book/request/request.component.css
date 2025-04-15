@@ -1,0 +1,17 @@
+td {
+  width: 150px;
+}
+.main-container {
+  position: relative;
+  width: 90vw;
+  height: 90vh;
+  text-align: center;
+  justify-content: center;
+}
+
+.flex-container {
+  text-align: left;
+}
+.card {
+  width: 500px;
+}

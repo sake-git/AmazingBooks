@@ -26,4 +26,6 @@ public partial class User
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

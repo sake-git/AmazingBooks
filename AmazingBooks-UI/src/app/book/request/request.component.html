@@ -1,0 +1,57 @@
+<div class="main-container">
+  <div class="request-container" *ngIf="!isRequestDisplay">
+    <h3>Request a Book</h3>
+    <p>
+      <label>Title:</label>
+      <input type="text" [(ngModel)]="title" />
+
+      <label>Author:</label>
+      <input type="text" [(ngModel)]="author" />
+
+      <button (click)="SearchBook()" [disabled]="!title && !author">
+        Search</button
+      ><button (click)="DisplayRequestHistory()" class="display-right">
+        Display Request History
+      </button>
+    </p>
+    <span class="success">{{ message }}</span
+    ><span class="errors">{{ errorMessage }}</span>
+    <div *ngFor="let book of bookList" class="flex-container card">
+      <div>
+        <img [src]="book.imageLinks" />
+      </div>
+      <div>
+        <h4>{{ book.title }}</h4>
+        <p>{{ book.authors }}</p>
+        <p>Language - {{ book.language | languageCode }}</p>
+        <button (click)="AddRequest(book)">Request</button>
+      </div>
+    </div>
+  </div>
+  <div class="table-container" *ngIf="isRequestDisplay">
+    <h4>Request History</h4>
+    <button
+      (click)="isRequestDisplay = !isRequestDisplay"
+      class="display-right"
+    >
+      Back
+    </button>
+
+    <table *ngIf="requestList.length">
+      <thead>
+        <th>Request #</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Status</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let req of requestList">
+          <td>{{ req.id }}</td>
+          <td style="width: 400px">{{ req.title }}</td>
+          <td>{{ req.author }}</td>
+          <td>{{ req.status }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,8 +1,8 @@
 <div class="main-div">
-  <p>
+  <!--p>
     <span class="success" *ngIf="message">{{ message }}</span
     ><span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
-  </p>
+  </!p-->
   <div *ngIf="cartItems.length != 0" class="flex-container">
     <div class="cart-container">
       <div *ngFor="let item of cartItems" class="flex-container">
@@ -44,11 +44,11 @@
         <p>
           <input type="radio" [value]="addr.id" [(ngModel)]="selectedAddress" />
           <label for="selectedAddress">Select Address</label>
-          <span (click)="DeleteAddress(addr)"> Delete</span>
+          <span (click)="DeleteAddress(addr)" class="link"> Delete</span>
         </p>
       </div>
       <p><button (click)="AddAddress()">Add Address</button></p>
-      <p>{{ message }}</p>
+      <p class="success">{{ message }}</p>
 
       <div class="form-container-center hidden-div" *ngIf="isAddAddress">
         <form [formGroup]="addressForm">
@@ -112,8 +112,10 @@
             >
               Country is required
             </p>
-            <p *ngIf="errorMessage" class="errors">{{ errorMessage }}</p>
-            <p *ngIf="message" class="success">{{ message }}</p>
+            <p *ngIf="addrErrorMessage" class="errors">
+              {{ addrErrorMessage }}
+            </p>
+            <p *ngIf="addrMessage" class="success">{{ addrMessage }}</p>
             <div *ngIf="newAddress" style="display: block">
               <h4>Confim the corrected address to save</h4>
               <p>
@@ -154,3 +156,8 @@
   </div>
   <div class="overlay-div" *ngIf="isAddAddress"></div>
 </div>
+<div class="hidden-div-message" *ngIf="message || errorMessage">
+  <p>{{ errorMessage }} {{ message }}</p>
+  <button (click)="Clear()">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="message || errorMessage"></div>

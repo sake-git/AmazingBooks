@@ -1,4 +1,4 @@
-<div>
+<div class="search-container">
   <div class="flex-container spacearound">
     <div>
       <label> Book Name:</label>
@@ -26,3 +26,8 @@
     <p>{{ book.price | currency : "USD" }}</p>
   </div>
 </div>
+<div class="hidden-div-message" *ngIf="errorMessage">
+  <p>{{ errorMessage }}</p>
+  <button (click)="errorMessage = ''">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="errorMessage"></div>

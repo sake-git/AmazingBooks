@@ -1,15 +1,10 @@
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .spacearound {
   justify-content: space-between;
 }
 
 .card {
   width: 220px;
-  height: 350px;
+  height: 310px;
 
   text-align: center;
   background-color: rgb(120, 157, 200);
@@ -17,9 +12,26 @@
 
 .card img {
   width: 180px;
-  height: 210px;
+  height: 190px;
 }
 
 .card:hover {
   background-color: rgb(97, 138, 185);
+}
+
+.search-container,
+.search-container div {
+  margin: 0px;
+}
+
+.card h4,
+.card p {
+  overflow: hidden;
+  height: 2em;
+}
+
+.card h4,
+.card p {
+  overflow: hidden;
+  height: 1em;
 }

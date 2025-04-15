@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { Address } from '../../model/address';
 import { AddressApiService } from '../../services/address.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../model/user';
 import { UserApiService } from '../../services/user-api.service';
 import { CartApiService } from '../../services/cart-api.service';
@@ -31,7 +30,6 @@ export class CheckoutComponent implements OnInit {
   sum = 0;
   errorMessage = '';
   message = '';
-  success = '';
   user: User | undefined;
   taxRate: number = 0.0;
   order: Order | undefined;
@@ -92,7 +90,6 @@ export class CheckoutComponent implements OnInit {
   }
 
   PlaceOrder(action: number) {
-    this.errorMessage = '';
     let lineItemtotal = 0;
     let orderLine: OrderLine[] = [];
     this.cartItems.forEach((item) => {
@@ -138,12 +135,15 @@ export class CheckoutComponent implements OnInit {
       next: (data: any) => {
         console.log('Data after order placement', data);
         this.order = data;
-
+        this.cartApi.AddCountToCart(-99);
         if (this.order != null && action == 0) {
           this.message = 'Awaiting Payment';
           this.MakePayment();
         } else {
           this.message = 'Order Placed';
+          setTimeout(() => '', 2000);
+
+          this.router.navigateByUrl('order-details/' + this.order?.id);
         }
       },
       error: (error: any) => {
@@ -161,5 +161,10 @@ export class CheckoutComponent implements OnInit {
       },
       error: (error) => console.log('Error: ', error),
     });
+  }
+
+  Clear() {
+    this.message = '';
+    this.errorMessage = '';
   }
 }
