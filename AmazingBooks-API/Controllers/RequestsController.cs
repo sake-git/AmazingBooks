@@ -9,8 +9,9 @@ using AmazingBooks_API.Entities;
 using AutoMapper;
 using NuGet.Protocol.Core.Types;
 using AmazingBooks_API.Configuration.DTOs;
+using AmazingBooks_API.Configuration.Repository;
 
-namespace AmazingBooks_API.Configuration.Repository
+namespace AmazingBooks_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -30,17 +31,17 @@ namespace AmazingBooks_API.Configuration.Repository
         public async Task<ActionResult<IEnumerable<RequestDto>>> GetRequests(string status)
         {
             List<Request> requests = null;
-            if(status == "All")
+            if (status == "All")
             {
                 requests = _repository.GetRecords().Result.ToList();
             }
             else
             {
-                requests =  _repository.GetRecordsByFilter(data => data.Status == status).Result.ToList();
+                requests = _repository.GetRecordsByFilter(data => data.Status == status).Result.ToList();
             }
 
             List<RequestDto> result = _mapper.Map<List<RequestDto>>(requests);
-           
+
             return Ok(result);
         }
 
@@ -60,7 +61,7 @@ namespace AmazingBooks_API.Configuration.Repository
         [HttpGet("{id}")]
         public async Task<ActionResult<RequestDto>> GetRequest(int id)
         {
-            Request request =  _repository.GetRecord(data => data.Id == id).Result;
+            Request request = _repository.GetRecord(data => data.Id == id).Result;
 
             if (request == null)
             {
@@ -75,7 +76,7 @@ namespace AmazingBooks_API.Configuration.Repository
         // PUT: api/Requests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
-        public async Task<IActionResult> PutRequest( RequestDto requestDto)
+        public async Task<IActionResult> PutRequest(RequestDto requestDto)
         {
             if (requestDto == null || requestDto.Id == 0)
             {
@@ -83,16 +84,17 @@ namespace AmazingBooks_API.Configuration.Repository
             }
 
             Request request = _repository.GetRecord(data => data.Id == requestDto.Id).Result;
-            
+
             if (request == null)
             {
                 return NotFound($"Request with id {requestDto.Id} not found");
             }
 
             request = _mapper.Map<Request>(requestDto);
-            
+
             request = await _repository.UpdateRecord(request);
-            if (request == null) {
+            if (request == null)
+            {
                 return Problem($"Error Updating Request table with id {requestDto.Id}");
             }
 
@@ -106,7 +108,7 @@ namespace AmazingBooks_API.Configuration.Repository
         {
             Request request = _mapper.Map<Request>(requestDto);
             request = await _repository.CreateRecord(request);
-           
+
 
             return CreatedAtAction("GetRequest", new { id = request.Id }, requestDto);
         }
@@ -122,9 +124,9 @@ namespace AmazingBooks_API.Configuration.Repository
                 return NotFound($"Request with id {id} not found");
             }
 
-             await _repository.DeleteRecord(request); 
+            await _repository.DeleteRecord(request);
             return NoContent();
         }
-       
+
     }
 }
