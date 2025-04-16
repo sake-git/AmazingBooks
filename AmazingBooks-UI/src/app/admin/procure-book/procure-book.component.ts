@@ -52,6 +52,7 @@ export class ProcureBookComponent implements OnInit {
           req.status = 'Failed';
           this.UpdateRequest(req);
         } else {
+          console.log('Vloume infor ', data.volumeInfo);
           this.book = {
             id: 0,
             name: data.volumeInfo.title.substring(0, 199),
@@ -63,7 +64,9 @@ export class ProcureBookComponent implements OnInit {
             imgUrl: data.volumeInfo?.imageLinks?.thumbnail ?? 'unknown',
             language: data.volumeInfo.language,
             description: data.volumeInfo.description.substring(0, 799),
-            isbn: data.volumeInfo.industryIdentifiers[0].identifier,
+            isbn: data.volumeInfo.industryIdentifiers
+              ? data.volumeInfo.industryIdentifiers[0].identifier
+              : '',
             pages: data.volumeInfo.pageCount,
             quantity: 0,
             genre:

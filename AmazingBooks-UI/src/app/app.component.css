@@ -21,7 +21,7 @@
 }
 
 .location:hover {
-  color: brown;
+  border: 1px solid white;
 }
 .navbar,
 nav {
@@ -40,4 +40,8 @@ nav {
   background-color: white;
   text-align: center;
   left: 40%;
+}
+
+.nav-link:hover {
+  border: 1px solid white;
 }
