@@ -1,76 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.overlay-div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.7;
+  background-color: black;
+  z-index: 25;
+  display: block;
+}
+
+.hidden-div-message {
+  background-color: white;
+  position: absolute;
+  top: 35vh;
+  left: 43vw;
+  z-index: 51;
+  padding: 10px;
+  margin: 0px;
+  width: 350px;
   text-align: center;
+  border-radius: 2px solid black;
 }
 
-/* You can add global styles to this file, and also import other style files */
-* {
-  font-family: "Times New Roman", Times, serif;
-  margin: 5px;
-  padding: 5px;
+.hidden-div {
+  background-color: white;
+  position: absolute;
+  z-index: 51;
 }
-
-body,
-header {
-  margin-top: 0px;
-}
-
-a {
-  text-decoration: none;
-}
-
-table {
-  margin: auto;
-  width: 80vw;
-}
-
-table,
-th,
-tr,
-td {
-  border: 2px solid black;
-  border-collapse: collapse;
-}
-th {
-  background-color: rgb(117, 117, 187);
-}
-
-label,
-input,
-button,
-textarea {
-  resize: none;
-}
-.table-container {
-  align-items: center;
+.btn {
+  margin: 10px;
 }
 
 form {
-  width: 400px;
-  display: inline-block;
-  padding: 10px;
-  background-color: white;
   margin: auto;
+  top: 2em;
 }
-
-form div {
-  display: flex;
-  justify-content: space-between;
-}
-
-.form-container-center {
-  height: 70vh;
-  width: 100vw;
-  text-align: center;
-  display: flex;
-}
-
 .errors {
   font-size: small;
   color: red;
@@ -87,101 +54,6 @@ form div {
   color: red;
   font-size: small;
 }
-
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.overlay-div {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  opacity: 0.7;
-  background-color: black;
-  z-index: 50;
-  display: block;
-}
-
-.hidden-div-message {
-  background-color: rgb(169, 196, 207);
-  position: absolute;
-  top: 35vh;
-  left: 43vw;
-  z-index: 51;
-  padding: 10px;
-  margin: 0px;
-  width: 350px;
-  text-align: center;
-  border-radius: 2px solid black;
-}
-.hidden-div-message p {
-  font-size: medium;
-}
-
-.hidden-div-message button {
-  width: 50px;
-}
-
-.hidden-div {
-  position: absolute;
-  z-index: 51;
-}
-
-.display-right {
-  position: absolute;
-  right: 0px;
-}
-
-.display-left {
-  position: absolute;
-  left: 0px;
-}
-
-/*
-.card {
-  width: 300px;
-  height: 400px;
-  margin: 10px;
-  padding: 5px;
-  justify-items: center;
-  background-color: rgb(146, 213, 222);
-  border: 2px solid rgb(75, 73, 73);
-  box-shadow: 0px 5px 5px rgb(51, 142, 163);
-}
-.card img {
-  width: 300px;
-  height: 250px;
-}
-
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px;
-  border-top: 2px solid black;
-}
-
-.card:hover {
-  background-color: rgb(119, 160, 170);
-  border: 2px solid rgb(22, 21, 21);
-}
-  
-
-
-
-body {
-  background-image: url("https://www.lehighcenter.com/wp-content/uploads/2018/05/social-media-axiety.jpg");
-  background-size: cover;
-  height: 100vh;
-  width: 100vw;
-}*/
-
-body {
-  /*background-image: url("https://img.freepik.com/free-vector/watercolor-world-book-day-background_23-2149333386.jpg?semt=ais_country_boost&w=740");
-  /* background-image: url("https://png.pngtree.com/background/20210717/original/pngtree-green-clean-texture-book-cartoon-background-picture-image_1429522.jpg");
-  background-image: url("https://i.pinimg.com/736x/b7/a8/23/b7a82325d50a8f232c3aba3cc599eb9b.jpg");
-  background-size: cover;*/
-  background-color: lightblue;
+thead tr th {
+  background-color: rgb(145, 186, 145);
 }

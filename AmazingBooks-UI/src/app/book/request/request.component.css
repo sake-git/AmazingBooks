@@ -1,17 +1,8 @@
-td {
-  width: 150px;
+.form-control {
+  width: 15em;
+  height: 2em;
+  margin: 5px;
 }
-.main-container {
-  position: relative;
-  width: 90vw;
-  height: 90vh;
-  text-align: center;
-  justify-content: center;
-}
-
-.flex-container {
-  text-align: left;
-}
-.card {
-  width: 500px;
+thead tr th {
+  background-color: rgb(145, 186, 145);
 }

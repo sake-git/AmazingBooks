@@ -1,56 +1,70 @@
-<div>
-  <h3>Order History</h3>
-  <div class="flex-container">
-    <div>
-      <label> Order Id:</label>
+<div class="m-3">
+  <h4 class="text-center">Order History</h4>
+  <div class="d-flex justify-content-around">
+    <div class="d-flex">
+      <label class="form-label m-2"> Order Id:</label>
       <input
         type="text"
         [(ngModel)]="orderId"
         pattern="^[0-9\s]*$"
         #filter="ngModel"
         value=""
+        class="form-control m-2"
       />
       <button
         (click)="SearchOrder()"
+        class="btn btn-outline-dark btn-sm"
         [disabled]="filter.touched && filter.errors?.['pattern']"
       >
         Search</button
-      ><button (click)="ClearFilter()">Clear</button>
+      ><button (click)="ClearFilter()" class="btn btn-outline-dark btn-sm">
+        Clear
+      </button>
       <span *ngIf="filter.errors" class="errors"
         >Enter a valid Order number</span
       >
     </div>
-    <div>
-      <button (click)="GetPrev()" [disabled]="pages.length == 0">Prev</button
-      ><button (click)="GetNext()" [disabled]="orderList.length < 20">
+    <div class="d-flex">
+      <button
+        (click)="GetPrev()"
+        [disabled]="pages.length == 0"
+        class="btn btn-outline-dark btn-sm"
+      >
+        Prev</button
+      ><button
+        (click)="GetNext()"
+        [disabled]="orderList.length < 20"
+        class="btn btn-outline-dark btn-sm"
+      >
         Next
       </button>
     </div>
   </div>
-  <div class="table-container">
-    <table>
+  <div class="m-3">
+    <table class="table w-75 m-auto">
       <thead>
         <tr>
-          <th>Order #</th>
-          <th>Order Date</th>
-          <th>Status</th>
-          <th>Total Amount</th>
-          <th>Payment Status</th>
-          <th>Shipped To</th>
+          <th scope="col">Order #</th>
+          <th scope="col">Order Date</th>
+          <th scope="col">Status</th>
+          <th scope="col">Total Amount</th>
+          <th scope="col">Payment Status</th>
+          <th scope="col">Shipped To</th>
         </tr>
+      </thead>
+      <tbody class="table-group-divider">
         <tr
           *ngFor="let order of orderList"
           [routerLink]="'order-details/' + order.id"
         >
-          <td>{{ order.id }}</td>
+          <td scope="row">{{ order.id }}</td>
           <td>{{ order.orderDate | date : "mediumDate" }}</td>
           <td>{{ order.status }}</td>
           <td>{{ order.total }}</td>
           <td>{{ order.paymentStatus }}</td>
           <td>{{ order.fkshippingAddressNavigation?.name }}</td>
         </tr>
-      </thead>
-      <tbody></tbody>
+      </tbody>
     </table>
   </div>
 </div>

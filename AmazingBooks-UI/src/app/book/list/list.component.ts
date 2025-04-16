@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 export class ListComponent implements OnInit {
   books: Book[] = [];
   errorMessage: string = '';
-  name = ' ';
+  name = '';
   author = ' ';
   id = 0;
   pages: number[] = [];

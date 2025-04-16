@@ -1,67 +1,83 @@
-<div class="form-container-center">
-  <form #signupForm="ngForm" (ngSubmit)="CreateUser()">
+<div>
+  <form
+    #signupForm="ngForm"
+    (ngSubmit)="CreateUser()"
+    class="w-50 p-3 card p-3 .bg-primary-subtle text-dark-emphasis"
+  >
     <Fieldset>
       <legend>Sign up Form</legend>
       <div>
-        <label><span class="required">*</span>Name</label>
+        <label class="form-label"><span class="required">*</span>Name</label>
         <input
           type="text"
           [(ngModel)]="user.name"
           #username="ngModel"
           name="username"
+          class="form-control"
           required
         />
       </div>
       <div>
-        <label><span class="required">*</span>Email</label>
+        <label class="form-label"><span class="required">*</span>Email</label>
         <input
           type="email"
           [(ngModel)]="user.email"
           #email="ngModel"
           name="email"
           required
+          class="form-control"
           email
         />
       </div>
       <div>
-        <label><span class="required">*</span> Phone</label>
+        <label class="form-label"><span class="required">*</span> Phone</label>
         <input
           type="text"
           [(ngModel)]="user.phone"
           name="phone"
           #phone="ngModel"
+          class="form-control"
           pattern="[0-9]{10}"
           required
         />
       </div>
       <div>
-        <label><span class="required">*</span>Login Id</label>
+        <label class="form-label"
+          ><span class="required">*</span>Login Id</label
+        >
         <input
           type="text"
           [(ngModel)]="user.loginId"
           #loginId="ngModel"
           name="loginId"
+          class="form-control"
           required
           minlength="8"
         />
       </div>
       <div>
-        <label><span class="required">*</span>Password</label>
+        <label class="form-label"
+          ><span class="required">*</span>Password</label
+        >
         <input
           type="password"
           [(ngModel)]="user.password"
           #password="ngModel"
           name="password"
+          class="form-control"
           required
           minlength="10"
         />
       </div>
       <div>
-        <label><span class="required">*</span>Confirm Password</label>
+        <label class="form-label"
+          ><span class="required">*</span>Confirm Password</label
+        >
         <input
           type="password"
           name="confirmPassword"
           #confirmPassword="ngModel"
+          class="form-control"
           ngModel
           required
         />
@@ -159,11 +175,11 @@
       <p *ngIf="errorMessage" class="errors">
         {{ errorMessage }}
       </p>
-      <input type="submit" [disabled]="!signupForm.valid" /><button
-        (click)="Cancel()"
-      >
-        Cancel
-      </button>
+      <input
+        type="submit"
+        [disabled]="!signupForm.valid"
+        class="btn btn-outline-dark"
+      /><button (click)="Cancel()" class="btn btn-outline-dark">Cancel</button>
       <p>Already have an account? <a routerLink="/login">Log in </a></p>
     </Fieldset>
   </form>

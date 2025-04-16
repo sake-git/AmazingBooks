@@ -1,37 +1,24 @@
-.spacearound {
-  justify-content: space-between;
+.form-control {
+  width: 15em;
+  height: 2em;
+  margin: 5px;
 }
 
 .card {
-  width: 220px;
-  height: 310px;
-
-  text-align: center;
-  background-color: rgb(120, 157, 200);
-}
-
-.card img {
-  width: 180px;
-  height: 190px;
+  width: 210px;
+  height: 320px;
 }
 
 .card:hover {
-  background-color: rgb(97, 138, 185);
+  background-color: rgb(121, 169, 121);
 }
 
-.search-container,
-.search-container div {
-  margin: 0px;
+.card-img-top {
+  width: 190px;
+  height: 200px;
 }
-
 .card h4,
 .card p {
   overflow: hidden;
   height: 2em;
-}
-
-.card h4,
-.card p {
-  overflow: hidden;
-  height: 1em;
 }

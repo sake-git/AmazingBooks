@@ -1,38 +1,45 @@
-<div>
+<div class="m-3">
   <!--span class="success">{{ message }}</!--span
   ><span-- class="errors">{{ errorMessage }}</span-->
 
-  <h3>
+  <h4 class="text-center mb-4">
     Procurement Requests
-    <select (change)="GetRequest()" [(ngModel)]="status">
+    <select (change)="GetRequest()" [(ngModel)]="status" class="fs-6">
       <option *ngFor="let state of statusList" [value]="state">
         {{ state }}
       </option>
     </select>
-  </h3>
-  <table *ngIf="requestList.length">
+  </h4>
+  <table *ngIf="requestList.length" class="table m-auto">
     <thead>
-      <th>Sr #</th>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Status</th>
-      <th></th>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+      </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let req of requestList; let i = index; of: requestList">
-        <td>{{ i + 1 }}</td>
-        <td>{{ req.title }}</td>
-        <td>{{ req.author }}</td>
-        <td>{{ req.status }}</td>
-        <td>
+    <tbody class="table-group-divider">
+      <tr
+        *ngFor="let req of requestList; let i = index; of: requestList"
+        class="container"
+      >
+        <th scope="row" class="col-1">{{ i + 1 }}</th>
+        <td class="col-3">{{ req.title }}</td>
+        <td class="col-2">{{ req.author }}</td>
+        <td class="col-1">{{ req.status }}</td>
+        <td class="col-1">
           <button
             [disabled]="req.status != 'Created'"
             (click)="ProcureBook(req)"
+            class="btn btn-outline-dark btn-sm"
           >
             Procure</button
           ><button
             [disabled]="req.status == 'Cancelled' || req.status == 'Procured'"
             (click)="CancelRequest(req)"
+            class="btn btn-outline-dark btn-sm"
           >
             Cancel
           </button>

@@ -1,32 +1,6 @@
-header {
-  border-bottom: 2px solid black;
-  margin: 0px;
-  position: relative;
-}
-
-a {
-  text-decoration: none;
-}
-
-a:hover {
-  background-color: rgb(117, 117, 176);
-  border-radius: 5px;
-  color: white;
-}
-
-.active {
-  background-color: rgb(117, 148, 176);
-  border-radius: 5px;
-  color: white;
-}
-
-nav {
-  margin: 0px;
-}
-
 .location {
   position: absolute;
-  top: -30px;
+  top: 10px;
   right: 20px;
   display: flex;
   margin: 0px;
@@ -48,7 +22,11 @@ nav {
 
 .location:hover {
   color: brown;
-  /* border: 2px solid rgb(53, 51, 51);*/
+}
+.navbar,
+nav {
+  margin: 0px;
+  padding: 0px;
 }
 
 .hidden-div {
@@ -62,8 +40,4 @@ nav {
   background-color: white;
   text-align: center;
   left: 40%;
-}
-
-.display-top {
-  top: 30px;
 }

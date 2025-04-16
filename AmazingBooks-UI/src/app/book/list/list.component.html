@@ -1,29 +1,44 @@
-<div class="search-container">
-  <div class="flex-container spacearound">
-    <div>
-      <label> Book Name:</label>
-      <input type="text" [(ngModel)]="name" />
-      <label> Author:</label>
-      <input type="text" [(ngModel)]="author" />
-      <button (click)="SearchList()">Search</button>
-      <button (click)="Clear()">Clear</button>
+<div class="container">
+  <div class="d-flex justify-content-between mt-2">
+    <div class="d-flex">
+      <label class="p-2"> Book Name:</label>
+      <input type="text" [(ngModel)]="name" class="form-control m-2" />
+      <label class="p-2"> Author:</label>
+      <input type="text" [(ngModel)]="author" class="form-control m-2" />
+      <button (click)="SearchList()" class="btn btn-outline-dark btn-sm">
+        Search
+      </button>
+      <button (click)="Clear()" class="btn btn-outline-dark btn-sm">
+        Clear
+      </button>
     </div>
-    <div>
-      <button (click)="GetPrev()" [disabled]="pages.length == 0">Prev</button
-      ><button (click)="GetNext()" [disabled]="books.length < 18">Next</button>
+    <div class="d-flex">
+      <button
+        (click)="GetPrev()"
+        [disabled]="pages.length == 0"
+        class="btn btn-outline-dark btn-sm"
+      >
+        Prev</button
+      ><button
+        (click)="GetNext()"
+        [disabled]="books.length < 18"
+        class="btn btn-outline-dark btn-sm"
+      >
+        Next
+      </button>
     </div>
   </div>
 </div>
-<div class="flex-container">
+<div class="d-flex flex-wrap">
   <div
     *ngFor="let book of books"
-    class="card"
+    class="card p-2 m-3"
     [routerLink]="'display-book/' + book.id"
   >
-    <h4>{{ book.name }}</h4>
-    <img [src]="book.imgUrl" [alt]="book.name" />
-    <p>{{ book.author }}</p>
-    <p>{{ book.price | currency : "USD" }}</p>
+    <img [src]="book.imgUrl" [alt]="book.name" class="card-img-top" />
+    <h6>{{ book.name }}</h6>
+    <p class="card-text">{{ book.author }}</p>
+    <p class="card-text">{{ book.price | currency : "USD" }}</p>
   </div>
 </div>
 <div class="hidden-div-message" *ngIf="errorMessage">

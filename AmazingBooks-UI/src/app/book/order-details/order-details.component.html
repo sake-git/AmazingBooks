@@ -1,83 +1,96 @@
-<h3>Order Details</h3>
-<div class="flex-container">
-  <div>
-    <div>
-      <img
-        src="https://thumb.ac-illust.com/7b/7be7773d51afb137dd9c05f0caa259fc_t.jpeg"
-      />
+<div class="m-3">
+  <h4 class="text-center">Order Details</h4>
+  <div class="container text-center m-0">
+    <div class="row row-cols-3 flex-nowrap m-0">
+      <div class="col-6">
+        <div class="text-center m-1">
+          <img
+            src="https://thumb.ac-illust.com/7b/7be7773d51afb137dd9c05f0caa259fc_t.jpeg"
+          />
+        </div>
+        <table class="table w-75 m-auto">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Book Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+              <th scope="col">Sub Total</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            <tr *ngFor="let item of order?.orderLines; let i = index">
+              <th scope="row">{{ i + 1 }}</th>
+              <td style="width: 200px">{{ item.fkbook?.name }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.fkbook?.price }}</td>
+              <td>
+                {{ item.quantity * item.fkbook?.price! | currency : "USD" }}
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" class="text-end">Sub Total</td>
+              <td>{{ order?.subTotal | currency : "USD" }}</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="text-end">Shipping & Handling</td>
+              <td>{{ order?.shipping | currency : "USD" }}</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="text-end">Taxes</td>
+              <td>{{ order?.tax | currency : "USD" }}</td>
+            </tr>
+            <tr>
+              <td colspan="4" class="text-end">Total</td>
+              <td>{{ order?.total | currency : "USD" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-center m-2 p-2 col-3">
+        <h5>
+          <img
+            src="https://psspeech.com/wp-content/uploads/2020/07/215-2154839_transparent-payment-icon-png.png"
+          />
+        </h5>
+        <div class="border border-dark rounded m-2 p-2">
+          <p>Payment Method: {{ order?.paymentMethod }}</p>
+          <p>Payment Status: {{ order?.paymentStatus }}</p>
+          <p>Order Status: {{ order?.status }}</p>
+          <p>{{ order?.cancellationDate | date : "mediumDate" }}</p>
+          <button
+            [disabled]="order?.status != 'Placed'"
+            (click)="SaveOrderStatus()"
+            class="btn btn-outline-dark btn-sm"
+          >
+            Cancel Order
+          </button>
+          <p *ngIf="message" class="success">{{ message }}</p>
+        </div>
+      </div>
+      <div class="text-center m-2 p-2 col-3">
+        <h5>
+          <img
+            src="https://thumbs.dreamstime.com/b/beautiful-meticulously-designed-shipping-delivered-icon-shipping-delivered-icon-358761243.jpg"
+          />
+        </h5>
+
+        <div class="border border-dark rounded m-2 p-2">
+          <h6>{{ order?.fkshippingAddressNavigation?.name }}</h6>
+          <p>
+            {{ order?.fkshippingAddressNavigation?.addressLine1 }}
+            <span *ngIf="order?.fkshippingAddressNavigation?.addressLine2">{{
+              order?.fkshippingAddressNavigation?.addressLine2
+            }}</span>
+          </p>
+          <p>
+            {{ order?.fkshippingAddressNavigation?.city }},
+            {{ order?.fkshippingAddressNavigation?.state }} ,
+            {{ order?.fkshippingAddressNavigation?.country }}:
+            {{ order?.fkshippingAddressNavigation?.zip }}
+          </p>
+        </div>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Sr. No.</th>
-          <th>Book Name</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Sub Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of order?.orderLines; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td style="width: 200px">{{ item.fkbook?.name }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.fkbook?.price }}</td>
-          <td>{{ item.quantity * item.fkbook?.price! | currency : "USD" }}</td>
-        </tr>
-        <tr>
-          <td colspan="4">Sub Total</td>
-          <td>{{ order?.subTotal | currency : "USD" }}</td>
-        </tr>
-        <tr>
-          <td colspan="4">Shipping & Handling</td>
-          <td>{{ order?.shipping | currency : "USD" }}</td>
-        </tr>
-        <tr>
-          <td colspan="4">Taxes</td>
-          <td>{{ order?.tax | currency : "USD" }}</td>
-        </tr>
-        <tr>
-          <td colspan="4">Total</td>
-          <td>{{ order?.total | currency : "USD" }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <div>
-    <p></p>
-    <h4>
-      <img
-        src="https://psspeech.com/wp-content/uploads/2020/07/215-2154839_transparent-payment-icon-png.png"
-      />
-    </h4>
-    <p>Payment Method: {{ order?.paymentMethod }}</p>
-    <p>Payment Status: {{ order?.paymentStatus }}</p>
-    <p>Order Status: {{ order?.status }}</p>
-    <p>{{ order?.cancellationDate | date : "mediumDate" }}</p>
-    <button [disabled]="order?.status != 'Placed'" (click)="SaveOrderStatus()">
-      Cancel Order
-    </button>
-    <p *ngIf="message" class="success">{{ message }}</p>
-  </div>
-  <div>
-    <p></p>
-    <h4>
-      <img
-        src="https://thumbs.dreamstime.com/b/beautiful-meticulously-designed-shipping-delivered-icon-shipping-delivered-icon-358761243.jpg"
-      />
-    </h4>
-    <h5>{{ order?.fkshippingAddressNavigation?.name }}</h5>
-    <p>
-      {{ order?.fkshippingAddressNavigation?.addressLine1 }}
-      <span *ngIf="order?.fkshippingAddressNavigation?.addressLine2">{{
-        order?.fkshippingAddressNavigation?.addressLine2
-      }}</span>
-    </p>
-    <p>
-      {{ order?.fkshippingAddressNavigation?.city }},
-      {{ order?.fkshippingAddressNavigation?.state }} ,
-      {{ order?.fkshippingAddressNavigation?.country }}:
-      {{ order?.fkshippingAddressNavigation?.zip }}
-    </p>
   </div>
 </div>

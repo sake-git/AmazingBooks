@@ -1,6 +1,12 @@
-<div class="flex-container">
-  <div><img [src]="book?.imgUrl" /></div>
-  <div class="details">
+<div class="d-flex flex-wrap justify-content-around">
+  <div class="w-25">
+    <img
+      [src]="book?.imgUrl"
+      class="w-100 m-3 p-3"
+      style="border: 2px solid black"
+    />
+  </div>
+  <div class="w-25 m-3 p-3">
     <h2>{{ book?.name }}</h2>
     <p class="booktype">
       {{ book?.hardcover ? "Hardcover" : "Paperback" }} -
@@ -16,12 +22,18 @@
     <p>📄 {{ book?.pages }} pages</p>
     <p *ngIf="book?.isbn">ISBN: {{ book?.isbn }}</p>
   </div>
-  <div class="action">
+  <div class="w-25 m-3 p-3">
     <p>
-      <button (click)="UpdateQuantity(0)">-</button>
+      <button (click)="UpdateQuantity(0)" class="btn btn-outline-dark btn-sm">
+        -
+      </button>
       {{ quantity }}
-      <button (click)="UpdateQuantity(1)">+</button>
-      <button (click)="addToCart()">Add to Cart</button>
+      <button (click)="UpdateQuantity(1)" class="btn btn-outline-dark btn-sm">
+        +
+      </button>
+      <button (click)="addToCart()" class="btn btn-outline-dark btn-sm">
+        Add to Cart
+      </button>
     </p>
     <!--p *ngIf="message" class="success">{{ message }}</!--p>
     <p-- *ngIf="errorMessage" class="error">{{ errorMessage }}</p-->

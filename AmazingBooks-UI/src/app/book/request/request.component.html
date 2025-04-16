@@ -1,53 +1,71 @@
-<div class="main-container">
-  <div class="request-container" *ngIf="!isRequestDisplay">
-    <h3>Request a Book</h3>
-    <p>
-      <label>Title:</label>
-      <input type="text" [(ngModel)]="title" />
+<div class="m-3">
+  <div *ngIf="!isRequestDisplay">
+    <h4 class="text-center">Request a Book</h4>
+    <div class="d-flex justify-content-around">
+      <p class="d-flex">
+        <label class="form-label m-2">Title:</label>
+        <input type="text" [(ngModel)]="title" class="form-control m-2" />
 
-      <label>Author:</label>
-      <input type="text" [(ngModel)]="author" />
+        <label class="form-label m-2">Author:</label>
+        <input type="text" [(ngModel)]="author" class="form-control m-2" />
 
-      <button (click)="SearchBook()" [disabled]="!title && !author">
-        Search</button
-      ><button (click)="DisplayRequestHistory()" class="display-right">
-        Display Request History
-      </button>
-    </p>
+        <button
+          (click)="SearchBook()"
+          [disabled]="!title && !author"
+          class="btn btn-outline-dark btn-sm"
+        >
+          Search
+        </button>
+      </p>
+      <p>
+        <button
+          (click)="DisplayRequestHistory()"
+          class="btn btn-outline-dark btn-sm"
+        >
+          Display Request History
+        </button>
+      </p>
+    </div>
     <span class="success">{{ message }}</span
     ><span class="errors">{{ errorMessage }}</span>
-    <div *ngFor="let book of bookList" class="flex-container card">
-      <div>
+    <div *ngFor="let book of bookList" class="d-flex m-auto w-75">
+      <div class="m-2 w-25">
         <img [src]="book.imageLinks" />
       </div>
-      <div>
-        <h4>{{ book.title }}</h4>
-        <p>{{ book.authors }}</p>
-        <p>Language - {{ book.language | languageCode }}</p>
-        <button (click)="AddRequest(book)">Request</button>
+      <div class="m-2 w-50">
+        <h5>{{ book.title }}</h5>
+        <p class="fs-6">{{ book.authors }}</p>
+        <p class="fs-6">Language - {{ book.language | languageCode }}</p>
+      </div>
+      <div class="w-25">
+        <button (click)="AddRequest(book)" class="btn btn-outline-dark btn-sm">
+          Request
+        </button>
       </div>
     </div>
   </div>
-  <div class="table-container" *ngIf="isRequestDisplay">
-    <h4>Request History</h4>
+  <div *ngIf="isRequestDisplay" class="m-3 text-end">
+    <h4 class="text-center">Request History</h4>
     <button
       (click)="isRequestDisplay = !isRequestDisplay"
-      class="display-right"
+      class="btn btn-outline-dark btn-sm"
     >
       Back
     </button>
 
-    <table *ngIf="requestList.length">
+    <table *ngIf="requestList.length" class="table table-bordered w-75 m-auto">
       <thead>
-        <th>Request #</th>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Status</th>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+          <th scope="col">Status</th>
+        </tr>
       </thead>
       <tbody>
         <tr *ngFor="let req of requestList">
-          <td>{{ req.id }}</td>
-          <td style="width: 400px">{{ req.title }}</td>
+          <th scope="row">{{ req.id }}</th>
+          <td>{{ req.title }}</td>
           <td>{{ req.author }}</td>
           <td>{{ req.status }}</td>
         </tr>

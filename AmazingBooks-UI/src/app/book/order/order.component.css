@@ -1,11 +1,12 @@
-tr:hover {
-  background-color: rgb(130, 130, 154);
+.form-control {
+  width: 15em;
+  height: 2em;
+  margin: 5px;
 }
 
-td {
-  width: 200px;
+tbody tr:hover td {
+  background-color: rgb(173, 182, 173);
 }
-
-.flex-container {
-  justify-content: space-around;
+thead tr th {
+  background-color: rgb(145, 186, 145);
 }

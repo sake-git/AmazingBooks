@@ -30,4 +30,11 @@ export class BookApiService {
     console.log('Book api to add book called', book);
     return this.http.post(`${this.baseurl}`, book);
   }
+
+  public UploadFile(file: FormData) {
+    return this.http.post(`${this.baseurl}/upload`, file, {
+      reportProgress: true,
+      observe: 'events',
+    });
+  }
 }
