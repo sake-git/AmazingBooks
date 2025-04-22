@@ -13,7 +13,7 @@ namespace AmazingBooks_API.Configuration.Repository
             
         public async Task<IEnumerable<Cart>>GetBooksFromCart(int userId)
         {
-            List<Cart> cartList =  _dbContext.Carts.Include(x => x.Fkbook).Where(x => x.FkuserId == userId).ToList();
+            List<Cart> cartList = await _dbContext.Carts.Include(x => x.Fkbook).Where(x => x.FkuserId == userId).ToListAsync();
             return cartList;
         }
                

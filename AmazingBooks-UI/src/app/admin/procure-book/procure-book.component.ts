@@ -50,12 +50,12 @@ export class ProcureBookComponent implements OnInit {
         if (data == null) {
           this.errorMessage = 'Book unavailabe';
           req.status = 'Failed';
-          this.UpdateRequest(req);
+          this.UpdateRequest(req, 0);
         } else {
           console.log('Vloume infor ', data.volumeInfo);
           this.book = {
             id: 0,
-            name: data.volumeInfo.title.substring(0, 199),
+            name: data.volumeInfo.title.substring(0, 200),
             author: data.volumeInfo.authors.join(',').substring(0, 100),
             price:
               data.saleInfo?.listPrice?.amount ||
@@ -63,23 +63,25 @@ export class ProcureBookComponent implements OnInit {
             publicationDate: new Date(data.volumeInfo.publishedDate),
             imgUrl: data.volumeInfo?.imageLinks?.thumbnail ?? 'unknown',
             language: data.volumeInfo.language,
-            description: data.volumeInfo.description.substring(0, 799),
+            description:
+              data.volumeInfo.description?.substring(0, 799) ?? 'unknown',
             isbn: data.volumeInfo.industryIdentifiers
               ? data.volumeInfo.industryIdentifiers[0].identifier
               : '',
             pages: data.volumeInfo.pageCount,
             quantity: 0,
             genre:
-              (data.volumeInfo.categories?.length != 0
-                ? data.volumeInfo.categories[0]
-                : 'Unknown') || 'Unknown',
+              data.volumeInfo.categories?.length > 0
+                ? data.volumeInfo.categories[0].substring(0, 50)
+                : 'Unknown',
             hardcover: false,
           };
           this.bookApi.SaveBook(this.book).subscribe({
-            next: (data) => {
+            next: (data: any) => {
+              console.log('Book Data', data);
               this.message = 'Book available now';
               req.status = 'Procured';
-              this.UpdateRequest(req);
+              this.UpdateRequest(req, data.id);
               this.errorMessage = '';
               this.message = 'Book Procured';
             },
@@ -95,15 +97,15 @@ export class ProcureBookComponent implements OnInit {
       error: (error) => {
         console.log(error);
         req.status = 'Failed';
-        this.UpdateRequest(req);
+        this.UpdateRequest(req, 0);
         this.message = '';
         this.errorMessage = 'Error Procuring Request';
       },
     });
   }
 
-  UpdateRequest(req: BookRequest) {
-    this.requestApi.UpdateRequest(req).subscribe({
+  UpdateRequest(req: BookRequest, id: number) {
+    this.requestApi.UpdateRequest(req, id).subscribe({
       next: (data) => {
         this.message = 'Request Updated';
       },
@@ -116,7 +118,7 @@ export class ProcureBookComponent implements OnInit {
 
   CancelRequest(req: BookRequest) {
     req.status = 'Cancelled';
-    this.UpdateRequest(req);
+    this.UpdateRequest(req, 0);
   }
 
   Clear() {

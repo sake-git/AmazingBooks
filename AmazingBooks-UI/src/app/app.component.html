@@ -10,6 +10,7 @@
       <p>Update location</p>
     </div>
   </div>
+  <span *ngIf="user" class="fixed-sm-left">Logged in as {{ user.name }}!</span>
   <nav class="navbar">
     <nav class="nav">
       <a
@@ -40,6 +41,7 @@
         >
       </span>
     </nav>
+
     <nav class="nav">
       <a
         routerLink="cart"

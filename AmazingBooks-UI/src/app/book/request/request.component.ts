@@ -106,4 +106,9 @@ export class RequestComponent implements OnInit {
       },
     });
   }
+
+  Clear() {
+    this.message = '';
+    this.errorMessage = '';
+  }
 }

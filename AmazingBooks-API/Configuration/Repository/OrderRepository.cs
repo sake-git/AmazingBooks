@@ -18,30 +18,32 @@ namespace AmazingBooks_API.Configuration.Repository
             List<Order> orders = null;
             if (orderId == 0)
             {
-                orders = _dbContext.Orders
+                orders = await _dbContext.Orders
                 .Include(x => x.FkshippingAddressNavigation)
                 .Where(data => data.FkuserId == userId && data.Id >= id)
+                .Take(15)
                 .OrderBy(data => data.Id)
-                .ToList();
+                .ToListAsync();
             }
             else
             {
-                 orders = _dbContext.Orders
+                 orders = await _dbContext.Orders
                 .Include(x => x.FkshippingAddressNavigation)
                 .Where(data => data.FkuserId == userId && data.Id >= id && data.Id == orderId)
+                .Take(15)
                 .OrderBy(data => data.Id)
-                .ToList();
+                .ToListAsync();
             }
             
             return orders;
         }
         public async Task<Order> GetOrderDetails(int id)
         {
-            Order order = _dbContext.Orders
+            Order order = await _dbContext.Orders
                 .Include(x => x.FkshippingAddressNavigation)
                 .Include(x => x.OrderLines).ThenInclude(x=> x.Fkbook)
                 .Where(x => x.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return order;
         }
 
@@ -57,12 +59,21 @@ namespace AmazingBooks_API.Configuration.Repository
             
             return order;
         }
-       /* public Task<Order> CreateOrderAndOrderLine(Order order)
-        {
 
+
+        public async Task<Order> GetDetails4Mail(int id)
+        {
+            Order order = await _dbContext.Orders
+                .Include(x => x.Fkuser)
+                .Include(x => x.FkshippingAddressNavigation)
+                .Include(x => x.OrderLines)
+                .ThenInclude(x => x.Fkbook)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
 
             return order;
-        }*/
+        }
+            
     }
 }
 

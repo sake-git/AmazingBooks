@@ -42,7 +42,9 @@
   </div>
 </div>
 <div class="hidden-div-message" *ngIf="errorMessage">
-  <p>{{ errorMessage }}</p>
-  <button (click)="errorMessage = ''">Ok</button>
+  <p class="alert alert-danger">{{ errorMessage }}</p>
+  <button (click)="errorMessage = ''" class="btn btn-outline-dark btn-sm">
+    Ok
+  </button>
 </div>
 <div class="overlay-div" *ngIf="errorMessage"></div>

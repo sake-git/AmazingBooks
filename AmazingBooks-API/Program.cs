@@ -2,6 +2,7 @@ using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
 using AmazingBooks_API.Configuration.Repository;
 using AmazingBooks_API.Configuration.AutoMapper;
+using AmazingBooks_API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,11 @@ builder.Services.AddDbContext<AmazingBookDbContext>(options =>
 });
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
+
+
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 
@@ -29,7 +34,6 @@ builder.Services.AddCors(options =>
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
         policy.AllowCredentials();
-
     });
 });
 

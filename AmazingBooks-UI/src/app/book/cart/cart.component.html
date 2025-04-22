@@ -203,7 +203,7 @@
             </p>
             <p *ngIf="addrMessage" class="success">{{ addrMessage }}</p>
             <div *ngIf="newAddress" style="display: block">
-              <h4>Confim the corrected address to save</h4>
+              <h6>Confim the corrected address to save</h6>
               <p>
                 {{ newAddress.addressLine1 }}
                 <span *ngIf="newAddress.addressLine2">{{
@@ -246,12 +246,15 @@
     </div>
   </div>
   <div *ngIf="cartItems.length == 0">
-    <h2>Cart Empty. Would you like to add some items?</h2>
+    <h5 class="text-center m-5">
+      Cart Empty. Would you like to add some items?
+    </h5>
   </div>
   <div class="overlay-div" *ngIf="isAddAddress"></div>
 </div>
 <div class="hidden-div-message" *ngIf="message || errorMessage">
-  <p>{{ errorMessage }} {{ message }}</p>
-  <button (click)="Clear()">Ok</button>
+  <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="alert alert-success" *ngIf="message">{{ message }}</p>
+  <button (click)="Clear()" class="btn btn-outline-dark btn-sm">Ok</button>
 </div>
 <div class="overlay-div" *ngIf="message || errorMessage"></div>

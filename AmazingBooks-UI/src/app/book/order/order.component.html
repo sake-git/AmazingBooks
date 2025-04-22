@@ -33,7 +33,7 @@
         Prev</button
       ><button
         (click)="GetNext()"
-        [disabled]="orderList.length < 20"
+        [disabled]="orderList.length < 15"
         class="btn btn-outline-dark btn-sm"
       >
         Next
@@ -69,7 +69,8 @@
   </div>
 </div>
 <div class="hidden-div-message" *ngIf="message || errorMessage">
-  <p>{{ errorMessage }} {{ message }}</p>
-  <button (click)="Clear()">Ok</button>
+  <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="alert alert-success" *ngIf="message">{{ message }}</p>
+  <button (click)="Clear()" class="btn btn-outline-dark btn-sm">Ok</button>
 </div>
 <div class="overlay-div" *ngIf="message || errorMessage"></div>

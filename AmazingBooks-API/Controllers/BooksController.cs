@@ -95,6 +95,7 @@ namespace AmazingBooks_API.Controllers
         {
             Book book = _mapper.Map<Book>(bookDto);
             book = _repository.CreateRecord(book).Result;
+            bookDto.Id = book.Id;
 
             return CreatedAtAction("GetBook", new { id = book.Id }, bookDto);
         }

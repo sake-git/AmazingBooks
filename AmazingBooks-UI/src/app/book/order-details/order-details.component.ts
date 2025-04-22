@@ -67,6 +67,7 @@ export class OrderDetailsComponent implements OnInit {
   SaveOrderStatus() {
     this.order!.status = 'Cancelled';
     this.order!.cancellationDate = new Date();
+    this.order!.paymentStatus = 'Cancelled';
     this.orderApi.UpdateOrderStatus(this.order!).subscribe({
       next: (data) => {
         this.message = 'Order cancelled';
@@ -76,5 +77,10 @@ export class OrderDetailsComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  Clear() {
+    this.errorMessage = '';
+    this.message = '';
   }
 }

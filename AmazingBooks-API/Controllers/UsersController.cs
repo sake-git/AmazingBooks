@@ -37,8 +37,10 @@ namespace AmazingBooks_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
+
             List<User> users = _repository.GetRecords().Result.ToList();
-            List<UserDto> usersDto = _mapper.Map<List<UserDto>>(users);
+            List<UserDto> usersDto = _mapper.Map<List<UserDto>>(users);            
+
             return Ok(usersDto);
         }
 
@@ -54,7 +56,7 @@ namespace AmazingBooks_API.Controllers
             return Ok(userDto);
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/Authenticate
         [HttpPost]
         [Route("Authenticate")]
         public async Task<ActionResult<UserDto>> GetUser([FromBody]UserDto userDto)

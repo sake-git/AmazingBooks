@@ -49,13 +49,11 @@ namespace AmazingBooks_API.Controllers
                         Currency = "USD",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = "Order # " + orderDto.Id.ToString(),
+                            Name = "AmazingBooks.com Order # " + orderDto.Id.ToString(),
                         },
                         UnitAmountDecimal = orderDto.Total * 100
                     },
                     Quantity = 1
-
-
                   }
 
                 },

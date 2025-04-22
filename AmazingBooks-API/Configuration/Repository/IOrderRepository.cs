@@ -6,9 +6,8 @@ namespace AmazingBooks_API.Configuration.Repository
     {
         public Task<Order> GetOrderDetails(int id);
         public Task<List<Order>> GetOrders(int userId,int orderId, int id);
-
         public Task<Order> SaveOrderDetails(Order order);
-        //public Task<Order> CreateOrderAndOrderLine(Order order);
+        public Task<Order> GetDetails4Mail(int id);
     }
 }
 

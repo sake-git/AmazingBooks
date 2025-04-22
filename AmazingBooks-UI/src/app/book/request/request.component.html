@@ -26,8 +26,8 @@
         </button>
       </p>
     </div>
-    <span class="success">{{ message }}</span
-    ><span class="errors">{{ errorMessage }}</span>
+    <!--span class="success">{{ message }}</!--span
+    ><span-- class="errors">{{ errorMessage }}</span-->
     <div *ngFor="let book of bookList" class="d-flex m-auto w-75">
       <div class="m-2 w-25">
         <img [src]="book.imageLinks" />
@@ -73,3 +73,9 @@
     </table>
   </div>
 </div>
+<div class="hidden-div-message" *ngIf="message || errorMessage">
+  <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="alert alert-success" *ngIf="message">{{ message }}</p>
+  <button (click)="Clear()" class="btn btn-outline-dark btn-sm">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="message || errorMessage"></div>

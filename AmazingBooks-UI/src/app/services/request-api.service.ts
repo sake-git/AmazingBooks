@@ -29,9 +29,9 @@ export class RequestApiService {
     return this.http.get<BookRequest[]>(`${this.baseUrl}/ByUser/${userid}`);
   }
 
-  public UpdateRequest(request: BookRequest) {
+  public UpdateRequest(request: BookRequest, id: number) {
     console.log('Calling google Api');
-    return this.http.put(`${this.baseUrl}`, request);
+    return this.http.put(`${this.baseUrl}/${id}`, request);
   }
 
   public ProcureBook(request: BookRequest) {

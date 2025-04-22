@@ -11,6 +11,7 @@ import { OrderDetailsComponent } from './book/order-details/order-details.compon
 import { authGuard } from './services/auth.guard';
 import { RequestComponent } from './book/request/request.component';
 import { ProcureBookComponent } from './admin/procure-book/procure-book.component';
+import { PageNotFoundComponent } from './user/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/list-books', pathMatch: 'full' },
@@ -45,4 +46,5 @@ export const routes: Routes = [
   },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];
