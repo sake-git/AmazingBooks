@@ -153,20 +153,20 @@ namespace AmazingBooks_API.Controllers
                 int count = 0;
                 string subject = $"Amazing Books Recipt: Order# {order.Id} recieved";
                 string body = $"Hello {order.Fkuser.Name},<p> Your order has been recieved and is now processed." +
-                    $" Your order Details are as mentioned below:</p> <br> <div> <h2> Order# {order.Id} ( {order.OrderDate.ToShortDateString()} )</h2>" +
-                    $"<table style='text-align:center;border:1px solid black;'><th>#<th><th>Title</th><th>Quantity</th><th>Price</th><th>Subtotal</th>";
+                    $" Your order Details are as mentioned below:</p> <br> <div> <h3> Order# {order.Id} ( {order.OrderDate.ToShortDateString()} )</h3>" +
+                    $"<table style='text-align:center;border:1px solid black;'><th>#</th><th>Title</th><th>Quantity</th><th>Price</th><th>Subtotal</th>";
 
                 foreach (var item in order.OrderLines)
                 {
-                    body += $"<tr><td>{++count}</td><td>{item.Fkbook.Name}</td><td>{item.Quantity}</td><td>{item.Fkbook.Price}" +
-                        $"</td><td>{Math.Round((decimal)(item.Quantity * item.Fkbook.Price), 2)}</td></tr>";
+                    body += $"<tr><td width='50px'>{++count}</td><td width='300px'>{item.Fkbook.Name}</td><td width='50px'>{item.Quantity}</td><td width='50px'>{item.Fkbook.Price}" +
+                        $"</td><td width='50px'>{Math.Round((decimal)(item.Quantity * item.Fkbook.Price), 2)}</td></tr>";
                 }
             body += $"<tr><td colspan='4'>Subtotal</td><td>{order.SubTotal}</td></tr>" +
                 $"<tr><td colspan = '4'>Shipping</td ><td >{order.Shipping}</td></tr>" +
-                $"<tr><td colspan = '4'>Tax</td ><td >{order.Tax}</td></tr>" +
+                $"<tr><td colspan = '4'>Tax</td ><td >{order.Tax:0.##}</td></tr>" +
                 $"<tr><td colspan = '4'>Total</td ><td >{order.Total}</td></tr></table> </div><br><br>" +
-                $"<div><p>Shipping To </p> <p>{order.FkshippingAddressNavigation.AddressLine1}," +
-                $"{order.FkshippingAddressNavigation.AddressLine2}</p><p>{order.FkshippingAddressNavigation.City} " +
+                $"<div><h3>Shipping To </h3> <p>{order.FkshippingAddressNavigation.AddressLine1}," +
+                $"{order.FkshippingAddressNavigation.AddressLine2}<br>{order.FkshippingAddressNavigation.City} " +
                 $"{order.FkshippingAddressNavigation.State} {order.FkshippingAddressNavigation.Zip}</p></div>";
                    
 
