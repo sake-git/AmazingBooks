@@ -217,6 +217,9 @@ public partial class AmazingBookDbContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)
                 .IsUnicode(false);
+            entity.Property(e => e.RefreshToken)
+                .HasMaxLength(150)
+                .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(30)
                 .IsUnicode(false)

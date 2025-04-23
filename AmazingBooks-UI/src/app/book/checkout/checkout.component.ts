@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { Address } from '../../model/address';
 import { AddressApiService } from '../../services/address.service';
 import { User } from '../../model/user';
@@ -50,7 +44,6 @@ export class CheckoutComponent implements OnInit {
       this.addressApi.GetAddress(id).subscribe({
         next: (data) => {
           this.address = data;
-          console.log('Address: ', this.address);
           this.orderApi.GetSalesTax(this.address?.zip!).subscribe({
             next: (data: any) => {
               console.log('Rate fetched successfully: ', data);
@@ -76,7 +69,6 @@ export class CheckoutComponent implements OnInit {
     this.cartApi.GetCartItems(id).subscribe({
       next: (data: Cart[]) => {
         this.cartItems = data;
-        console.log('Cart data Received:', data);
         this.sum = this.cartItems.reduce(
           (sum, current) => (sum += current.quantity * current.book?.price!),
           0
@@ -93,18 +85,16 @@ export class CheckoutComponent implements OnInit {
     let lineItemtotal = 0;
     let orderLine: OrderLine[] = [];
     this.cartItems.forEach((item) => {
-      console.log('Item', item);
       orderLine.push({
         id: 0,
         fkbookId: item.fkbookId,
         amount: item.book?.price!,
         quantity: item.quantity,
       });
-      console.log('OrderLine infor loop');
+
       lineItemtotal += item.book?.price! * item.quantity;
     });
 
-    console.log('OrderLine', orderLine);
     let shipping = 7.99;
     let subTotal = lineItemtotal + shipping;
     let tax = subTotal * this.taxRate;
@@ -124,7 +114,7 @@ export class CheckoutComponent implements OnInit {
       paymentMethod: 'Online',
       paymentStatus: 'Failed',
     };
-    console.log('Order', order);
+
     if (action == 1) {
       order.status = 'Placed';
       order.paymentMethod = 'COD';
@@ -133,7 +123,6 @@ export class CheckoutComponent implements OnInit {
 
     this.orderApi.SaveOrder(order).subscribe({
       next: (data: any) => {
-        console.log('Data after order placement', data);
         this.order = data;
         this.cartApi.AddCountToCart(-99);
         if (this.order != null && action == 0) {

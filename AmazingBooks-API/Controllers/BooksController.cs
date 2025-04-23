@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using AmazingBooks_API.Entities;
 using AutoMapper;
 using AmazingBooks_API.Configuration.Repository;
 using AmazingBooks_API.Configuration.DTOs;
-using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace AmazingBooks_API.Controllers
 {
@@ -67,6 +62,7 @@ namespace AmazingBooks_API.Controllers
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> PutBook(BookDto bookDto)
         {
@@ -90,6 +86,7 @@ namespace AmazingBooks_API.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<BookDto>> PostBook(BookDto bookDto)
         {

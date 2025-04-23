@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { User } from '../model/user';
 import { environment } from '../../environments/environment.development';
 
@@ -13,7 +13,6 @@ export class UserApiService {
   constructor(private http: HttpClient) {}
 
   public GetUser(user: User): Observable<User> {
-    console.log('User login Serive', user);
     return this.http.post<User>(`${this.baseUrl}/Authenticate`, user);
   }
 
@@ -30,8 +29,27 @@ export class UserApiService {
   }
 
   public CreateUser(user: User) {
-    console.log('called Create user from api service', user);
     return this.http.post(`${this.baseUrl}`, user);
+  }
+
+  public Logout(user: User) {
+    return this.http.put(`${this.baseUrl}/RevokeToken`, user);
+  }
+
+  public RefreshToken(user: User): Observable<any> {
+    console.log('refresh token called');
+    return this.http.post<User>(`${this.baseUrl}/RefreshToken`, user).pipe(
+      tap({
+        next: (data: User) => {
+          let user = data;
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('accessToken', user.token!);
+        },
+        error: (error) => {
+          console.error('Error refreshing access token:', error);
+        },
+      })
+    );
   }
 
   public GetUserIdFromLocal() {

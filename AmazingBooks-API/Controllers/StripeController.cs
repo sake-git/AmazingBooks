@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using Stripe;
-using Microsoft.Extensions.Options;
-using Microsoft.CodeAnalysis.Scripting;
-using Stripe.Climate;
 using AmazingBooks_API.Configuration.DTOs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

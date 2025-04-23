@@ -1,5 +1,4 @@
-﻿using AmazingBooks_API.Configuration.Repository;
-using AmazingBooks_API.Entities;
+﻿using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmazingBooks_API.Configuration.Repository

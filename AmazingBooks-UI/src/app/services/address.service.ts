@@ -14,27 +14,22 @@ export class AddressApiService {
   constructor(private http: HttpClient) {}
 
   GetAddress(id: number): Observable<Address> {
-    console.log('Get address for ', id);
     return this.http.get<Address>(`${this.baseUrl}/${id}`);
   }
 
   GetAddressForUser(userId: number): Observable<Address[]> {
-    console.log('Get address for ', userId);
     return this.http.get<Address[]>(`${this.baseUrl}/ByUser/${userId}`);
   }
 
   ValidateAddress(address: Address) {
-    console.log('In Service to call API');
     return this.http.post(`${this.baseUrl}/Validate`, address);
   }
 
   SaveAddress(address: Address) {
-    console.log('In Service to call save API', address);
     return this.http.post(`${this.baseUrl}`, address);
   }
 
   UpdateAddress(address: Address) {
-    console.log('In Service to call delete API', address);
     return this.http.put(`${this.baseUrl}`, address);
   }
 }

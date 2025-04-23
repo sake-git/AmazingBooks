@@ -1,9 +1,5 @@
 <div class="main-div m-4">
   <h4 class="text-center">Cart Details</h4>
-  <!--p>
-    <span class="success" *ngIf="message">{{ message }}</span
-    ><span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
-  </!p-->
   <div *ngIf="cartItems.length != 0" class="d-flex flex-wrap">
     <div class="cart-container w-50">
       <div *ngFor="let item of cartItems" class="d-flex flex-wrap">

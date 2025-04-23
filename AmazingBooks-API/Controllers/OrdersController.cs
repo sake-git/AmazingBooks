@@ -8,12 +8,14 @@ using AmazingBooks_API.WebApi.SalesTaxDto;
 using AmazingBooks_API.Entities;
 using Stripe;
 using AmazingBooks_API.Services;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
+using Microsoft.AspNetCore.Authorization;
+
 
 
 
 namespace AmazingBooks_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase

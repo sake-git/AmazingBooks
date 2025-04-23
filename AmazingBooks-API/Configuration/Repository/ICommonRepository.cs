@@ -1,7 +1,4 @@
-﻿using AmazingBooks_API.Entities;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace AmazingBooks_API.Configuration.Repository
 {

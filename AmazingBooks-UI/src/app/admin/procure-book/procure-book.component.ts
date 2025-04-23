@@ -31,18 +31,18 @@ export class ProcureBookComponent implements OnInit {
   }
 
   GetRequest() {
-    console.log('Get request called', this.status);
     this.requestList = [];
     this.requestApi.GetRequest(this.status).subscribe({
       next: (data: BookRequest[]) => {
         this.requestList = data;
       },
-      error: (error) => {},
+      error: (error) => {
+        console.log(error);
+      },
     });
   }
 
   ProcureBook(req: BookRequest) {
-    console.log('Book procurement called');
     this.message = '';
     this.errorMessage = '';
     this.requestApi.ProcureBook(req).subscribe({
@@ -52,7 +52,6 @@ export class ProcureBookComponent implements OnInit {
           req.status = 'Failed';
           this.UpdateRequest(req, 0);
         } else {
-          console.log('Vloume infor ', data.volumeInfo);
           this.book = {
             id: 0,
             name: data.volumeInfo.title.substring(0, 200),
@@ -78,7 +77,6 @@ export class ProcureBookComponent implements OnInit {
           };
           this.bookApi.SaveBook(this.book).subscribe({
             next: (data: any) => {
-              console.log('Book Data', data);
               this.message = 'Book available now';
               req.status = 'Procured';
               this.UpdateRequest(req, data.id);

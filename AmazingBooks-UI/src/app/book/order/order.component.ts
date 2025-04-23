@@ -43,10 +43,6 @@ export class OrderComponent implements OnInit {
     this.orderApi.GetOrdersByUser(this.user?.id!, filterId, this.id).subscribe({
       next: (data: any) => {
         this.orderList = data;
-        /*  let order: Order;
-        order = data;
-        console.log('Order history retrieved', data);
-        this.router.navigateByUrl('./order-details/${}');*/
       },
       error: (error) => {
         this.errorMessage = 'Error retrieving Order history';
@@ -70,13 +66,11 @@ export class OrderComponent implements OnInit {
   GetPrev() {
     if (this.pages.length != 0) {
       this.id = this.pages.pop()!;
-      console.log('Prev', this.id);
       this.GetOrderHistory();
     }
   }
   GetNext() {
     this.pages.push(this.id);
-    console.log('Innext', this.orderList[this.orderList.length - 1].id);
     this.id = this.orderList[this.orderList.length - 1].id!;
     this.GetOrderHistory();
   }

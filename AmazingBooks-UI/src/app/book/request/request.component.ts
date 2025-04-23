@@ -50,12 +50,7 @@ export class RequestComponent implements OnInit {
       next: (data: any) => {
         for (let i = 0; i < data.items.length; i++) {
           var info = data.items[i];
-          console.log(
-            'Title - ' +
-              info.volumeInfo.title +
-              ' Author -' +
-              info.volumeInfo.authors
-          );
+
           console.log(info.saleInfo.saleability);
           if (
             info.volumeInfo.title
@@ -97,7 +92,6 @@ export class RequestComponent implements OnInit {
 
     this.requestApi.SaveRequest(this.request).subscribe({
       next: (data) => {
-        console.log('request added');
         this.message = 'Request created';
       },
       error: (error) => {

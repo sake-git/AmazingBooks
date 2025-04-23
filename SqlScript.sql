@@ -101,3 +101,6 @@ CREATE TABLE Request
 
 ALTER TABLE book
 ALTER COLUMN ImgUrl VARCHAR(350)
+
+ALTER TABLE Users
+ADD RefreshToken Varchar(150)

@@ -1,6 +1,5 @@
 ﻿using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace AmazingBooks_API.Configuration.Repository
 {
     public class CartRepository : CommonRepository<Cart>, ICartRepository

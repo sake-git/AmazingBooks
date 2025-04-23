@@ -27,7 +27,6 @@ export class BookApiService {
   }
 
   public SaveBook(book: Book) {
-    console.log('Book api to add book called', book);
     return this.http.post(`${this.baseurl}`, book);
   }
 

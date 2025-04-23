@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AmazingBooks_API.Entities;
 using AutoMapper;
-using NuGet.Protocol.Core.Types;
 using AmazingBooks_API.Configuration.DTOs;
 using AmazingBooks_API.Configuration.Repository;
 using AmazingBooks_API.Services;
-using Microsoft.AspNetCore.Http.HttpResults;
-using static System.Net.WebRequestMethods;
+using Microsoft.AspNetCore.Authorization;
+
 
 
 namespace AmazingBooks_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RequestsController : ControllerBase

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Book } from '../../model/book';
 import { Router } from '@angular/router';
 import { CartApiService } from '../../services/cart-api.service';
 import { User } from '../../model/user';
@@ -24,7 +23,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit {
   user: User | undefined;
   cartItems: Cart[] = [];
   errorMessage = '';
@@ -58,7 +57,6 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    //this.books = JSON.parse(localStorage.getItem('myCart')!);
     this.user = this.userApi.GetUserIdFromLocal();
 
     if (!this.user) {
@@ -75,8 +73,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.cartApi.GetCartItems(id).subscribe({
       next: (data: Cart[]) => {
         this.cartItems = data;
-        console.log('Cart data Received:', data);
-
         let count = this.cartItems.reduce(
           (count, current) => (count += current.quantity),
           0
@@ -142,7 +138,6 @@ export class CartComponent implements OnInit, OnDestroy {
     this.addressApi.GetAddressForUser(this.user!.id).subscribe({
       next: (data) => {
         this.addressList = data;
-        console.log('Address', data);
       },
       error: (error) => {
         this.errorMessage = error.message;
@@ -175,10 +170,9 @@ export class CartComponent implements OnInit, OnDestroy {
 
     this.address = this.addressForm.value;
     this.address!.fkuserId = this.user?.id;
-    console.log('Address', this.address);
+
     this.addressApi.ValidateAddress(this.address!).subscribe({
       next: (data: any) => {
-        console.log('Data', data);
         if (data == true) {
           this.newAddress = undefined;
           this.addrMessage = 'Address is valid';
@@ -187,7 +181,6 @@ export class CartComponent implements OnInit, OnDestroy {
           this.newAddress = data;
           this.newAddress!.fkuserId = this.user?.id;
           this.newAddress!.name = this.address?.name!;
-          console.log(data);
           this.addrMessage = 'Corrected address';
         }
       },
@@ -208,11 +201,8 @@ export class CartComponent implements OnInit, OnDestroy {
       this.address = this.newAddress;
       this.newAddress = undefined;
     }
-
-    console.log('Save address called');
     this.addressApi.SaveAddress(this.address!).subscribe({
       next: (data) => {
-        console.log('Saved Message: ', data);
         this.isAddAddress = false;
         this.GetAddress();
       },
@@ -228,18 +218,9 @@ export class CartComponent implements OnInit, OnDestroy {
   }
 
   Checkout() {
-    /*  if (localStorage.getItem('user')) {
-      this.router.navigate(['/checkout']);
-    } else {
-      this.router.navigate(['/login']);
-    }*/
-
     this.router.navigateByUrl(`/checkout/${this.selectedAddress}`);
   }
 
-  ngOnDestroy(): void {
-    // localStorage.setItem('myCart', JSON.stringify(this.books));
-  }
   Clear() {
     this.errorMessage = '';
     this.message = '';

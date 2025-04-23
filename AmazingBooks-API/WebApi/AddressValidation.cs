@@ -1,7 +1,5 @@
 ﻿using AmazingBooks_API.Configuration.DTOs;
-using AmazingBooks_API.Entities;
 using AmazingBooks_API.WebApi.ShippoResponseDto;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Newtonsoft.Json;
 
 namespace AmazingBooks_API.WebApi

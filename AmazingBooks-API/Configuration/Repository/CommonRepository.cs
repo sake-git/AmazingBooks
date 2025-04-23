@@ -1,6 +1,4 @@
-﻿using AmazingBooks_API.Configuration.DTOs;
-using AmazingBooks_API.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

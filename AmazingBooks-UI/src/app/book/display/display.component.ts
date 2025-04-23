@@ -47,7 +47,6 @@ export class DisplayComponent {
   }
 
   addToCart() {
-    console.log('AddtoCart');
     let user = this.userApi.GetUserIdFromLocal();
     if (!user) {
       this.errorMessage = 'Please log in to Add to cart';
@@ -66,7 +65,6 @@ export class DisplayComponent {
 
     this.cartApi.SaveToCart(this.cart).subscribe({
       next: (data) => {
-        console.log('Item added to cart');
         this.message = 'Item added to cart';
       },
       error: (error) => {

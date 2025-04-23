@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Book } from '../../model/book';
 import { BookApiService } from '../../services/book-api.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -19,9 +19,16 @@ export class ListComponent implements OnInit {
   id = 0;
   pages: number[] = [];
 
-  constructor(private bookApi: BookApiService) {}
+  constructor(
+    private bookApi: BookApiService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((params) => {
+      this.errorMessage = params['error'];
+    });
+
     this.GetBookList();
   }
 
@@ -56,13 +63,11 @@ export class ListComponent implements OnInit {
   GetPrev() {
     if (this.pages.length != 0) {
       this.id = this.pages.pop()!;
-      console.log('Prev', this.id);
       this.GetBookList();
     }
   }
   GetNext() {
     this.pages.push(this.id);
-    console.log('Innext', this.books[this.books.length - 1].id);
     this.id = this.books[this.books.length - 1].id!;
     this.GetBookList();
   }

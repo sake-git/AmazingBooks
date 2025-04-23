@@ -40,15 +40,6 @@ export class AppComponent {
       this.isLoggedIn = true;
     }
 
-    /*if (localStorage.getItem('user')) {
-      this.isLoggedIn = true;
-    }
-    /*  let dataStringToParse = localStorage.getItem('myCart');
-    if (dataStringToParse) {
-      let books: Book[] = JSON.parse(dataStringToParse);
-      this.quantity = books.length;
-    }
-  */
     this.cartApi.GetCartBookCount().subscribe({
       next: (data: number) => {
         if (data == -99) {
@@ -56,8 +47,6 @@ export class AppComponent {
         } else {
           this.quantity += data;
         }
-
-        console.log('cart Subscription called', data);
       },
     });
 
@@ -79,7 +68,6 @@ export class AppComponent {
   }
 
   OnActivate(componentRef: any) {
-    console.log('Inside OnActivated');
     if (componentRef.loginEvent) {
       componentRef.loginEvent.subscribe((data: boolean) => {
         this.isLoggedIn = data;
@@ -94,7 +82,6 @@ export class AppComponent {
     this.errorMessage = '';
     this.userApi.ValidateLocation(this.city, this.state).subscribe({
       next: (data: any) => {
-        console.log(data.features);
         for (let i = 0; i < data.features.length; i++) {
           let property = data.features[i];
           if (
@@ -128,6 +115,12 @@ export class AppComponent {
   Logout() {
     this.isLoggedIn = false;
     localStorage.removeItem('user');
-    localStorage.removeItem('myToken');
+    localStorage.removeItem('accessToken');
+    console.log(this.user);
+    this.userApi.Logout(this.user!).subscribe({
+      next: (data) => {
+        console.log('Success');
+      },
+    });
   }
 }
