@@ -7,10 +7,11 @@ import { CartApiService } from '../../services/cart-api.service';
 import { FormsModule } from '@angular/forms';
 import { Cart } from '../../model/cart';
 import { UserApiService } from '../../services/user-api.service';
+import { LanguagePipe } from '../../pipes/language.pipe';
 
 @Component({
   selector: 'app-display',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LanguagePipe],
   templateUrl: './display.component.html',
   styleUrl: './display.component.css',
 })
@@ -30,7 +31,7 @@ export class DisplayComponent {
     this.router.params.subscribe((params) => {
       let id = params['id'];
       if (id != null) {
-        this.bookApi.getBook(id).subscribe({
+        this.bookApi.GetBook(id).subscribe({
           next: (data) => {
             this.book = data;
           },
@@ -46,7 +47,6 @@ export class DisplayComponent {
   }
 
   addToCart() {
-    console.log('AddtoCart');
     let user = this.userApi.GetUserIdFromLocal();
     if (!user) {
       this.errorMessage = 'Please log in to Add to cart';
@@ -65,47 +65,15 @@ export class DisplayComponent {
 
     this.cartApi.SaveToCart(this.cart).subscribe({
       next: (data) => {
-        console.log('Item added to cart');
         this.message = 'Item added to cart';
       },
       error: (error) => {
         console.log(error.message);
       },
     });
-
-    /*
-    let books: Book[] = JSON.parse(localStorage.getItem('myCart')!);
-    console.log('AddtoCart');
-    this.cartApi.AddCountToCart(this.quantity);
-    let booktoAdd = {
-      id: this.book.id,
-      quantity: this.quantity,
-      name: this.book.name,
-      price: this.book.price,
-      author: this.book.author,
-      hardcover: this.book.hardcover,
-      imgUrl: this.book.imgUrl,
-    };
-
-    if (books) {
-      let existingBook = books.find((data) => data.id == this.book!.id);
-      if (existingBook) {
-        existingBook.quantity += this.quantity;
-      } else {
-        this.book.quantity = this.quantity;
-      }
-      books.push(booktoAdd);
-    } else {
-      books = [booktoAdd];
-    }
-
-    let serializedData = JSON.stringify(books);
-    localStorage.setItem('myCart', serializedData);*/
   }
 
   UpdateQuantity(action: number) {
-    this.errorMessage = '';
-    this.message = '';
     if (action == 0) {
       if (this.quantity > 1) {
         --this.quantity;
@@ -113,5 +81,10 @@ export class DisplayComponent {
     } else if (action == 1) {
       ++this.quantity;
     }
+  }
+
+  Clear() {
+    this.errorMessage = '';
+    this.message = '';
   }
 }

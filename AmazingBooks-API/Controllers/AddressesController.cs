@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using AmazingBooks_API.Entities;
 using AmazingBooks_API.Configuration.Repository;
 using AutoMapper;
 using AmazingBooks_API.Configuration.DTOs;
 using AmazingBooks_API.WebApi;
 using AmazingBooks_API.WebApi.ShippoResponseDto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AmazingBooks_API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
     public class AddressesController : ControllerBase
     {
         private readonly IMapper _mapper;

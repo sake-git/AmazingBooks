@@ -25,7 +25,7 @@ public partial class Address
 
     public string? Name { get; set; }
 
-    public bool? IsDefault { get; set; } = false;
+    public bool IsDefault { get; set; }
 
     public virtual User Fkuser { get; set; } = null!;
 

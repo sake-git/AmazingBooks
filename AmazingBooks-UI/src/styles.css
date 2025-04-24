@@ -1,50 +1,43 @@
 /* You can add global styles to this file, and also import other style files */
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+.overlay-div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.7;
+  background-color: black;
+  z-index: 25;
+  display: block;
+}
+
+.hidden-div-message {
+  background-color: white;
+  position: absolute;
+  top: 35vh;
+  left: 43vw;
+  z-index: 51;
+  padding: 10px;
+  margin: 0px;
+  width: 350px;
   text-align: center;
+  border-radius: 2px solid black;
 }
 
-/* You can add global styles to this file, and also import other style files */
-* {
-  font-family: "Times New Roman", Times, serif;
-  margin: 5px;
-  padding: 5px;
+.hidden-div {
+  background-color: white;
+  position: absolute;
+  z-index: 51;
 }
-
-body,
-header {
-  margin-top: 0px;
-}
-
-a {
-  text-decoration: none;
-}
-
-label,
-input,
-button,
-textarea {
-  resize: none;
+.btn {
+  margin: 10px;
 }
 
 form {
-  width: 400px;
-  display: inline-block;
-  padding: 10px;
-  background-color: rgb(120, 157, 200);
   margin: auto;
+  top: 2em;
 }
-
-form div {
-  display: flex;
-  justify-content: space-between;
-}
-
 .errors {
   font-size: small;
   color: red;
@@ -57,52 +50,10 @@ form div {
   padding: 2px;
 }
 
-.form-container-center {
-  height: 70vh;
-  width: 100vw;
-  text-align: center;
-  display: flex;
-}
-
 .required {
   color: red;
   font-size: small;
 }
-
-/*
-.card {
-  width: 300px;
-  height: 400px;
-  margin: 10px;
-  padding: 5px;
-  justify-items: center;
-  background-color: rgb(146, 213, 222);
-  border: 2px solid rgb(75, 73, 73);
-  box-shadow: 0px 5px 5px rgb(51, 142, 163);
+thead tr th {
+  background-color: rgb(145, 186, 145);
 }
-.card img {
-  width: 300px;
-  height: 250px;
-}
-
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 10px;
-  border-top: 2px solid black;
-}
-
-.card:hover {
-  background-color: rgb(119, 160, 170);
-  border: 2px solid rgb(22, 21, 21);
-}
-  
-
-
-
-body {
-  background-image: url("https://www.lehighcenter.com/wp-content/uploads/2018/05/social-media-axiety.jpg");
-  background-size: cover;
-  height: 100vh;
-  width: 100vw;
-}*/

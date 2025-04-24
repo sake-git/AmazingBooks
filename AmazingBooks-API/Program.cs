@@ -2,6 +2,10 @@ using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
 using AmazingBooks_API.Configuration.Repository;
 using AmazingBooks_API.Configuration.AutoMapper;
+using AmazingBooks_API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+    {
+        option.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]!))
+        };
+    });
 
 builder.Services.AddDbContext<AmazingBookDbContext>(options =>
 {
@@ -17,7 +35,11 @@ builder.Services.AddDbContext<AmazingBookDbContext>(options =>
 });
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped(typeof(ICommonRepository<>), typeof(CommonRepository<>));
+
+
 builder.Services.AddAutoMapper(typeof(AutoMapperConfig));
 
 
@@ -29,7 +51,6 @@ builder.Services.AddCors(options =>
         policy.AllowAnyMethod();
         policy.AllowAnyHeader();
         policy.AllowCredentials();
-
     });
 });
 
@@ -50,6 +71,7 @@ app.UseHttpsRedirection();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseCors("CorsPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

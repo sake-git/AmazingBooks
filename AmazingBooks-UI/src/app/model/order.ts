@@ -14,5 +14,7 @@ export interface Order {
   fkshippingAddress: number;
   fkshippingAddressNavigation?: Address;
   fkuserId: number;
+  paymentMethod?: string;
+  paymentStatus?: string;
   orderLines: OrderLine[];
 }

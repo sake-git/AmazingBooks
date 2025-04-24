@@ -18,7 +18,6 @@ export class CartApiService {
   }
 
   AddCountToCart(count: number) {
-    console.log('Inservice: count:' + count);
     this.cartObservable.next(count);
   }
 
@@ -27,17 +26,14 @@ export class CartApiService {
   }
 
   SaveToCart(cart: Cart) {
-    console.log('Save to cart Api called1 ', cart);
     return this.http.post(`${this.baseUrl}`, cart);
   }
 
   RemoveFromCart(id: number) {
-    console.log('Remove to cart Api called1 ', id);
     return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
   UpdateCartItems(cart: Cart) {
-    console.log('Update cart Api called1 ', cart);
     return this.http.put(`${this.baseUrl}`, cart);
   }
 }

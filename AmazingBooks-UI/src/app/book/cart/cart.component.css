@@ -1,58 +1,23 @@
-.main-div {
-  position: relative;
-  width: 90vw;
-  height: 90vh;
-  background-color: ivory;
-}
-img {
-  width: 80px;
-  height: 100px;
-}
-
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-}
-.cart-container {
-  width: 35vw;
-}
-.addr-container {
-  width: 50vw;
-  align-content: flex-start;
-}
-
 .card {
   width: 300px;
-  height: 150px;
-  border: 2px solid black;
-  border-radius: 10px;
+  height: 160px;
+}
+.card:hover {
+  background-color: rgb(121, 169, 121);
 }
 
-form {
-  background-color: white;
-  width: 600px;
-  position: relative;
-}
-
-input[type="text"] {
-  width: 300px;
+.form-label {
+  width: 150px;
 }
 
 .hidden-div {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 150px;
+  left: 30%;
   z-index: 51;
-}
-
-.overlay-div {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  opacity: 0.7;
-  background-color: black;
-  z-index: 50;
-  display: block;
+  width: 300px;
+  margin: 20px;
+  padding: 20px;
+  background-color: white;
+  text-align: center;
 }

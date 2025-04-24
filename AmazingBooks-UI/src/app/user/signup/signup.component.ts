@@ -24,11 +24,8 @@ export class SignupComponent {
   constructor(private userApi: UserApiService, private router: Router) {}
 
   CreateUser() {
-    console.log('Create user called', this.user);
     var message = this.userApi.CreateUser(this.user).subscribe({
       next: (data) => {
-        console.log('User created successfully', data);
-
         this.router.navigate([
           '/login',
           { success: 'User created successfully' },

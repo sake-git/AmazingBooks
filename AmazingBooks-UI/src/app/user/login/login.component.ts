@@ -32,7 +32,9 @@ export class LoginComponent {
     private activeRoute: ActivatedRoute
   ) {
     localStorage.removeItem('user');
-    localStorage.removeItem('myToken');
+    localStorage.removeItem('accessToken');
+    this.loginEvent.emit(false);
+
     this.activeRoute.params.subscribe((params) => {
       this.errorMessage = params['error'];
       this.message = params['success'];
@@ -40,13 +42,11 @@ export class LoginComponent {
   }
 
   userLogin(loginForm: NgForm) {
-    console.log('User login called');
     this.userApi.GetUser(this.user).subscribe({
       next: (data: any) => {
         this.user = data;
         localStorage.setItem('user', JSON.stringify(this.user));
-        localStorage.setItem('myToken', this.user.token!);
-        console.log('Data:', this.user);
+        localStorage.setItem('accessToken', this.user.token!);
         this.loginEvent.emit(true);
         this.cartApi.GetCartItems(this.user.id).subscribe({
           next: (data: Cart[]) => {
@@ -69,7 +69,6 @@ export class LoginComponent {
   }
 
   Cancel(loginForm: NgForm) {
-    console.log('cancel called');
     loginForm.reset();
     this.message = '';
     this.errorMessage = '';
