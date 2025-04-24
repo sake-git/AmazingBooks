@@ -1,6 +1,5 @@
 ﻿using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace AmazingBooks_API.Configuration.Repository
 {
     public class CartRepository : CommonRepository<Cart>, ICartRepository
@@ -13,7 +12,7 @@ namespace AmazingBooks_API.Configuration.Repository
             
         public async Task<IEnumerable<Cart>>GetBooksFromCart(int userId)
         {
-            List<Cart> cartList =  _dbContext.Carts.Include(x => x.Fkbook).Where(x => x.FkuserId == userId).ToList();
+            List<Cart> cartList = await _dbContext.Carts.Include(x => x.Fkbook).Where(x => x.FkuserId == userId).ToListAsync();
             return cartList;
         }
                

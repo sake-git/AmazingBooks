@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using AmazingBooks_API.Entities;
 using AutoMapper;
 using AmazingBooks_API.Configuration.Repository;
 using AmazingBooks_API.Configuration.DTOs;
-using static System.Reflection.Metadata.BlobBuilder;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace AmazingBooks_API.Controllers
 {
@@ -28,10 +23,13 @@ namespace AmazingBooks_API.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookListDto>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookListDto>>> GetBooks(int id = 0, string name="", string author="" )
         {
-            List<BookListDto> bookDtos = _repository.GetRecords().Result.Select(record =>
-
+            name = name.ToLower();
+            author = author.ToLower();
+            List<BookListDto> bookDtos = _repository
+                .GetRecordsByFilter(data => (data.Name.ToLower().Contains(name) || name=="") && (data.Author.ToLower().Contains(author) || author == "") && data.Id >= id, data => data.Id)
+                .Result.Select(record =>
                 new BookListDto()
                 {
                     Id = record.Id,
@@ -64,6 +62,7 @@ namespace AmazingBooks_API.Controllers
 
         // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> PutBook(BookDto bookDto)
         {
@@ -87,11 +86,13 @@ namespace AmazingBooks_API.Controllers
 
         // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<BookDto>> PostBook(BookDto bookDto)
         {
             Book book = _mapper.Map<Book>(bookDto);
             book = _repository.CreateRecord(book).Result;
+            bookDto.Id = book.Id;
 
             return CreatedAtAction("GetBook", new { id = book.Id }, bookDto);
         }

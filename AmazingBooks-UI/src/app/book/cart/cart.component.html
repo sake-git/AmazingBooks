@@ -1,38 +1,56 @@
-<div class="main-div">
-  <p>
-    <span class="success" *ngIf="message">{{ message }}</span
-    ><span class="error" *ngIf="errorMessage">{{ errorMessage }}</span>
-  </p>
-  <div *ngIf="cartItems.length != 0" class="flex-container">
-    <div class="cart-container">
-      <div *ngFor="let item of cartItems" class="flex-container">
-        <div>
-          <img [src]="item.book?.imgUrl" [alt]="item.book?.name" />
+<div class="main-div m-4">
+  <h4 class="text-center">Cart Details</h4>
+  <div *ngIf="cartItems.length != 0" class="d-flex flex-wrap">
+    <div class="cart-container w-50">
+      <div *ngFor="let item of cartItems" class="d-flex flex-wrap">
+        <div class="w-25">
+          <img
+            [src]="item.book?.imgUrl"
+            [alt]="item.book?.name"
+            class="w-50 m-2 p-2"
+          />
         </div>
-        <div>
-          <h4>{{ item.book?.name }}</h4>
+        <div class="w-50">
+          <p></p>
+          <h6>{{ item.book?.name }}</h6>
           <p>
             {{ item.quantity }} x {{ item.book?.price | currency : "USD" }} =
             {{ item.book?.price! * item.quantity | currency : "USD" }}
           </p>
-          <button (click)="UpdateCart(item, 0)">-</button>
+          <button
+            (click)="UpdateCart(item, 0)"
+            class="btn btn-outline-dark btn-sm"
+          >
+            -
+          </button>
           <span>{{ item.quantity }}</span>
-          <button (click)="UpdateCart(item, 1)">+</button>
-          <button (click)="RemoveFromCart(item)">Remove</button>
+          <button
+            (click)="UpdateCart(item, 1)"
+            class="btn btn-outline-dark btn-sm"
+          >
+            +
+          </button>
+          <button
+            (click)="RemoveFromCart(item)"
+            class="btn btn-outline-dark btn-sm"
+          >
+            Remove
+          </button>
         </div>
       </div>
       <div>
         <button
           (click)="Checkout()"
           [disabled]="selectedAddress == 0 || cartItems.length == 0"
+          class="btn btn-outline-dark btn-sm"
         >
           Checkout
         </button>
       </div>
     </div>
-    <div class="flex-container addr-container">
-      <div *ngFor="let addr of addressList" class="card">
-        <h5>{{ addr.name }}</h5>
+    <div class="d-flex flex-wrap w-50">
+      <div *ngFor="let addr of addressList" class="card m-2 p-2">
+        <h5 class="text-center">{{ addr.name }}</h5>
         <p>
           {{ addr.addressLine1 }}
           <span *ngIf="addr.addressLine2">{{ addr.addressLine2 }}</span>
@@ -41,46 +59,110 @@
         <p>
           {{ addr.city }}, {{ addr.zip }}, {{ addr.state }}, {{ addr.country }}
         </p>
-        <p>
-          <input type="radio" [value]="addr.id" [(ngModel)]="selectedAddress" />
-          <label for="selectedAddress">Select Address</label>
-          <span (click)="DeleteAddress(addr)"> Delete</span>
+        <p class="d-flex justify-content-between align-bottom">
+          <span>
+            <input
+              type="radio"
+              [value]="addr.id"
+              [(ngModel)]="selectedAddress"
+              class="p-2"
+            />
+            <label for="selectedAddress" class="p-2"
+              >Select Address</label
+            ></span
+          >
+          <span (click)="DeleteAddress(addr)" class="link-primary m-2">
+            Delete</span
+          >
         </p>
       </div>
-      <p><button (click)="AddAddress()">Add Address</button></p>
-      <p>{{ message }}</p>
+      <p>
+        <button (click)="AddAddress()" class="btn btn-outline-dark btn-sm">
+          Add Address
+        </button>
+      </p>
+      <p class="success">{{ message }}</p>
 
-      <div class="form-container-center hidden-div" *ngIf="isAddAddress">
-        <form [formGroup]="addressForm">
+      <div class="hidden-div w-50 m-0" *ngIf="isAddAddress">
+        <form
+          [formGroup]="addressForm"
+          class="p-3 .bg-primary-subtle text-dark-emphasis"
+        >
           <fieldset>
             <legend>Shipping Address</legend>
-            <div>
-              <label><span class="required">*</span>Name</label>
-              <input type="text" formControlName="name" required />
+            <div class="d-flex m-2">
+              <label class="form-label"
+                ><span class="required">*</span>Name</label
+              >
+              <input
+                type="text"
+                formControlName="name"
+                class="form-control"
+                required
+              />
             </div>
-            <div>
-              <label><span class="required">*</span>Address Line 1</label>
-              <input type="text" formControlName="addressLine1" required />
+            <div class="d-flex m-2">
+              <label class="form-label"
+                ><span class="required">*</span>Address Line 1</label
+              >
+              <input
+                type="text"
+                formControlName="addressLine1"
+                class="form-control"
+                required
+              />
             </div>
-            <div>
-              <label>Address Line 2</label>
-              <input type="text" formControlName="addressLine2" />
+            <div class="d-flex m-2">
+              <label class="form-label">Address Line 2</label>
+              <input
+                type="text"
+                formControlName="addressLine2"
+                class="form-control"
+              />
             </div>
-            <div>
-              <label><span class="required">*</span>City</label>
-              <input type="text" formControlName="city" required />
+            <div class="d-flex m-2">
+              <label class="form-label"
+                ><span class="required">*</span>City</label
+              >
+              <input
+                type="text"
+                formControlName="city"
+                class="form-control"
+                required
+              />
             </div>
-            <div>
-              <label><span class="required">*</span>State</label>
-              <input type="text" formControlName="state" required />
+            <div class="d-flex m-2">
+              <label class="form-label"
+                ><span class="required">*</span>State</label
+              >
+              <input
+                type="text"
+                formControlName="state"
+                class="form-control"
+                required
+              />
             </div>
-            <div>
-              <label><span class="required">*</span>Zip Code</label>
-              <input type="text" formControlName="zip" required />
+            <div class="d-flex m-2">
+              <label class="form-label"
+                ><span class="required">*</span>Zip Code</label
+              >
+              <input
+                type="text"
+                formControlName="zip"
+                class="form-control"
+                required
+              />
             </div>
-            <div>
-              <label><span class="required">*</span>Country</label>
-              <input type="text" formControlName="country" required />
+            <div class="d-flex m-2">
+              <label class="form-label"
+                ><span class="required">*</span>Country</label
+              >
+              <input
+                type="text"
+                formControlName="country"
+                class="form-control"
+                required
+              />
             </div>
             <p
               *ngIf="addressForm.get('addressLine1')?.touched && addressForm.get('addressLine1')?.errors?.['required']"
@@ -112,10 +194,12 @@
             >
               Country is required
             </p>
-            <p *ngIf="errorMessage" class="errors">{{ errorMessage }}</p>
-            <p *ngIf="message" class="success">{{ message }}</p>
+            <p *ngIf="addrErrorMessage" class="errors">
+              {{ addrErrorMessage }}
+            </p>
+            <p *ngIf="addrMessage" class="success">{{ addrMessage }}</p>
             <div *ngIf="newAddress" style="display: block">
-              <h4>Confim the corrected address to save</h4>
+              <h6>Confim the corrected address to save</h6>
               <p>
                 {{ newAddress.addressLine1 }}
                 <span *ngIf="newAddress.addressLine2">{{
@@ -132,6 +216,7 @@
               type="button"
               [disabled]="!addressForm.valid"
               (click)="SaveAddress()"
+              class="btn btn-outline-dark"
             >
               Confirm
             </button>
@@ -140,17 +225,32 @@
               type="submit"
               [disabled]="!addressForm.valid"
               (click)="ValidateAddress()"
+              class="btn btn-outline-dark"
             >
               Save
             </button>
-            <button type="button" (click)="Cancel()">Cancel</button>
+            <button
+              type="button"
+              (click)="Cancel()"
+              class="btn btn-outline-dark"
+            >
+              Cancel
+            </button>
           </fieldset>
         </form>
       </div>
     </div>
   </div>
   <div *ngIf="cartItems.length == 0">
-    <h2>Cart Empty. Would you like to add some items?</h2>
+    <h5 class="text-center m-5">
+      Cart Empty. Would you like to add some items?
+    </h5>
   </div>
   <div class="overlay-div" *ngIf="isAddAddress"></div>
 </div>
+<div class="hidden-div-message" *ngIf="message || errorMessage">
+  <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="alert alert-success" *ngIf="message">{{ message }}</p>
+  <button (click)="Clear()" class="btn btn-outline-dark btn-sm">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="message || errorMessage"></div>

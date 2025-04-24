@@ -1,25 +1,12 @@
-table,
-th,
-tr,
-td {
-  border: 2px solid black;
-  border-collapse: collapse;
+.form-control {
+  width: 15em;
+  height: 2em;
+  margin: 5px;
 }
 
-.table-container {
-  align-items: center;
+tbody tr:hover td {
+  background-color: rgb(173, 182, 173);
 }
-
-th {
-  background-color: rgb(117, 117, 187);
-}
-
-tr:hover {
-  background-color: rgb(130, 130, 154);
-}
-table {
-  margin: auto;
-}
-td {
-  width: 200px;
+thead tr th {
+  background-color: rgb(145, 186, 145);
 }

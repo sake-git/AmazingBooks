@@ -1,6 +1,4 @@
-﻿using AmazingBooks_API.Configuration.DTOs;
-using AmazingBooks_API.Entities;
-using Microsoft.AspNetCore.Mvc;
+﻿using AmazingBooks_API.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -24,6 +22,11 @@ namespace AmazingBooks_API.Configuration.Repository
         public async Task<IEnumerable<T>> GetRecordsByFilter(Expression<Func<T,bool>> filter)
         {
             return await _table.Where(filter).ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetRecordsByFilter(Expression<Func<T, bool>> filter, Expression<Func<T, int>> sortKey)
+        {
+            return await _table.Where(filter).OrderBy(sortKey).Take(18).ToListAsync();
         }
 
         public async Task<T> GetRecord(Expression<Func<T, bool>> filter)
@@ -57,6 +60,8 @@ namespace AmazingBooks_API.Configuration.Repository
 
             return true;
         }
+
+     
         
     }
 }

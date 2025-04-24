@@ -1,0 +1,13 @@
+.form-control {
+  width: 15em;
+  height: 2em;
+  margin: 5px;
+}
+thead tr th {
+  background-color: rgb(145, 186, 145);
+}
+
+.hidden-div-message,
+.overlay-div {
+  position: fixed;
+}

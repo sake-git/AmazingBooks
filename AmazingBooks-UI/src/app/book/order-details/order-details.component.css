@@ -1,22 +1,7 @@
-table,
-tr,
-td,
-th {
-  border: 2px solid black;
-  border-collapse: collapse;
-}
-
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.flex-container div {
-  align-content: center;
-  text-align: center;
-}
-
 img {
   width: 50px;
+  height: 40px;
+}
+thead tr th {
+  background-color: rgb(145, 186, 145);
 }

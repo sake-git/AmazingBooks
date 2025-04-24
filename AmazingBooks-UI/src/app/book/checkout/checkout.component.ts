@@ -1,14 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
 import { Address } from '../../model/address';
 import { AddressApiService } from '../../services/address.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../model/user';
 import { UserApiService } from '../../services/user-api.service';
 import { CartApiService } from '../../services/cart-api.service';
@@ -31,7 +24,6 @@ export class CheckoutComponent implements OnInit {
   sum = 0;
   errorMessage = '';
   message = '';
-  success = '';
   user: User | undefined;
   taxRate: number = 0.0;
   order: Order | undefined;
@@ -52,7 +44,6 @@ export class CheckoutComponent implements OnInit {
       this.addressApi.GetAddress(id).subscribe({
         next: (data) => {
           this.address = data;
-          console.log('Address: ', this.address);
           this.orderApi.GetSalesTax(this.address?.zip!).subscribe({
             next: (data: any) => {
               console.log('Rate fetched successfully: ', data);
@@ -78,7 +69,6 @@ export class CheckoutComponent implements OnInit {
     this.cartApi.GetCartItems(id).subscribe({
       next: (data: Cart[]) => {
         this.cartItems = data;
-        console.log('Cart data Received:', data);
         this.sum = this.cartItems.reduce(
           (sum, current) => (sum += current.quantity * current.book?.price!),
           0
@@ -91,23 +81,20 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  PlaceOrder() {
-    this.errorMessage = '';
+  PlaceOrder(action: number) {
     let lineItemtotal = 0;
     let orderLine: OrderLine[] = [];
     this.cartItems.forEach((item) => {
-      console.log('Item', item);
       orderLine.push({
         id: 0,
         fkbookId: item.fkbookId,
         amount: item.book?.price!,
         quantity: item.quantity,
       });
-      console.log('OrderLine infor loop');
+
       lineItemtotal += item.book?.price! * item.quantity;
     });
 
-    console.log('OrderLine', orderLine);
     let shipping = 7.99;
     let subTotal = lineItemtotal + shipping;
     let tax = subTotal * this.taxRate;
@@ -124,21 +111,28 @@ export class CheckoutComponent implements OnInit {
       fkuserId: this.user?.id!,
       fkshippingAddress: this.address?.id!,
       orderLines: orderLine,
+      paymentMethod: 'Online',
+      paymentStatus: 'Failed',
     };
-    console.log('Order', order);
+
+    if (action == 1) {
+      order.status = 'Placed';
+      order.paymentMethod = 'COD';
+      order.paymentStatus = 'Pending';
+    }
 
     this.orderApi.SaveOrder(order).subscribe({
       next: (data: any) => {
-        this.success = 'Awaiting Payment';
-        this.message = 'Awaiting Payment';
-        console.log('Data after order placement', data);
         this.order = data;
-        /* setTimeout(
-          () => this.router.navigateByUrl(`order/order-details/${data.id}`),
-          2000
-        );*/
-        if (this.order != null) {
+        this.cartApi.AddCountToCart(-99);
+        if (this.order != null && action == 0) {
+          this.message = 'Awaiting Payment';
           this.MakePayment();
+        } else {
+          this.message = 'Order Placed';
+          setTimeout(() => '', 2000);
+
+          this.router.navigateByUrl('order-details/' + this.order?.id);
         }
       },
       error: (error: any) => {
@@ -156,5 +150,10 @@ export class CheckoutComponent implements OnInit {
       },
       error: (error) => console.log('Error: ', error),
     });
+  }
+
+  Clear() {
+    this.message = '';
+    this.errorMessage = '';
   }
 }

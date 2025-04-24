@@ -5,6 +5,7 @@ import { CartApiService } from './services/cart-api.service';
 import { Book } from './model/book';
 import { UserApiService } from './services/user-api.service';
 import { FormsModule } from '@angular/forms';
+import { User } from './model/user';
 
 @Component({
   selector: 'app-root',
@@ -28,23 +29,17 @@ export class AppComponent {
   errorMessage = '';
   originalCity = '';
   originalState = '';
+  user: User | undefined;
+
   constructor(
     private cartApi: CartApiService,
     private userApi: UserApiService
   ) {
-    if (localStorage.getItem('user')) {
+    this.user = this.userApi.GetUserIdFromLocal();
+    if (this.user) {
       this.isLoggedIn = true;
     }
 
-    if (localStorage.getItem('user')) {
-      this.isLoggedIn = true;
-    }
-    /*  let dataStringToParse = localStorage.getItem('myCart');
-    if (dataStringToParse) {
-      let books: Book[] = JSON.parse(dataStringToParse);
-      this.quantity = books.length;
-    }
-  */
     this.cartApi.GetCartBookCount().subscribe({
       next: (data: number) => {
         if (data == -99) {
@@ -52,8 +47,6 @@ export class AppComponent {
         } else {
           this.quantity += data;
         }
-
-        console.log('cart Subscription called', data);
       },
     });
 
@@ -75,10 +68,10 @@ export class AppComponent {
   }
 
   OnActivate(componentRef: any) {
-    console.log('Inside OnActivated');
     if (componentRef.loginEvent) {
       componentRef.loginEvent.subscribe((data: boolean) => {
         this.isLoggedIn = data;
+        this.user = this.userApi.GetUserIdFromLocal();
       });
     }
   }
@@ -89,7 +82,6 @@ export class AppComponent {
     this.errorMessage = '';
     this.userApi.ValidateLocation(this.city, this.state).subscribe({
       next: (data: any) => {
-        console.log(data.features);
         for (let i = 0; i < data.features.length; i++) {
           let property = data.features[i];
           if (
@@ -123,6 +115,12 @@ export class AppComponent {
   Logout() {
     this.isLoggedIn = false;
     localStorage.removeItem('user');
-    localStorage.removeItem('myToken');
+    localStorage.removeItem('accessToken');
+    console.log(this.user);
+    this.userApi.Logout(this.user!).subscribe({
+      next: (data) => {
+        console.log('Success');
+      },
+    });
   }
 }

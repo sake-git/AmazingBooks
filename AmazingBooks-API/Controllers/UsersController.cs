@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using AmazingBooks_API.Entities;
 using AmazingBooks_API.Configuration.Repository;
 using AutoMapper;
@@ -14,7 +8,9 @@ using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Net;
+
+
+
 
 namespace AmazingBooks_API.Controllers
 {
@@ -37,8 +33,10 @@ namespace AmazingBooks_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
+
             List<User> users = _repository.GetRecords().Result.ToList();
-            List<UserDto> usersDto = _mapper.Map<List<UserDto>>(users);
+            List<UserDto> usersDto = _mapper.Map<List<UserDto>>(users);            
+
             return Ok(usersDto);
         }
 
@@ -54,7 +52,7 @@ namespace AmazingBooks_API.Controllers
             return Ok(userDto);
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/Authenticate
         [HttpPost]
         [Route("Authenticate")]
         public async Task<ActionResult<UserDto>> GetUser([FromBody]UserDto userDto)
@@ -64,7 +62,8 @@ namespace AmazingBooks_API.Controllers
             }
 
             byte[] encryptedPwd = EncryptPassword(userDto.Password);
-            User user = _repository.GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd && record.IsActive == true).Result.FirstOrDefault();
+            User user = _repository
+                .GetRecordsByFilter(record => record.LoginId == userDto.LoginId && record.Password == encryptedPwd && record.IsActive == true).Result.FirstOrDefault();
 
             if (user == null)
             {
@@ -72,7 +71,13 @@ namespace AmazingBooks_API.Controllers
             }
 
             UserDto userDto1 = _mapper.Map<UserDto>(user);
-            userDto1.Password = "";
+            userDto1.Token = GenerateToken(userDto1);
+            userDto1.RefreshToken = GenerateRefreshToken();
+            user.RefreshToken = userDto1.RefreshToken;
+            await _repository.UpdateRecord(user);
+
+            userDto1.Password = "";    
+
             return userDto1;
         }
 
@@ -99,60 +104,25 @@ namespace AmazingBooks_API.Controllers
 
             return CreatedAtAction("GetUser", new { id = user.Id }, userDto);
         }
-        /*
+        
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        [HttpPut("RevokeToken")]
+        public async Task<IActionResult> PutUser( UserDto userDto)
         {
-            if (id != user.Id)
+            if (userDto == null)
             {
-                return BadRequest();
+                return BadRequest("User Details Missing");
             }
 
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            User user = _repository.GetRecord(data => data.Id == userDto.Id).Result;
+            
+            user.RefreshToken = null;
+            await _repository.UpdateRecord(user);           
 
             return NoContent();
         }
-
-
-
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return _context.Users.Any(e => e.Id == id);
-        }*/
+       
 
 
         private byte[] EncryptPassword(string password)
@@ -164,25 +134,78 @@ namespace AmazingBooks_API.Controllers
             return hashvalue;
         }
 
+        [HttpPost("RefreshToken")]
+        public async Task<ActionResult<UserDto>>Refresh(UserDto userDto) 
+        {
+            var newAccessToken = GenerateAccessTokenFromRefreshToken(userDto);
+            if (newAccessToken == null)
+            {
+                return Unauthorized("Unauthorised access");
+            }
+
+            userDto.Token = newAccessToken;
+            return Ok(userDto);
+        }
+
         private string GenerateToken(UserDto userDto)
         {
-            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
-            {
+            {                
+                new Claim(ClaimTypes.Role,userDto.Role),
                 new Claim("Name",userDto.Name),
                 new Claim("LoginId",userDto.LoginId),
                 new Claim("Email",userDto.Email)
             };
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Audience"],
+
+            var token = new JwtSecurityToken(_config["JWT:Issuer"],
+                _config["JWT:Audience"],
+                claims,
+                expires: DateTime.Now.AddMinutes(5),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static string GenerateRefreshToken()
+        {
+            byte[] randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+
+        private string GenerateAccessTokenFromRefreshToken(UserDto userDto)
+        {
+            // Implement logic to generate a new access token from the refresh token
+            // Verify the refresh token and extract necessary information (e.g., user ID)
+            // Then generate a new access token
+            // For demonstration purposes, return a new token with an extended expiry
+
+            User user = _repository.GetRecord(data => data.Id == userDto.Id).Result;
+
+            if (user.RefreshToken == userDto.RefreshToken)
+            {
+                SecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
+                SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Role,userDto.Role),
+                    new Claim("Name",userDto.Name),
+                    new Claim("LoginId",userDto.LoginId),
+                    new Claim("Email",userDto.Email)
+                };
+
+                var token = new JwtSecurityToken(_config["JWT:Issuer"],
+                _config["JWT:Audience"],
                 claims,
                 expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-
+                return new JwtSecurityTokenHandler().WriteToken(token);
+            }
+            return null;
         }
-
     }
 }

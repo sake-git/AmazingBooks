@@ -23,13 +23,6 @@ export class OrderDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (navigator) {
-      console.log(
-        'Geolocation:',
-        navigator.geolocation.getCurrentPosition((data) => console.log(data))
-      );
-    }
-
     this.route.params.subscribe((param) => {
       let id = param['id'];
       if (id == null) {
@@ -38,17 +31,16 @@ export class OrderDetailsComponent implements OnInit {
         this.orderApi.GetOrderDetails(id).subscribe({
           next: (data: any) => {
             this.order = data;
-            console.log('Data', data);
 
             this.route.queryParams.subscribe((params) => {
               this.isSuccess = params['success'];
               this.isCancel = params['canceled'];
               if (this.isSuccess) {
-                console.log('Success: ' + this.isSuccess);
                 this.order!.status = 'Placed';
+                this.order!.paymentMethod = 'Online';
+                this.order!.paymentStatus = 'Paid';
                 this.orderApi.UpdateOrderStatus(this.order!).subscribe({
                   next: (data) => {
-                    console.log('Order Status updated');
                     this.message = 'Payment done, Order placed successfully';
                   },
                   error: (error) => {
@@ -72,6 +64,7 @@ export class OrderDetailsComponent implements OnInit {
   SaveOrderStatus() {
     this.order!.status = 'Cancelled';
     this.order!.cancellationDate = new Date();
+    this.order!.paymentStatus = 'Cancelled';
     this.orderApi.UpdateOrderStatus(this.order!).subscribe({
       next: (data) => {
         this.message = 'Order cancelled';
@@ -81,5 +74,10 @@ export class OrderDetailsComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  Clear() {
+    this.errorMessage = '';
+    this.message = '';
   }
 }

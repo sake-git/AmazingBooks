@@ -21,6 +21,8 @@ public partial class AmazingBookDbContext : DbContext
 
     public virtual DbSet<OrderLine> OrderLines { get; set; }
 
+    public virtual DbSet<Request> Requests { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -78,7 +80,7 @@ public partial class AmazingBookDbContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.ImgUrl)
-                .HasMaxLength(250)
+                .HasMaxLength(350)
                 .IsUnicode(false);
             entity.Property(e => e.Isbn)
                 .HasMaxLength(13)
@@ -122,6 +124,12 @@ public partial class AmazingBookDbContext : DbContext
             entity.Property(e => e.FkshippingAddress).HasColumnName("FKShippingAddress");
             entity.Property(e => e.FkuserId).HasColumnName("FKUserId");
             entity.Property(e => e.OrderDate).HasColumnType("datetime");
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.PaymentStatus)
+                .HasMaxLength(20)
+                .IsUnicode(false);
             entity.Property(e => e.Shipping).HasColumnType("decimal(6, 2)");
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
@@ -164,6 +172,31 @@ public partial class AmazingBookDbContext : DbContext
                 .HasConstraintName("FK__OrderLine__FKOrd__35BCFE0A");
         });
 
+        modelBuilder.Entity<Request>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Request__3214EC07D3240378");
+
+            entity.ToTable("Request");
+
+            entity.Property(e => e.Author)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.SelfLink)
+                .HasMaxLength(300)
+                .IsUnicode(false);
+            entity.Property(e => e.Status)
+                .HasMaxLength(20)
+                .IsUnicode(false);
+            entity.Property(e => e.Title)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.FkUserNavigation).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.FkUser)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Request__FkUser__72C60C4A");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Users__3214EC073C54CC20");
@@ -183,6 +216,9 @@ public partial class AmazingBookDbContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.Phone)
                 .HasMaxLength(15)
+                .IsUnicode(false);
+            entity.Property(e => e.RefreshToken)
+                .HasMaxLength(150)
                 .IsUnicode(false);
             entity.Property(e => e.Role)
                 .HasMaxLength(30)

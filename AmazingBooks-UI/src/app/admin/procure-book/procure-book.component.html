@@ -1,0 +1,53 @@
+<div class="m-3">
+  <h4 class="text-center mb-4">
+    Procurement Requests
+    <select (change)="GetRequest()" [(ngModel)]="status" class="fs-6">
+      <option *ngFor="let state of statusList" [value]="state">
+        {{ state }}
+      </option>
+    </select>
+  </h4>
+  <table *ngIf="requestList.length" class="table m-auto">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+        <th scope="col">Status</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr
+        *ngFor="let req of requestList; let i = index; of: requestList"
+        class="container"
+      >
+        <th scope="row" class="col-1">{{ i + 1 }}</th>
+        <td class="col-3">{{ req.title }}</td>
+        <td class="col-2">{{ req.author }}</td>
+        <td class="col-1">{{ req.status }}</td>
+        <td class="col-1">
+          <button
+            [disabled]="req.status != 'Created'"
+            (click)="ProcureBook(req)"
+            class="btn btn-outline-dark btn-sm"
+          >
+            Procure</button
+          ><button
+            [disabled]="req.status == 'Cancelled' || req.status == 'Procured'"
+            (click)="CancelRequest(req)"
+            class="btn btn-outline-dark btn-sm"
+          >
+            Cancel
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="hidden-div-message" *ngIf="message || errorMessage">
+  <p class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="alert alert-success" *ngIf="message">{{ message }}</p>
+  <button (click)="Clear()" class="btn btn-outline-dark btn-sm">Ok</button>
+</div>
+<div class="overlay-div" *ngIf="message || errorMessage"></div>

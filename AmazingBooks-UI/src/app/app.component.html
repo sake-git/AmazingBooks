@@ -1,36 +1,105 @@
-<header>
-  <h1>Welcome to Amazing Books</h1>
-  <div class="location" (click)="isUpdateCity = true">
-    <img src="https://static.thenounproject.com/png/333603-200.png" />
+<header class="p-1 sb-2 bg-dark text-white">
+  <h1 class="h1 text-center">Welcome to Amazing Books</h1>
+  <div class="fixed-sm-top location" (click)="isUpdateCity = true">
+    <img
+      src="https://media.lordicon.com/icons/wired/gradient/53-location-pin-on-round-map.svg"
+    />
+
     <div>
       <p>Delivering to {{ city }}, {{ state }}</p>
       <p>Update location</p>
     </div>
   </div>
-  <a routerLink="list-books" routerLinkActive="active">Home</a
-  ><a routerLink="cart" routerLinkActive="active"
-    >Cart<sup *ngIf="quantity != 0">{{ quantity }}</sup></a
-  >
-  <span *ngIf="!isLoggedIn"
-    ><a routerLink="login" routerLinkActive="active">Login</a
-    ><a routerLink="signup" routerLinkActive="active">Sign up</a></span
-  >
-  <span *ngIf="isLoggedIn"
-    ><a routerLink="order" routerLinkActive="active">Order History</a>
-    <a href="#" routerLinkActive="active" (click)="Logout()">Logout</a>
-  </span>
+  <span *ngIf="user" class="fixed-sm-left">Logged in as {{ user.name }}!</span>
+  <nav class="navbar">
+    <nav class="nav">
+      <a
+        routerLink="list-books"
+        routerLinkActive="active"
+        class="nav-link text-white"
+        >Home</a
+      >
+      <span *ngIf="isLoggedIn" class="nav"
+        ><a
+          routerLink="order"
+          routerLinkActive="active"
+          class="nav-link text-white"
+          >Order History</a
+        >
+        <a
+          routerLink="request-book"
+          routerLinkActive="active"
+          class="nav-link text-white"
+          >Request a book</a
+        >
+        <a
+          routerLink="procure-book"
+          routerLinkActive="active"
+          *ngIf="user && user.role == 'Admin'"
+          class="nav-link text-white"
+          >Procurement List</a
+        >
+      </span>
+    </nav>
+
+    <nav class="nav">
+      <a
+        routerLink="cart"
+        routerLinkActive="active"
+        class="nav-link text-white"
+      >
+        Cart<sup *ngIf="quantity != 0">{{ quantity }}</sup></a
+      >
+      <span *ngIf="!isLoggedIn" class="nav"
+        ><a
+          routerLink="login"
+          routerLinkActive="active"
+          class="nav-link text-white"
+          >Login</a
+        ><a
+          routerLink="signup"
+          routerLinkActive="active"
+          class="nav-link text-white"
+          >Sign up</a
+        ></span
+      >
+      <span *ngIf="isLoggedIn">
+        <a
+          href="#"
+          routerLinkActive="active"
+          (click)="Logout()"
+          class="nav-link"
+          >Logout</a
+        >
+      </span>
+    </nav>
+  </nav>
 </header>
 <div class="overlay-div" *ngIf="isUpdateCity"></div>
-<div *ngIf="isUpdateCity" class="hidden-div">
-  <label>Enter City & State</label
-  ><input type="text" [(ngModel)]="city" /><input
+<div *ngIf="isUpdateCity" class="hidden-div align-middle">
+  <h6>Update Location</h6>
+  <input
+    type="text"
+    [(ngModel)]="city"
+    class="form-control"
+    placeholder="City"
+    aria-label="City"
+  />
+  <br />
+  <input
     type="text"
     [(ngModel)]="state"
+    class="form-control"
+    placeholder="State"
+    aria-label="State"
   />
   <p>
-    <button (click)="UpdateLocation()">Save</button
-    ><button (click)="CancelLocation()">Close</button>
+    <button (click)="UpdateLocation()" class="btn btn-outline-dark btn-sm">
+      Save</button
+    ><button (click)="CancelLocation()" class="btn btn-outline-dark btn-sm">
+      Close
+    </button>
   </p>
-  <p class="errors">{{ errorMessage }}</p>
+  <p class="errors" *ngIf="errorMessage">{{ errorMessage }}</p>
 </div>
 <router-outlet (activate)="OnActivate($event)"></router-outlet>

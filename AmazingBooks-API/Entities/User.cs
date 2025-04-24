@@ -21,9 +21,13 @@ public partial class User
 
     public bool? IsActive { get; set; }
 
+    public string? RefreshToken { get; set; }
+
     public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

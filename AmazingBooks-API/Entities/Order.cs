@@ -27,6 +27,10 @@ public partial class Order
 
     public int FkuserId { get; set; }
 
+    public string? PaymentMethod { get; set; }
+
+    public string? PaymentStatus { get; set; }
+
     public virtual Address FkshippingAddressNavigation { get; set; } = null!;
 
     public virtual User Fkuser { get; set; } = null!;
