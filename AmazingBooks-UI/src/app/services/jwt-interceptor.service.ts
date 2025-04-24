@@ -70,7 +70,7 @@ export class JwtInterceptorService implements HttpInterceptor {
           console.log('inside modified request 401');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('user');
-          this.router.navigate(['/list-books', { error: 'Session Expired' }]);
+          this.router.navigate(['/login', { error: 'Session Expired' }]);
         }
         return throwError(() => new Error(error));
       })

@@ -162,7 +162,7 @@ namespace AmazingBooks_API.Controllers
             var token = new JwtSecurityToken(_config["JWT:Issuer"],
                 _config["JWT:Audience"],
                 claims,
-                expires: DateTime.Now.AddMinutes(5),
+                expires: DateTime.Now.AddMinutes(15),
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserApiService } from '../../services/user-api.service';
@@ -12,7 +12,7 @@ import { Cart } from '../../model/cart';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   @Output() loginEvent = new EventEmitter<boolean>();
   user: User = {
     id: 0,
@@ -31,14 +31,16 @@ export class LoginComponent {
     private router: Router,
     private activeRoute: ActivatedRoute
   ) {
-    localStorage.removeItem('user');
-    localStorage.removeItem('accessToken');
-    this.loginEvent.emit(false);
-
     this.activeRoute.params.subscribe((params) => {
       this.errorMessage = params['error'];
       this.message = params['success'];
     });
+  }
+
+  ngOnInit(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('accessToken');
+    this.loginEvent.emit(false);
   }
 
   userLogin(loginForm: NgForm) {
