@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+
+.overlay-div {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  opacity: 0.7;
+  background-color: black;
+  z-index: 25;
+  display: block;
+}
+
+.hidden-div-message {
+  background-color: white;
+  position: absolute;
+  top: 35vh;
+  left: 43vw;
+  z-index: 51;
+  padding: 10px;
+  margin: 0px;
+  width: 350px;
+  text-align: center;
+  border-radius: 2px solid black;
+}
+
+.hidden-div {
+  background-color: white;
+  position: absolute;
+  z-index: 51;
+}
+.btn {
+  margin: 10px;
+}
+
+form {
+  margin: auto;
+  top: 2em;
+}
+.errors {
+  font-size: small;
+  color: red;
+  padding: 2px;
+}
+
+.success {
+  font-size: small;
+  color: rgb(6, 64, 15);
+  padding: 2px;
+}
+
+.required {
+  color: red;
+  font-size: small;
+}
+thead tr th {
+  background-color: rgb(145, 186, 145);
+}
